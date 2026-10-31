@@ -5,18 +5,19 @@
     cursor: pointer;
 }
 
-/* The size of the theme toggle beside it. */
+/* The envelope is drawn on 160 of Phosphor's 256 units: at 30px it stands as
+   tall as the theme toggle's icon. */
 #gh-head .cn-feedback-open.gh-icon-btn {
     flex: none;
-    width: 23px;
-    height: 23px;
-    margin: 0 1.2rem 0 0;
+    width: 30px;
+    height: 30px;
+    margin: 0 0.8rem 0 0;
     padding: 0;
 }
 
 .gh-head-more .cn-feedback-open svg {
-    width: 2.2rem;
-    height: 2.2rem;
+    width: 2.8rem;
+    height: 2.8rem;
 }
 
 @media (max-width: 767px) {

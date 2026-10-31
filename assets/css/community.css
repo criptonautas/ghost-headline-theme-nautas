@@ -111,9 +111,19 @@ html:not(.js) .gh-with-sidebar {
 @media screen and (min-width: 1200px) {
     .gh-with-sidebar:has(> .gh-community:not([hidden])) {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) var(--gh-sidebar-width);
+        /* The community first: the left column, read before the posts. */
+        grid-template-columns: var(--gh-sidebar-width) minmax(0, 1fr);
         column-gap: var(--gh-sidebar-gap);
         align-items: start;
+    }
+
+    .gh-with-sidebar:has(> .gh-community:not([hidden])) > .gh-community {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .gh-with-sidebar:has(> .gh-community:not([hidden])) > :not(.gh-community) {
+        grid-column: 2;
     }
 
 

@@ -8,7 +8,7 @@
     forum answers; if it never does, the script hides it. Without scripting
     it never shows (html.js, set in <head> by theme.js).
 
-    From 768px: a sticky column on the right. Phones: after the posts.
+    From 1200px: a sticky column on the left. Phones: after the posts.
 
     category= (tag.hbs): only the topics of the forum category with that
     slug, without the picker; a tag with no category gets the whole forum's
@@ -41,7 +41,7 @@
         first visit opens on. --}}
     <div class="gh-community-head">
         <h2 class="gh-community-title" id="gh-community-title">
-            {{t "Community"}}
+            {{> "icons/discourse-duotone"}}{{t "Community"}}
         </h2>
         <span class="gh-community-picker">
             <select class="gh-community-select" aria-label="{{t "Community list"}}">
