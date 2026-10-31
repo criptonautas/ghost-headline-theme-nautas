@@ -74,20 +74,35 @@
     font-weight: 600;
 }
 
+/* As the chat panel's. */
 .cn-feedback-close {
-    padding: 0 0.4rem;
+    display: grid;
+    place-items: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    padding: 0;
     border: 0;
+    border-radius: 50%;
     background: none;
     color: var(--cn-ui-muted);
-    font-size: 2.2rem;
-    line-height: 1;
     cursor: pointer;
+}
+
+.cn-feedback-close svg {
+    display: block;
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
+.cn-feedback-close:hover {
+    background-color: var(--cn-ui-hover);
+    color: var(--color-base);
 }
 
 .cn-feedback-types {
     display: flex;
     gap: 0.6rem;
-    margin: 0;
+    margin: 0.6rem 0 0;
     padding: 0;
     border: 0;
 }
@@ -176,6 +191,7 @@
     display: flex;
     gap: 0.8rem;
     align-items: center;
+    justify-content: flex-end;
     color: var(--cn-ui-muted);
     font-size: 1.5rem;
     cursor: pointer;

@@ -325,8 +325,10 @@ html.ns-open {
     width: 6.4rem;
     aspect-ratio: 3 / 2;
     margin-top: 0.3rem;
-    border: 1px solid var(--ns-border);
     border-radius: var(--global-radius, 0.25rem);
+    /* The same for a post and a topic with no picture of their own. */
+    background: var(--cn-ui-sunken);
+    color: var(--ns-muted);
 }
 
 .ns__hit:not(.ns__hit--suggestion) .ns__hit-icon:not(.ns__hit-icon--thumb) > * {

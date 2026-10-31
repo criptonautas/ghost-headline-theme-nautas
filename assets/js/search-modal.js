@@ -26,8 +26,8 @@
     var MARK_CLOSE = '\u0002';
 
     var ICON_SEARCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>';
-    var ICON_POST = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h9l5 5v13H5z"></path><path d="M14 3v5h5"></path><path d="M8 13h8M8 17h5"></path></svg>';
-    var ICON_TOPIC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"></path></svg>';
+    var ICON_POST = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M80,40V216H48a8,8,0,0,1-8-8V48a8,8,0,0,1,8-8Z" opacity="0.2"/><path d="M184,112a8,8,0,0,1-8,8H112a8,8,0,0,1,0-16h64A8,8,0,0,1,184,112Zm-8,24H112a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16Zm48-88V208a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32H208A16,16,0,0,1,224,48ZM48,208H72V48H48Zm160,0V48H88V208H208Z"/></svg>';
+    var ICON_TOPIC = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24Zm0,192a87.87,87.87,0,0,1-44.06-11.81,8,8,0,0,0-6.54-.67L40,216,52.47,178.6a8,8,0,0,0-.66-6.54A88,88,0,1,1,128,216Z"/></svg>';
     var ICON_OUT = '<svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true" focusable="false"><path d="M184,80V208a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V80a8,8,0,0,1,8-8H176A8,8,0,0,1,184,80Z" opacity="0.2"/><path d="M224,104a8,8,0,0,1-16,0V59.32l-66.33,66.34a8,8,0,0,1-11.32-11.32L196.68,48H152a8,8,0,0,1,0-16h64a8,8,0,0,1,8,8Zm-40,24a8,8,0,0,0-8,8v72H48V80h72a8,8,0,0,0,0-16H48A16,16,0,0,0,32,80V208a16,16,0,0,0,16,16H176a16,16,0,0,0,16-16V136A8,8,0,0,0,184,128Z"/></svg>';
     var ICON_PLAY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m10 9 5 3-5 3z"></path></svg>';
     var ICON_LINK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"></path><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"></path></svg>';
@@ -989,6 +989,9 @@
             server: {
                 apiKey: cfg.typesenseApiKey,
                 nodes: cfg.typesenseNodes,
+                // The default 5 s gave up on the whole search when the server or the
+                // embedder took longer, and every source came back empty.
+                connectionTimeoutSeconds: semanticOn ? 20 : 10,
                 cacheSearchResultsForSeconds: 120
             },
             additionalSearchParameters: {
@@ -1006,6 +1009,10 @@
                 var semantic = function (p, on, alpha, threshold) {
                     if (on) {
                         p.query_by += ',embedding';
+                        // One weight per field, or Typesense rejects the query.
+                        if (p.query_by_weights) {
+                            p.query_by_weights += ',1';
+                        }
                         p.exclude_fields = 'embedding';
                         // A fixed k: by default it grows with the page asked for, so
                         // the total grew too (87, 111, 125 topics on pages 1, 9, 20)
@@ -1027,7 +1034,8 @@
 
                 var params = {};
                 params[cfg.postsCollection] = {
-                    query_by: 'title,excerpt,plaintext',
+                    // Not the whole text: in a long essay every common word matches.
+                    query_by: 'title,excerpt',
                     highlight_fields: 'title,excerpt'
                 };
                 /* The API key here is public, so anything in the collection is
@@ -1044,6 +1052,7 @@
                  * list needs - dropping repeats here would leave pages short. */
                 params[cfg.topicsCollection] = {
                     query_by: 'title,text',
+                    query_by_weights: '4,1',
                     highlight_fields: 'title,text',
                     group_by: 'topic_id',
                     group_limit: 1
@@ -1074,17 +1083,12 @@
                         highlight_fields: 'title,text'
                     };
                 }
-                /* Tuned per collection against real queries. The blog is a handful
-                 * of long essays, so keyword matches are mostly noise ("cómo usar
-                 * Monero" led with an unrelated post) and loosely related vectors
-                 * covered every post: meaning weighs 0.8 and only distances under
-                 * 0.65 count (an unrelated control query scored 0.79+ on all).
-                 * The forum is thousands of short posts, so distances run lower:
-                 * the right answer sat at 0.22-0.28 and related ones under 0.39,
-                 * while unrelated control queries started at 0.46. Keywords still
-                 * pull their weight in short titles, so meaning gets half. */
-                semantic(params[cfg.postsCollection], semanticOn && cfg.semanticPosts, 0.8, 0.65);
-                semantic(params[cfg.topicsCollection], semanticOn && cfg.semanticTopics, 0.5, 0.42);
+                /* Tuned per collection against real queries ("cómo usar Monero" brought
+                 * up the FAQ and the contact page at 0.59-0.60; the right posts sat at
+                 * 0.31-0.42). On the forum, the right answer sits at 0.22-0.30 and
+                 * unrelated control queries started at 0.46. */
+                semantic(params[cfg.postsCollection], semanticOn && cfg.semanticPosts, 0.7, 0.58);
+                semantic(params[cfg.topicsCollection], semanticOn && cfg.semanticTopics, 0.6, 0.4);
                 // Videos embed title and description: related ones sat at 0.55-0.61, unrelated from 0.67.
                 if (cfg.videosCollection) {
                     semantic(params[cfg.videosCollection], semanticOn && cfg.semanticVideos, 0.5, 0.62);
@@ -1108,6 +1112,17 @@
          * Switched-off sources and the empty box never reach Typesense: they
          * get an empty result here, so InstantSearch still sees one answer per
          * index. */
+        /* "cómo usar monero" should search for "usar monero": a word as common as
+         * "cómo" matches half the site. A query of only such words stays as it is. */
+        var COMMON = /^(a|al|ante|con|de|del|desde|el|en|entre|es|esa|ese|esta|este|hay|la|las|lo|los|me|mi|muy|no|o|para|pero|por|que|qué|se|si|sin|sobre|su|sus|te|tu|un|una|uno|y|ya|yo|como|cómo|cual|cuál|cuando|cuándo|donde|dónde|an?|and|are|at|by|for|from|how|in|is|it|of|on|or|the|to|what|when|where|why|with)$/i;
+        var withoutCommon = function (request) {
+            var words = String(request.params.query).split(/\s+/).filter(function (word) {
+                return !COMMON.test(word);
+            });
+            return words.length
+                ? Object.assign({}, request, { params: Object.assign({}, request.params, { query: words.join(' ') }) })
+                : request;
+        };
         var keywordClient = makeClient(false);
         var semanticClient = (cfg.semanticPosts || cfg.semanticTopics || cfg.semanticVideos || cfg.semanticMushin) ? makeClient(true) : null;
         var semanticResults = {};
@@ -1125,7 +1140,7 @@
         };
         var searchClient = {
             search: function (requests) {
-                var live = requests.filter(wanted);
+                var live = requests.filter(wanted).map(withoutCommon);
                 var answer = function (response) {
                     var i = 0;
                     return {
