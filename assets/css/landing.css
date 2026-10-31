@@ -292,14 +292,22 @@
 
 /* anonist on the first row's top border (assets/js/mascot-landing.js), drawn
    by the sidebar's .gh-mascot rules (community.css): room above the grid for
-   him, feet and the mask's shadow on the border. --sink lowers him behind the
+   him and his longest balloon (up to about 14rem when it wraps on a phone), feet
+   and the mask's shadow on the border. --sink lowers him behind the
    border, cut at its line; --y lifts him in a hop, over a shadow that stays. */
 .gh-landing-faq {
     position: relative;
 }
 
 .gh-landing-faq:has(> .gh-landing-mascot) {
-    margin-top: 8rem;
+    margin-top: 14rem;
+}
+
+/* Phones wrap his balloon into more lines. */
+@media screen and (max-width: 767px) {
+    .gh-landing-faq:has(> .gh-landing-mascot) {
+        margin-top: 18rem;
+    }
 }
 
 .gh-landing-mascot:not([hidden]) {

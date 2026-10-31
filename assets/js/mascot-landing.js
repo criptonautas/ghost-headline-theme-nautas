@@ -49,10 +49,22 @@
         use.setAttribute('href', sprite + '#anonist-48-' + (masked ? 'mask-' : '') + frame);
     };
 
+    // The balloon opens on his side with more room and wraps to fit it
+    // (landing.css); again at every step while it is open, since he may be moving.
+    var fit = function () {
+        var right = grid.clientWidth - x - mascot.offsetWidth - 14;
+        var left = x - 14;
+        mascot.classList.toggle('is-flipped', left > right);
+        bubble.style.maxWidth = Math.max(left, right) + 'px';
+    };
+
     var place = function (to) {
         mascot.classList.toggle('is-left', to < x);
         x = to;
         mascot.style.transform = 'translateX(' + x + 'px)';
+        if (bubble.textContent) {
+            fit();
+        }
     };
 
     // The cards of the first row as [left, right] spans for his 48px box: the
@@ -175,7 +187,6 @@
         return steps.concat(repeat(['smile'], 4));
     };
 
-    // The balloon opens on his side with more room and wraps to fit it (landing.css).
     var shut = function () {
         clearTimeout(talking);
         bubble.textContent = '';
@@ -183,10 +194,7 @@
     };
 
     var say = function (text, ms) {
-        var right = grid.clientWidth - x - mascot.offsetWidth - 14;
-        var left = x - 14;
-        mascot.classList.toggle('is-flipped', left > right);
-        bubble.style.maxWidth = Math.max(left, right) + 'px';
+        fit();
         bubble.textContent = text;
         clearTimeout(talking);
         talking = setTimeout(shut, ms || 2000 + text.length * 50);
