@@ -505,7 +505,7 @@
 }
 
 .gh-landing-voices-list.gh-carousel {
-    grid-auto-columns: min(36rem, 80vw);
+    grid-auto-columns: min(30rem, 80vw);
     gap: 2.4rem;
     /* The space beside .gh-landing-inner, from its own width rule: written
        without % because scroll-padding would read % against the row itself. */
@@ -545,7 +545,7 @@
 
 .gh-landing-marquee .gh-landing-voice {
     flex: none;
-    width: min(32rem, 75vw);
+    width: min(30rem, 75vw);
 }
 
 @keyframes gh-landing-marquee {
@@ -563,9 +563,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 2.4rem;
+    gap: 1.2rem;
     margin: 0;
-    padding: 2.4rem;
+    padding: 2rem;
     border: 1px solid var(--color-border);
     border-radius: 1rem;
 }
@@ -576,17 +576,16 @@
     padding: 0;
     border: 0;
     font-family: var(--font-serif);
-    /* A step under the 1.8rem it was, still over the answers' 1.7rem. */
-    font-size: 1.75rem;
-    line-height: 1.5;
+    font-size: 1.6rem;
+    line-height: 1.4;
 }
 
 .gh-landing-voice figcaption {
     display: flex;
     align-items: center;
-    gap: 1.2rem;
+    gap: 1rem;
     color: var(--color-secondary-text);
-    font-size: 1.4rem;
+    font-size: 1.3rem;
 }
 
 .gh-landing-voice strong {
@@ -597,8 +596,8 @@
 /* The member's forum avatar. */
 .gh-landing-voice-avatar {
     flex: none;
-    width: 4rem;
-    height: 4rem;
+    width: 3.6rem;
+    height: 3.6rem;
     border-radius: 50%;
     background-color: var(--color-bg-alt);
     object-fit: cover;
