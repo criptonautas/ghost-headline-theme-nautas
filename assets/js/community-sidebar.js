@@ -364,7 +364,7 @@
         // At the top of the page the box runs past the screen: its foot must show.
         var below = aside.getBoundingClientRect().bottom - window.innerHeight;
         if (below > 0) {
-            window.scrollBy(0, below + 16);
+            window.scrollBy({top: below + 16, behavior: 'instant'});
         }
 
         getJSON('/t/' + entry.id + '.json').then(function (topic) {
