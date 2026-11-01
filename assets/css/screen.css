@@ -6097,9 +6097,9 @@ a.is-external .gh-ext::after {
 @media screen and (min-width: 1440px) {
   /* The logo is five times as wide as it is tall, so its column's width is
      what sizes it: half again the links' share, and the search capped at
-     24rem, since the links' column never goes below its own width. */
+     21rem, since the links' column never goes below its own width. */
   #gh-head .gh-head-inner {
-    grid-template-columns: minmax(0, 1.5fr) minmax(20rem, 24rem) minmax(max-content, 1fr);
+    grid-template-columns: minmax(0, 1.5fr) minmax(20rem, 21rem) minmax(max-content, 1fr);
   }
 
   /* The header grows to the logo plus the padding around it. */
@@ -6124,6 +6124,7 @@ a.is-external .gh-ext::after {
     width: 100%;
   }
 
+  /* Toward the search: its room goes to the logo, beside the feedback icon. */
   #gh-head .gh-head-end {
     margin-left: -2rem;
   }

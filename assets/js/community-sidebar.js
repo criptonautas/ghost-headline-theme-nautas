@@ -326,7 +326,7 @@
         }
         var content = el('div');
         content.hidden = true;
-        var slot = el('div', 'gh-community-reader-body');
+        var slot = el('div', 'gh-community-reader-body ns__reader-topic');
         content.append(el('h3', 'ns__reader-title', entry.title), slot);
         shown.append(bars, content);
 
@@ -362,7 +362,10 @@
         more.parentNode.insertBefore(readerNav, more);
         back.focus();
         // At the top of the page the box runs past the screen: its foot must show.
-        aside.scrollIntoView({block: 'nearest'});
+        var below = aside.getBoundingClientRect().bottom - window.innerHeight;
+        if (below > 0) {
+            window.scrollBy(0, below + 16);
+        }
 
         getJSON('/t/' + entry.id + '.json').then(function (topic) {
             var first = topic && topic.post_stream && topic.post_stream.posts && topic.post_stream.posts[0];
