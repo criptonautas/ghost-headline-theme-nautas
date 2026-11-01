@@ -1693,13 +1693,13 @@ html[data-theme="dark"].custom-no-feature-sign p a {
    (brand-kit src/pagina.py): its surface, text, muted text and line, the
    same in both themes. Ink stays for text, as the kit has it. Its own colour
    tokens, so the links, icons and note inside follow it. */
-.footer-criptonauta {
+.footer-criptonauta.global-padding {
   --color-bg: #222024;
   --color-base: #F1F1F1;
   --color-text: #F1F1F1;
   --color-secondary-text: #B5B0AA;
-  /* Edge to edge: .global-padding's auto margins would shrink it to its
-     content in the .gh-site column; its side padding stays. */
+  /* Edge to edge, on every page: .global-padding comes later in this file, so
+     this needs both classes to beat its 1600px limit. Its side padding stays. */
   width: 100%;
   max-width: none;
   margin: 5rem 0 0;
@@ -6122,6 +6122,10 @@ a.is-external .gh-ext::after {
   #gh-head .gh-head-search {
     grid-column: 2;
     width: 100%;
+  }
+
+  #gh-head .gh-head-end {
+    margin-left: -2rem;
   }
 
   #gh-head .gh-head-end {

@@ -682,11 +682,9 @@
 }
 
 /* The band of the three ways in meets the footer: no strip of page between
-   two coloured blocks. Edge to edge too: home.css loads after screen.css, and
-   its .global-padding put the 1600px limit back. */
-.home-template .footer-criptonauta {
-    max-width: none;
-    margin: 0;
+   two coloured blocks. */
+.home-template .footer-criptonauta.global-padding {
+    margin-top: 0;
 }
 
 /* Tablets: the question cards with room in proportion to their width, and
