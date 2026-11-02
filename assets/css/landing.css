@@ -524,9 +524,32 @@
     --bleed: max(var(--gap, 2rem), (100vw - 76rem) / 2);
     display: grid;
     gap: 1.6rem;
+    position: relative;
     margin-inline: calc(-1 * var(--bleed));
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+/* The fade: painted over the rows, because a mask repaints with every frame. */
+.gh-landing-marquee::before,
+.gh-landing-marquee::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 6%;
+    background: linear-gradient(90deg, var(--color-bg), transparent);
+    pointer-events: none;
+}
+
+.gh-landing-marquee::after {
+    right: 0;
+    left: auto;
+    background: linear-gradient(270deg, var(--color-bg), transparent);
+}
+
+.gh-landing-marquee.is-paused .gh-landing-marquee-track {
+    animation-play-state: paused;
 }
 
 /* Every card in a row as tall as the row: the quote at the top, the member
@@ -536,7 +559,7 @@
     align-items: stretch;
     gap: 1.6rem;
     width: max-content;
-    animation: gh-landing-marquee 160s linear infinite;
+    animation: gh-landing-marquee 84s linear infinite;
 }
 
 .gh-landing-marquee-row.is-reverse .gh-landing-marquee-track {
@@ -545,6 +568,7 @@
 
 .gh-landing-marquee .gh-landing-voice {
     flex: none;
+    contain: layout paint;
     width: min(30rem, 75vw);
 }
 

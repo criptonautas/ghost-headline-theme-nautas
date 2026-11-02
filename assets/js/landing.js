@@ -122,15 +122,16 @@
 
 /* What members say: three rows, the middle one drifting the other way
  * (landing.css). Each row holds its third of the cards twice so the loop has no
- * seam; the copies are hidden from screen readers. With reduced motion the
- * original sideways row stays.
+ * seam; the copies are hidden from screen readers. Only data-show cards run per
+ * visit (the shuffle picks them) and rows stop off screen: long tracks are what
+ * old devices struggle with. With reduced motion the original sideways row stays.
  */
 (function () {
     var list = document.querySelector('.gh-landing-voices-list');
     if (!list || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         return;
     }
-    var voices = Array.prototype.slice.call(list.children);
+    var voices = Array.prototype.slice.call(list.children, 0, +list.dataset.show || undefined);
     var third = Math.ceil(voices.length / 3);
     var marquee = document.createElement('div');
     marquee.className = 'gh-landing-marquee';
@@ -153,4 +154,9 @@
         marquee.appendChild(row);
     });
     list.replaceWith(marquee);
+    if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+            marquee.classList.toggle('is-paused', !entries[entries.length - 1].isIntersecting);
+        }).observe(marquee);
+    }
 })();
