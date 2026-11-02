@@ -125,6 +125,83 @@
     }
 }
 
+/* The splash: the text arrives as a plain run and landing.js turns it into
+   cards, so nothing shows until it has. After 4 s it lifts anyway, for a script
+   that never ran. Without scripting there is no wait at all (html.js). */
+.gh-landing-splash {
+    display: none;
+}
+
+html.js:not(.is-landing-built) .gh-landing-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.4rem;
+    background-color: var(--color-bg);
+    animation: gh-landing-splash-end 0s 4s forwards;
+}
+
+@keyframes gh-landing-splash-end {
+    to {
+        visibility: hidden;
+    }
+}
+
+.gh-landing-splash .cn-logo-symbol {
+    display: block;
+    width: 8rem;
+    height: auto;
+}
+
+.gh-landing-splash .cn-logo-word {
+    display: none;
+}
+
+.gh-landing-splash .cn-logo-a {
+    fill: var(--cn-violeta-tinta-formas);
+}
+
+.gh-landing-splash .cn-logo-b {
+    fill: var(--cn-rojo-oxido);
+}
+
+.gh-landing-splash-dots {
+    display: flex;
+    gap: 1rem;
+}
+
+.gh-landing-splash-dots span {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background-color: var(--cn-violeta-tinta);
+    animation: gh-landing-splash-dot 1.2s ease-in-out infinite alternate;
+}
+
+.gh-landing-splash-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.gh-landing-splash-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes gh-landing-splash-dot {
+    from {
+        opacity: 0.25;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gh-landing-splash-dots span {
+        animation: none;
+    }
+}
+
 /* The site's meta title as a small label above the logo, which leads. */
 .gh-landing-eyebrow {
     display: inline-block;

@@ -4,6 +4,11 @@
     landing.js moves up from the text - it ends in "preguntas:", so the
     questions follow it. Then the questions, what members say, and last the
     three ways in on a grey band (landing.js moves it after the voices). --}}
+{{!-- While landing.js builds the cards, the logo and three dots, as the forum's splash. --}}
+<div class="gh-landing-splash" aria-hidden="true">
+    {{> "logo-stacked"}}
+    <span class="gh-landing-splash-dots"><span></span><span></span><span></span></span>
+</div>
 {{#get "pages" filter="slug:home" limit="1"}}
 {{#foreach pages}}
 <section class="gh-landing-hero gh-landing-snap">

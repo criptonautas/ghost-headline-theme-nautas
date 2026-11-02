@@ -120,6 +120,9 @@
     last.replaceWith(heading);
 })();
 
+// Built or not, the page may show now (the splash, landing.css).
+document.documentElement.classList.add('is-landing-built');
+
 /* What members say: three rows, the middle one drifting the other way
  * (landing.css). Each row holds its third of the cards twice so the loop has no
  * seam; the copies are hidden from screen readers. Only data-show cards run per
