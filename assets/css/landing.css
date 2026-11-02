@@ -140,7 +140,6 @@ html.js:not(.is-landing-built) .gh-landing-splash {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2.4rem;
     background-color: var(--color-bg);
     animation: gh-landing-splash-end 0s 4s forwards;
 }
@@ -151,53 +150,56 @@ html.js:not(.is-landing-built) .gh-landing-splash {
     }
 }
 
-.gh-landing-splash .cn-logo-symbol {
-    display: block;
-    width: 8rem;
-    height: auto;
+.cn-spinner {
+    width: 12rem;
+    height: 12rem;
 }
 
-.gh-landing-splash .cn-logo-word {
-    display: none;
-}
-
-.gh-landing-splash .cn-logo-a {
+.cn-spinner .cn-v {
     fill: var(--cn-violeta-tinta-formas);
 }
 
-.gh-landing-splash .cn-logo-b {
+.cn-spinner .cn-r {
     fill: var(--cn-rojo-oxido);
 }
 
-.gh-landing-splash-dots {
-    display: flex;
-    gap: 1rem;
+.cn-spinner .cn-ring {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: cn-turn 5.4s cubic-bezier(0.55, 0, 0.15, 1) infinite;
 }
 
-.gh-landing-splash-dots span {
-    width: 1.2rem;
-    height: 1.2rem;
-    border-radius: 50%;
-    background-color: var(--cn-violeta-tinta);
-    animation: gh-landing-splash-dot 1.2s ease-in-out infinite alternate;
+.cn-spinner .cn-f {
+    animation: cn-lit 5.4s cubic-bezier(0.55, 0, 0.15, 1) infinite;
 }
 
-.gh-landing-splash-dots span:nth-child(2) {
-    animation-delay: 0.2s;
+html[data-theme="dark"] .cn-spinner .cn-f {
+    animation-name: cn-lit-dark;
 }
 
-.gh-landing-splash-dots span:nth-child(3) {
-    animation-delay: 0.4s;
+@keyframes cn-turn {
+    0% { transform: rotate(0deg); }
+    9.259%, 16.667% { transform: rotate(60deg); }
+    25.926%, 33.333% { transform: rotate(120deg); }
+    42.593%, 50% { transform: rotate(180deg); }
+    59.259%, 66.667% { transform: rotate(240deg); }
+    75.926%, 83.333% { transform: rotate(300deg); }
+    92.593%, 100% { transform: rotate(360deg); }
 }
 
-@keyframes gh-landing-splash-dot {
-    from {
-        opacity: 0.25;
-    }
+@keyframes cn-lit {
+    0%, 92.593%, 100% { opacity: 1; }
+    9.259%, 83.333% { opacity: 0.35; }
+}
+
+@keyframes cn-lit-dark {
+    0%, 92.593%, 100% { opacity: 1; }
+    9.259%, 83.333% { opacity: 0.55; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .gh-landing-splash-dots span {
+    .cn-spinner .cn-ring,
+    .cn-spinner .cn-f {
         animation: none;
     }
 }
