@@ -516,7 +516,7 @@
     padding-bottom: 1.6rem;
 }
 
-/* What members say: two rows drifting in opposite directions (landing.js), faded at
+/* What members say: three rows drifting in opposite directions (landing.js), faded at
    the screen's edges. Each track holds its cards
    twice, so moving it by half its length (and half a gap) loops without a
    seam. */
@@ -530,13 +530,13 @@
 }
 
 /* Every card in a row as tall as the row: the quote at the top, the member
-   at the foot, so the two rows read as even bands. */
+   at the foot, so the rows read as even bands. */
 .gh-landing-marquee-track {
     display: flex;
     align-items: stretch;
     gap: 1.6rem;
     width: max-content;
-    animation: gh-landing-marquee 70s linear infinite;
+    animation: gh-landing-marquee 105s linear infinite;
 }
 
 .gh-landing-marquee-row.is-reverse .gh-landing-marquee-track {
@@ -552,6 +552,75 @@
     to {
         transform: translateX(calc(-50% - 0.8rem));
     }
+}
+
+/* Testimonials on /curso/ and /comunidad/: same cards' markup (partials/voices),
+   quieter than the landing's. A few of each list show; the shuffle picks them. */
+.gh-voices {
+    margin-block: 4.8rem;
+}
+
+.gh-voices-title {
+    margin: 0 0 2.4rem;
+    font-size: 2.4rem;
+}
+
+.gh-voices-list .gh-landing-voice {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.4rem 1.2rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+}
+
+.gh-voices-list .gh-landing-voice figcaption {
+    display: contents;
+}
+
+.gh-voices-list .gh-landing-voice blockquote {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.gh-voices-list .gh-landing-voice-avatar {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+}
+
+.gh-voices-list .gh-landing-voice strong {
+    grid-column: 2;
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.is-curso .gh-voices-list {
+    display: grid;
+    gap: 2.4rem;
+}
+
+.is-curso .gh-landing-voice {
+    padding-left: 1.6rem;
+    border-left: 3px solid var(--ghost-accent-color);
+}
+
+.is-curso .gh-landing-voice:nth-child(n + 4) {
+    display: none;
+}
+
+.is-comunidad .gh-voices-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(28rem, 100%), 1fr));
+    gap: 0 3.2rem;
+}
+
+.is-comunidad .gh-landing-voice {
+    padding-block: 1.6rem;
+    border-top: 1px solid var(--color-border);
+}
+
+.is-comunidad .gh-landing-voice:nth-child(n + 7) {
+    display: none;
 }
 
 .gh-landing-voices-list:focus-visible {

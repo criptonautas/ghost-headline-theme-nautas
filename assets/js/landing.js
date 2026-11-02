@@ -120,8 +120,8 @@
     last.replaceWith(heading);
 })();
 
-/* What members say: two rows that drift in opposite directions
- * (landing.css). Each row holds its half of the cards twice so the loop has no
+/* What members say: three rows, the middle one drifting the other way
+ * (landing.css). Each row holds its third of the cards twice so the loop has no
  * seam; the copies are hidden from screen readers. With reduced motion the
  * original sideways row stays.
  */
@@ -131,14 +131,14 @@
         return;
     }
     var voices = Array.prototype.slice.call(list.children);
-    var half = Math.ceil(voices.length / 2);
+    var third = Math.ceil(voices.length / 3);
     var marquee = document.createElement('div');
     marquee.className = 'gh-landing-marquee';
     marquee.setAttribute('role', 'region');
     marquee.setAttribute('aria-labelledby', list.getAttribute('aria-labelledby'));
-    [voices.slice(0, half), voices.slice(half)].forEach(function (group, i) {
+    [voices.slice(0, third), voices.slice(third, third * 2), voices.slice(third * 2)].forEach(function (group, i) {
         var row = document.createElement('div');
-        row.className = 'gh-landing-marquee-row' + (i ? ' is-reverse' : '');
+        row.className = 'gh-landing-marquee-row' + (i % 2 ? ' is-reverse' : '');
         var track = document.createElement('div');
         track.className = 'gh-landing-marquee-track';
         group.forEach(function (voice) {

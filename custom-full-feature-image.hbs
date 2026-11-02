@@ -50,6 +50,8 @@
             <section class="gh-content gh-canvas">
                 {{content}}
             </section>
+            {{#match slug "curso"}}{{> "voices/page" list="curso"}}{{/match}}
+            {{#match slug "comunidad"}}{{> "voices/page" list="comunidad"}}{{/match}}
             {{/is}}
         </article>
         {{/post}}
