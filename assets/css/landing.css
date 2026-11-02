@@ -572,7 +572,8 @@
     display: contents;
 }
 
-.gh-voices .gh-landing-voice blockquote {
+/* Stronger than the content's own blockquote bar (screen.css). */
+.gh-voices .gh-voices-list .gh-landing-voice blockquote {
     grid-column: 2;
     grid-row: 1;
     margin: 0;
@@ -591,6 +592,7 @@
 
 .gh-voices .gh-landing-voice strong {
     grid-column: 2;
+    text-align: left;
     color: var(--color-secondary-text);
     font-family: var(--font-sans);
     font-size: 1.3rem;
