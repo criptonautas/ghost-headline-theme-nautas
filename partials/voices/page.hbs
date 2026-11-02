@@ -1,8 +1,9 @@
-{{!-- Testimonials on /curso/ and /comunidad/: a few of the list (landing.css), lazy images of the hidden ones never load. --}}
-<section class="gh-voices gh-canvas is-{{list}}" aria-labelledby="gh-voices-title">
-    <h2 class="gh-voices-title" id="gh-voices-title">{{t "What our community says"}}</h2>
+{{!-- Testimonials on /curso/ and /comunidad/: a few of the list (landing.css), lazy images of the hidden ones never load. Rendered after the content, then moved before the page's heading "before" so they read as one of its sections. --}}
+<section class="gh-voices is-{{list}}" aria-labelledby="gh-voices-title">
+    <h2 id="gh-voices-title">{{t "What our community says"}}</h2>
     <div class="gh-voices-list">
         {{#match list "curso"}}{{> "voices/curso"}}{{else}}{{> "voices/comunidad"}}{{/match}}
     </div>
     {{> "voices/shuffle"}}
+    <script>(function(s,t){if(t)t.parentNode.insertBefore(s,t)})(document.currentScript.parentNode,document.getElementById("{{before}}"))</script>
 </section>
