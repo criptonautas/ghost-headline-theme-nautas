@@ -1,7 +1,7 @@
 {{!-- Testimonials on /curso/ and /comunidad/: a few of the list (landing.css), lazy images of the hidden ones never load. Rendered after the content, then moved before the page's heading "before" so they read as one of its sections. --}}
 <section class="gh-voices is-{{list}}" aria-labelledby="gh-voices-title">
     <h2 id="gh-voices-title">{{t "What our community says"}}</h2>
-    <div class="gh-voices-list">
+    <div class="gh-voices-list" data-show="{{show}}">
         {{#match list "curso"}}{{> "voices/curso"}}{{else}}{{> "voices/comunidad"}}{{/match}}
     </div>
     {{> "voices/shuffle"}}

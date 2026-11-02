@@ -1,2 +1,2 @@
-{{!-- Right after a list: a new order on each visit, before it paints. --}}
-<script>(function(l){for(var i=l.children.length;i>1;)l.appendChild(l.children[Math.random()*i--|0])})(document.currentScript.previousElementSibling)</script>
+{{!-- Right after a list: a new order on each visit, before it paints. Items with data-top open and close what shows (data-show on the list, or all of it). --}}
+<script>(function(l){var a=[].slice.call(l.children),t=[],o=[],s=+l.dataset.show||a.length;function m(x){for(var i=x.length;i>1;){var j=Math.random()*i--|0,v=x[i];x[i]=x[j];x[j]=v}return x}a.forEach(function(e){(e.hasAttribute('data-top')?t:o).push(e)});m(t);var k=Math.min(s/3|0||1,t.length>>1),r=m(t.slice(2*k).concat(o));t.slice(0,k).concat(r.slice(0,s-2*k),t.slice(k,2*k),r.slice(s-2*k)).forEach(function(e){l.appendChild(e)})})(document.currentScript.previousElementSibling)</script>

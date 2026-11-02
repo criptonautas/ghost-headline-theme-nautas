@@ -50,8 +50,8 @@
             <section class="gh-content gh-canvas">
                 {{content}}
             </section>
-            {{#match slug "curso"}}{{> "voices/page" list="curso" before="lo-que-llega-por-e-mail"}}{{/match}}
-            {{#match slug "comunidad"}}{{> "voices/page" list="comunidad" before="nuestros-ghettos"}}{{/match}}
+            {{#match slug "curso"}}{{> "voices/page" list="curso" show="3" before="lo-que-llega-por-e-mail"}}{{/match}}
+            {{#match slug "comunidad"}}{{> "voices/page" list="comunidad" show="6" before="nuestros-ghettos"}}{{/match}}
             {{/is}}
         </article>
         {{/post}}

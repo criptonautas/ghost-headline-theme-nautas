@@ -536,7 +536,7 @@
     align-items: stretch;
     gap: 1.6rem;
     width: max-content;
-    animation: gh-landing-marquee 105s linear infinite;
+    animation: gh-landing-marquee 160s linear infinite;
 }
 
 .gh-landing-marquee-row.is-reverse .gh-landing-marquee-track {
