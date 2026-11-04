@@ -587,7 +587,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 1rem 2rem;
-    margin: 0 0 2.4rem;
+    margin: 0 0 2rem;
 }
 
 .gh-channel-videos-title {
@@ -602,9 +602,11 @@
     text-transform: uppercase;
 }
 
+/* As the community block's title (community.css). */
 .gh-channel-videos-title svg {
-    width: 2.4rem;
-    height: 2.4rem;
+    flex: none;
+    width: 2.2rem;
+    height: 2.2rem;
 }
 
 /* As the forum's "go to the community": a plain link, clearly one. */
@@ -727,7 +729,7 @@ html[data-theme="dark"] .loop-wrap :is(.gh-channel-videos-body:has(.gh-channel-v
     overflow: hidden;
     padding: 2.4rem 1.2rem 1rem;
     background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 700;
     line-height: 1.25;
     -webkit-line-clamp: 2;
@@ -762,9 +764,9 @@ html[data-theme="dark"] .loop-wrap :is(.gh-channel-videos-body:has(.gh-channel-v
 
 @media screen and (min-width: 768px) {
     /* Large picture and its title on the left; the list beside the picture
-       only, stretched to its height, one item per half. */
+       only, stretched to its height, two by two. */
     .gh-channel-videos-body {
-        grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
         grid-template-rows: auto auto;
         column-gap: 2.4rem;
         row-gap: 1.6rem;
@@ -780,7 +782,7 @@ html[data-theme="dark"] .loop-wrap :is(.gh-channel-videos-body:has(.gh-channel-v
 
     .gh-channel-videos-list {
         grid-area: 1 / 2;
-        grid-template-columns: minmax(0, 1fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         grid-template-rows: repeat(2, minmax(0, 1fr));
         gap: 1.6rem;
         margin: 0;

@@ -426,6 +426,7 @@ body:has(.cn-chat.is-open) .gh-to-top {
     resize: none;
 }
 
+/* As the forum's chat: the duotone paper plane, no disc behind it. */
 .cn-chat-send {
     display: grid;
     place-items: center;
@@ -434,14 +435,18 @@ body:has(.cn-chat.is-open) .gh-to-top {
     padding: 0;
     border: 0;
     border-radius: 50%;
-    background-color: var(--ghost-accent-color);
-    color: #fff;
+    background: none;
+    color: var(--ghost-accent-color);
     cursor: pointer;
 }
 
+.cn-chat-send:hover:not(:disabled) {
+    background-color: var(--cn-ui-hover);
+}
+
 .cn-chat-send svg {
-    width: 1.8rem;
-    height: 1.8rem;
+    width: 2.2rem;
+    height: 2.2rem;
 }
 
 .cn-chat-send:disabled {
@@ -463,6 +468,15 @@ body:has(.cn-chat.is-open) .gh-to-top {
 
 .cn-chat-join[hidden] {
     display: none;
+}
+
+/* Until the forum says who is reading, the box's place stays taken, so the
+   panel does not grow when the box arrives. */
+.cn-chat-panel:has(.cn-chat-compose[hidden]):has(.cn-chat-join[hidden])::after {
+    content: "";
+    flex: none;
+    height: calc(5.8rem + 1px);
+    border-top: 1px solid var(--cn-ui-line);
 }
 
 .cn-chat-status {

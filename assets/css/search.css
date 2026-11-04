@@ -482,6 +482,17 @@ html.ns-open {
     opacity: 0.63;
 }
 
+/* When the bar narrows, the shortcut goes before it runs into the label. */
+.gh-search-bar {
+    container-type: inline-size;
+}
+
+@container (max-width: 16rem) {
+    .gh-search-bar-key {
+        display: none;
+    }
+}
+
 .gh-search-bar-key {
     padding: 0.1rem 0.6rem;
     font: inherit;

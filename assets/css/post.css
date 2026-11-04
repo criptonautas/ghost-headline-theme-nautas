@@ -655,6 +655,11 @@ html[data-theme="dark"] .gh-cover-caption {
 
 /* Breadcrumbs are in capitals, whose middle sits above the line's: the
    icons and the arrow between them up to it. */
+/* The update under the publication date, on its own line. */
+.gh-article-updated {
+    display: block;
+}
+
 .gh-article-tag .gh-channel-icon {
     translate: 0 -0.08em;
 }

@@ -8,8 +8,8 @@
  * cookie so a member signed in there gets their own attributed subaddress
  * when the account has verified tips on (same CORS setup as reactions.js).
  *
- * The words follow the browser's language (Spanish or English), not the
- * site's, so they are filled here rather than with {{t}}.
+ * The words follow the page's language (criptonautas.co Spanish,
+ * en.criptonautas.co English), filled here rather than with {{t}}.
  */
 (function () {
     // Same forum as the comments embed (discourse-embed.js).
@@ -28,7 +28,7 @@
         return;
     }
 
-    var WORDS = /^es\b/i.test(navigator.language || '') ? {
+    var WORDS = /^es\b/i.test(document.documentElement.lang || '') ? {
         tips: 'tips en XMR',
         intro: 'El tip va directo a la wallet del autor.',
         scan: 'Escanear desde wallet',

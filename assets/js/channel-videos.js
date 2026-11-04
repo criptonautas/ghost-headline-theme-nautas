@@ -2,8 +2,8 @@
  * main.min.js; does nothing without the .gh-channel-videos shell.
  *
  * The PeerTube category whose name is the tag's slug (bienestar, taboo...)
- * gives the newest three of the instance's own videos: the first large, the
- * other two in a list under it. Play loads the player in place of the large
+ * gives the newest five of the instance's own videos: the first large, the
+ * other four in a list beside it. Play loads the player in place of the large
  * one; a video from the list takes its place and plays. As on /videos
  * (peertube-videos.js), nothing from the instance goes in through innerHTML
  * and the player only loads on play.
@@ -98,6 +98,8 @@
         frame.setAttribute('allowfullscreen', '');
         frame.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-popups allow-popups-to-escape-sandbox');
         frame.referrerPolicy = 'strict-origin-when-cross-origin';
+        // A frame that can scroll holds on to the wheel: the page scrolls on over it.
+        frame.setAttribute('scrolling', 'no');
         media.textContent = '';
         media.appendChild(frame);
         frame.focus();
@@ -133,12 +135,8 @@
         media.appendChild(button);
         main.appendChild(media);
 
-        caption.textContent = '';
-        var link = el('a', null, video.name);
-        link.href = watch(video);
-        link.target = '_blank';
-        link.rel = 'noopener';
-        caption.appendChild(link);
+        // The title only: the player is right above it.
+        caption.textContent = video.name;
 
         if (autoplay) {
             play(video, media);
@@ -196,7 +194,7 @@
         if (!id) {
             return Promise.reject(new Error('no category'));
         }
-        return get('/api/v1/videos?categoryOneOf=' + id + '&count=3&sort=-publishedAt&isLocal=true&nsfw=false&skipCount=true');
+        return get('/api/v1/videos?categoryOneOf=' + id + '&count=5&sort=-publishedAt&isLocal=true&nsfw=false&skipCount=true');
     }).then(function (body) {
         var videos = (body && Array.isArray(body.data) ? body.data : []).filter(function (video) {
             return video && UUID.test(video.uuid || '') && video.name;

@@ -3614,6 +3614,17 @@ a {
   font-size: 2.13rem;
 }
 
+/* h4 a step under h3, over the text: the shared theme's was larger than h2. */
+.gh-content h4 {
+  font-weight: 700;
+  font-size: 1.9rem;
+}
+
+/* The FAQ's questions end with room before the footer. */
+.page-faq .gh-content {
+  padding-bottom: 6.4rem;
+}
+
 /* Tablets set the text at 2rem: the same two steps from there. */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .gh-content h2 {
@@ -3622,6 +3633,10 @@ a {
 
   .gh-content h3 {
     font-size: 2.5rem;
+  }
+
+  .gh-content h4 {
+    font-size: 2.2rem;
   }
 }
 

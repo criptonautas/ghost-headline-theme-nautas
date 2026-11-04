@@ -346,6 +346,11 @@ html:not(.js) .gh-with-sidebar {
 /* The cards' highlighter (screen.css), lower and paler: a list of these
    should not read as loud as an article's title. */
 /* A topic opened in the box: search.css's reader, in a narrower column. */
+/* /blog only: the excerpts a step under the article text, beside the box. */
+.gh-with-sidebar .gh-card-excerpt {
+    font-size: 1.45rem;
+}
+
 .gh-community-list[hidden] {
     display: none;
 }

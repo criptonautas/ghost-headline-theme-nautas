@@ -7,6 +7,7 @@
 		{{>images/other_image other_image=feature_image alt=name}}
 	</div>
 	{{/if}}
+	<nav class="gh-article-tag" aria-label="{{t "Breadcrumb"}}"><a href="{{@site.url}}/blog/"><span class="gh-channel-icon">{{> "icons/phosphor/notebook"}}</span>{{t "Blog"}}</a></nav>
 	<h1 class="archive-title global-title is-tag gh-topic-link" data-count="{{../pagination.total}}">{{> "channel-icon" slug=slug}}{{ name }}</h1>
 	{{#if description}}
 	<p class="archive-excerpt global-excerpt">{{description}}</p>

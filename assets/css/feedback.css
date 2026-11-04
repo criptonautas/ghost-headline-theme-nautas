@@ -46,6 +46,8 @@
     border: 0;
     border-radius: 1.2rem;
     background: none;
+    /* The panel scrolls, not the dialog, so its rounded corners stay round. */
+    overflow: hidden;
 }
 
 .cn-feedback-dialog::backdrop {
@@ -55,6 +57,8 @@
 .cn-feedback-panel {
     display: grid;
     gap: 1rem;
+    max-height: calc(100dvh - 3.2rem);
+    overflow-y: auto;
     padding: 2rem;
     border: 1px solid var(--cn-ui-line);
     border-radius: 1.2rem;
