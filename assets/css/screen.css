@@ -3626,14 +3626,14 @@ a {
   padding-bottom: 6.4rem;
 }
 
-/* html body: over the dark theme's own toggle-card border. */
-html body.page-faq .gh-content .kg-toggle-card {
-  border: 2px solid var(--color-base);
+/* !important: the general .kg-toggle-card rule above sets both with it. */
+.page-faq .gh-content .kg-toggle-card {
+  border: 2px solid var(--color-base) !important;
   border-radius: 1rem;
-  box-shadow: var(--cn-shadow);
+  box-shadow: var(--cn-shadow) !important;
 }
 
-html body.page-faq .gh-content .kg-toggle-card + .kg-toggle-card {
+.page-faq .gh-content .kg-toggle-card + .kg-toggle-card {
   margin-top: 1.6rem;
 }
 
