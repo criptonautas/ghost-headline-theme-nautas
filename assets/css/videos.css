@@ -648,9 +648,16 @@
     box-shadow: 6px 6px 0 var(--color-base);
 }
 
-.gh-channel-videos-caption {
+.gh-channel-videos .gh-channel-videos-caption {
     max-width: none;
     margin: 0.4rem 0 0;
+    font-size: 2.6rem;
+}
+
+@media (max-width: 767px) {
+    .gh-channel-videos .gh-channel-videos-caption {
+        font-size: 2rem;
+    }
 }
 
 .gh-channel-videos-caption a {

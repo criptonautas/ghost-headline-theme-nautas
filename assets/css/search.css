@@ -757,6 +757,11 @@ html.ns-open {
     color: var(--ns-muted);
 }
 
+/* The foot sits on the modal's edge, not above the body's padding. */
+.ns__body:has(> .ns__reader) {
+    padding-bottom: 0;
+}
+
 /* The end of a post: back to the results, or on to the forum. */
 .ns__reader-foot {
     position: sticky;
