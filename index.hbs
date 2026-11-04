@@ -45,9 +45,9 @@
                 {{#foreach posts}}
                     {{> "loop-grid" has_large_post=false}}
                     {{#has number="4"}}{{^is "paged"}}{{> "community-related" strip=true}}{{/is}}{{/has}}
-                    {{!-- The newest videos, three posts after the community (it leads), as
-                        page 1 ends: posts_per_page is 7. --}}
-                    {{#has number="7"}}{{^is "paged"}}{{> "channel-videos"}}{{/is}}{{/has}}
+                    {{!-- The newest videos, four posts after the community (it leads), as
+                        page 1 ends: posts_per_page is 8, four full rows of two. --}}
+                    {{#has number="8"}}{{^is "paged"}}{{> "channel-videos"}}{{/is}}{{/has}}
                 {{/foreach}}
             </div>
 

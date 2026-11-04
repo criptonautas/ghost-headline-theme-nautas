@@ -346,7 +346,7 @@
         back.addEventListener('click', function () {
             closeReader(link);
         });
-        var out = el('a', 'gh-community-more', R.t('view in the community') + ' ');
+        var out = el('a', 'gh-community-more', R.t('view in community') + ' ');
         out.href = entry.url;
         out.target = '_blank';
         out.rel = 'noopener';

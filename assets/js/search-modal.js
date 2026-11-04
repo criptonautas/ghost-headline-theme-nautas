@@ -1144,8 +1144,12 @@
                 var answer = function (response) {
                     var i = 0;
                     return {
+                        // The query as typed, not as sent without its common words:
+                        // the list is current only when the two match.
                         results: requests.map(function (request) {
-                            return wanted(request) ? response.results[i++] : empty(request);
+                            return wanted(request)
+                                ? Object.assign({}, response.results[i++], { query: request.params.query })
+                                : empty(request);
                         })
                     };
                 };

@@ -4209,6 +4209,22 @@ html[data-theme="dark"] code {
   color: var(--color-bg);
 }
 
+/* Code no larger than the text around it: a scrollbar only when a line
+   overflows, and less padding from 768px. */
+pre {
+  overflow-x: auto;
+}
+
+@media (min-width: 768px) {
+  .gh-content pre {
+    padding: 1.2rem 1.6rem;
+  }
+
+  .gh-content :not(pre) > code {
+    padding: 0.1em 0.35em;
+  }
+}
+
 *,
 ::after,
 ::before {

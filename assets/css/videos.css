@@ -772,10 +772,12 @@ html[data-theme="dark"] .loop-wrap :is(.gh-channel-videos-body:has(.gh-channel-v
 @media screen and (min-width: 768px) {
     /* Large picture and its title on the left; the list beside the picture
        only, stretched to its height, two by two. */
+    /* Two columns with the listing's own gap: the large one as wide as a
+       post card. */
     .gh-channel-videos-body {
-        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         grid-template-rows: auto auto;
-        column-gap: 2.4rem;
+        column-gap: 2rem;
         row-gap: 1.6rem;
     }
 
