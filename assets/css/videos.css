@@ -568,7 +568,7 @@
 
 /* A channel's videos (partials/channel-videos.hbs): in a tag page's list,
    across it, after the sixth post (or the last, with fewer). A header with
-   the "see all" link at its end; the newest video large in the ink frame of
+   the "see more" link at its end; the newest video large in the ink frame of
    the post cards, its title at the size of theirs, and two more beside it
    (from 768px) whose column is exactly as tall as the large picture. Below
    768px the two sit side by side under it. */
@@ -584,7 +584,8 @@
 .gh-channel-videos-head {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    /* The title carries the headings' bottom padding: centered, the link sat low. */
+    align-items: flex-start;
     justify-content: space-between;
     gap: 1rem 2rem;
     margin: 0 0 2rem;
@@ -713,7 +714,9 @@ html[data-theme="dark"] .loop-wrap :is(.gh-channel-videos-body:has(.gh-channel-v
     display: block;
     position: relative;
     overflow: hidden;
-    aspect-ratio: 16 / 9;
+    /* Taller than 16:9 (+18%) so a two-line title over it leaves the picture
+       in view; from 768px the cell sets the height. */
+    aspect-ratio: 3 / 2;
     background-color: rgba(127, 127, 127, 0.15);
 }
 
@@ -734,7 +737,10 @@ html[data-theme="dark"] .loop-wrap :is(.gh-channel-videos-body:has(.gh-channel-v
     bottom: 0;
     left: 0;
     overflow: hidden;
-    padding: 2.4rem 1.2rem 1rem;
+    /* The foot's room as a border: overflow clips inside it, so a third line
+       never shows there; the shade runs under it. */
+    padding: 2.4rem 1.2rem 0;
+    border-bottom: 1rem solid transparent;
     background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
     font-size: 1.3rem;
     font-weight: 700;
@@ -742,6 +748,9 @@ html[data-theme="dark"] .loop-wrap :is(.gh-channel-videos-body:has(.gh-channel-v
     -webkit-line-clamp: 2;
     line-clamp: 2;
     -webkit-box-orient: vertical;
+    /* Two lines and the room around them: the clamp alone still paints a
+       third (see .gh-video-title). */
+    max-height: calc(2.5em + 3.4rem);
 }
 
 /* Duration top right, clear of the title; the play button smaller. */
