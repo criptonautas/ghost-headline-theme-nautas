@@ -600,6 +600,29 @@ html.ns-open {
     color: var(--ns-muted);
 }
 
+/* A table scrolls sideways rather than cutting its columns, in smaller type. */
+.ns__reader-text table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-size: 1.3rem;
+    line-height: 1.4;
+}
+
+.ns__reader-text :is(th, td) {
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--ns-border);
+    text-align: left;
+    vertical-align: top;
+    overflow-wrap: normal;
+}
+
+.ns__reader-topic > .ns__reader-about {
+    order: -2;
+    margin: 0;
+}
+
 .ns__reader-text pre {
     overflow-x: auto;
     white-space: pre;

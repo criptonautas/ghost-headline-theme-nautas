@@ -513,7 +513,12 @@ def main():
                         have.pop(doc["id"], None)
                     changed.extend(docs)
                     continue
-        row = have.get(uuid, {})
+        language = (video.get("language") or {}).get("id") or ""
+        # Translated or not, a video in one of the site languages fills that
+        # language's slot: an English one written as the Spanish document too
+        # showed twice on the English site, with a Spanish summary.
+        id_ = doc_id(uuid, language) if localize and language in LANGUAGES else uuid
+        row = have.get(id_, {})
         unchanged = row.get("updated") == stamp(video, captions)
         if unchanged and (not CHUNKS or row.get("chunks") is not None):
             continue
@@ -523,12 +528,12 @@ def main():
             fresh_chunks.extend(made)
         if unchanged:
             # Only the chunks are missing: patch the document so its summary stays.
-            patches.append({"id": uuid, "video_id": uuid, "chunks": len(made)})
+            patches.append({"id": id_, "video_id": uuid, "chunks": len(made)})
             continue
         # An upsert replaces the document, summary included: write it again.
-        have.pop(uuid, None)
-        language = (video.get("language") or {}).get("id") or ""
+        have.pop(id_, None)
         doc = to_doc(video, captions, transcript(captions, language))
+        doc["id"] = id_
         if CHUNKS:
             doc["chunks"] = len(made)
         changed.append(doc)
@@ -538,7 +543,10 @@ def main():
     if not seen and have:
         sys.exit("PeerTube returned no videos; leaving the collection as is")
 
-    gone = [id_ for id_ in have if id_ not in seen]
+    # Also a Spanish slot still holding an English video's untranslated copy:
+    # its English document is the one the English site shows.
+    gone = [id_ for id_, row in have.items() if id_ not in seen
+            or (localize and id_ in order and row.get("language") == "en")]
     if CHUNKS:
         delete_chunks(stale + gone)
         import_docs(fresh_chunks)
@@ -551,7 +559,9 @@ def main():
     if LLM_URL and LLM_KEY and LLM_MODEL:
         written = {doc["id"] for doc in changed}
         # Only English documents that exist: asking for one not written yet would count as a failure.
-        summaries([i for id_ in order for i in (id_, f"{id_}-en") if i == id_ or i in have or i in written], have)
+        removed = set(gone)
+        summaries([i for id_ in order for i in (id_, f"{id_}-en")
+                   if (i == id_ or i in have or i in written) and i not in removed], have)
 
 
 if __name__ == "__main__":

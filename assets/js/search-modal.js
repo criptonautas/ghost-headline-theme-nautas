@@ -440,36 +440,61 @@
      * **bold** and _italics_. Text nodes only; a link is kept only when it
      * points into the forum or to an https page. */
     var INLINE = /\[([^\]]+)\]\(([^)\s]+)\)|\*\*([^*]+)\*\*|_([^_]+)_/g;
+    var inline = function (paragraph, p) {
+        var last = 0;
+        var m;
+        INLINE.lastIndex = 0;
+        while ((m = INLINE.exec(paragraph))) {
+            p.appendChild(document.createTextNode(paragraph.slice(last, m.index)));
+            var node;
+            if (m[1]) {
+                var href = m[2].charAt(0) === '/' && m[2].charAt(1) !== '/' ? FORUM + m[2] : m[2];
+                if (/^https:\/\//.test(href)) {
+                    node = document.createElement('a');
+                    node.href = href;
+                    node.target = '_blank';
+                    node.rel = 'noopener';
+                } else {
+                    node = document.createElement('span');
+                }
+                node.textContent = m[1];
+            } else {
+                node = document.createElement(m[3] ? 'strong' : 'em');
+                node.textContent = m[3] || m[4];
+            }
+            p.appendChild(node);
+            last = INLINE.lastIndex;
+        }
+        p.appendChild(document.createTextNode(paragraph.slice(last)));
+        return p;
+    };
+
+    /* A block of "| a | b |" lines whose second is the |---|---| rule. */
+    var ROW = /^\s*\|.*\|\s*$/;
+    var RULE = /^[\s|:-]+$/;
+    var table = function (block) {
+        var lines = block.trim().split('\n');
+        if (lines.length < 2 || !lines.every(function (line) { return ROW.test(line); }) || !RULE.test(lines[1])) {
+            return null;
+        }
+        var out = document.createElement('table');
+        lines.forEach(function (line, i) {
+            if (i === 1) {
+                return;
+            }
+            var tr = out.appendChild(document.createElement('tr'));
+            line.trim().slice(1, -1).split('|').forEach(function (cell) {
+                tr.appendChild(inline(cell.trim(), document.createElement(i ? 'td' : 'th')));
+            });
+        });
+        return out;
+    };
+
     var summaryText = function (markdown) {
         var box = document.createElement('div');
         box.className = 'ns__reader-text is-rich';
         markdown.split(/\n{2,}/).forEach(function (paragraph) {
-            var p = document.createElement('p');
-            var last = 0;
-            var m;
-            INLINE.lastIndex = 0;
-            while ((m = INLINE.exec(paragraph))) {
-                p.appendChild(document.createTextNode(paragraph.slice(last, m.index)));
-                var node;
-                if (m[1]) {
-                    var href = m[2].charAt(0) === '/' && m[2].charAt(1) !== '/' ? FORUM + m[2] : m[2];
-                    if (/^https:\/\//.test(href)) {
-                        node = document.createElement('a');
-                        node.href = href;
-                        node.target = '_blank';
-                        node.rel = 'noopener';
-                    } else {
-                        node = document.createElement('span');
-                    }
-                    node.textContent = m[1];
-                } else {
-                    node = document.createElement(m[3] ? 'strong' : 'em');
-                    node.textContent = m[3] || m[4];
-                }
-                p.appendChild(node);
-                last = INLINE.lastIndex;
-            }
-            p.appendChild(document.createTextNode(paragraph.slice(last)));
+            var p = table(paragraph) || inline(paragraph, document.createElement('p'));
             if (p.textContent.trim()) {
                 box.appendChild(p);
             }
@@ -493,15 +518,15 @@
 
     /* Who took part, as avatars on the right: the topic's participants,
      * most posts first, without the author already named in the meta line. */
-    var people = function (box, topic, hit, alive) {
+    var people = function (box, topicData, hit, alive) {
         var row = skeleton('ns__reader-people is-loading', Math.min(hit.reply_count, MAX_PEOPLE));
         box.appendChild(row);
-        forumJSON('/t/' + topic + '.json')
+        topicData
             .then(function (data) {
                 if (!alive()) {
                     return;
                 }
-                var author = String(hit.username || '').toLowerCase();
+                var author = String(opener(data) || hit.username || '').toLowerCase();
                 var list = ((data && data.details && data.details.participants) || []).filter(function (p) {
                     return p.username && p.avatar_template && p.username.toLowerCase() !== author;
                 });
@@ -543,6 +568,42 @@
             .catch(function () {
                 row.hidden = true;
             });
+    };
+
+    var opener = function (data) {
+        return data && data.details && data.details.created_by && data.details.created_by.username;
+    };
+
+    /* Who opened the topic, their karma (the forum's gamification score),
+     * when, and the last reply: the line under the title. */
+    var about = function (box, topicData, alive) {
+        var line = meta([]);
+        line.classList.add('ns__reader-about');
+        line.hidden = true;
+        box.insertBefore(line, box.firstChild);
+        topicData
+            .then(function (data) {
+                var by = opener(data);
+                if (!alive() || !by) {
+                    return;
+                }
+                var fill = function (score) {
+                    line.textContent = [
+                        '@' + by,
+                        score ? Number(score).toLocaleString(document.documentElement.lang || 'es') + ' karma' : '',
+                        date(data.created_at),
+                        data.posts_count > 1 ? t('last reply') + ' ' + date(data.last_posted_at) : ''
+                    ].filter(Boolean).join(' - ');
+                    line.hidden = false;
+                };
+                fill();
+                return forumJSON('/u/' + encodeURIComponent(by) + '/card.json').then(function (card) {
+                    if (alive() && card && card.user && card.user.gamification_score) {
+                        fill(card.user.gamification_score);
+                    }
+                });
+            })
+            .catch(function () {});
     };
 
     // Wait this long for the forum's HTML before showing the indexed text.
@@ -596,8 +657,13 @@
                 settle();
                 return;
             }
+            // One request for the line under the title and the avatars.
+            var topicData = topic ? forumJSON('/t/' + topic + '.json') : null;
+            if (topic) {
+                about(box, topicData, alive);
+            }
             if (topic && hit.reply_count > 0) {
-                people(box, topic, hit, alive);
+                people(box, topicData, hit, alive);
             }
             if (/^\d+$/.test(String(hit.id)) && window.NautasForumHTML) {
                 text.classList.add('is-loading');
