@@ -14,31 +14,30 @@
 	</div>
 	{{#get "tags" limit="100" filter="visibility:public" include="count.posts" order="count.posts desc" as |tags|}}
 	{{#if tags}}
-	<div class="loop-wrap is-tags">
+	{{!-- An index rather than cards, so a channel never passes for a post:
+		a row each, its icon, the name in the post cards' heading, its count,
+		description and newest three titles. --}}
+	<ol class="loop-wrap is-tags">
 		{{#foreach tags}}
 		{{#if count.posts}}
-		<div class="item is-loop">
-			{{#if feature_image}}
-			<div class="item-image is-landscape global-image global-image-orientation global-radius">
-				<a href="{{url}}" class="global-link" aria-label="#{{name}}"></a>
-				{{>images/archive_image archive_image=feature_image}}
-			</div>
-			{{/if}}
-			{{!-- The link sits inside the title. Wrapping the title in
-				.global-link, which is absolutely positioned over the whole
-				card, lifted it out of the flow: it landed on the image, or on
-				the previous tag's post count when there was no image. --}}
+		<li class="item is-channel">
+			<span class="item-icon">{{> "channel-icon" slug=slug}}</span>
 			<div class="item-content">
 				<h2 class="item-title"><a href="{{url}}">#{{name}}</a></h2>
 				<small>{{plural count.posts empty=(t "no posts") singular=(t "1 post") plural=(t "% posts")}}</small>
 				{{#if description}}
 				<p class="item-excerpt">{{description}}</p>
 				{{/if}}
+				{{#get "posts" filter="tag:{{slug}}" limit="3" fields="title,url" as |latest|}}
+				<ul class="item-latest">
+					{{#foreach latest}}<li><a href="{{url}}">{{title}}</a></li>{{/foreach}}
+				</ul>
+				{{/get}}
 			</div>
-		</div>
+		</li>
 		{{/if}}
 		{{/foreach}}
-	</div>
+	</ol>
 	{{/if}}
 	{{/get}}
 </div>

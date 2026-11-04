@@ -4817,6 +4817,104 @@ h5 {
   line-clamp: 3;
 }
 
+/* Tags page (custom-tags.hbs): an index, one channel a row, centered at a
+   reading width; the name set as a post card's title. */
+.custom-archive .loop-wrap.is-tags {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  max-width: 86rem;
+  margin: 0 auto;
+  padding: 0;
+  border-top: 1px solid var(--cn-ui-line);
+  list-style: none;
+}
+
+.custom-archive .loop-wrap.is-tags .item.is-channel {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin: 0;
+  padding: 2.8rem 0;
+  border-bottom: 1px solid var(--cn-ui-line);
+}
+
+.custom-archive .is-channel .item-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 5.2rem;
+  height: 5.2rem;
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--cn-marcador) 30%, transparent);
+  color: var(--color-base);
+  font-size: 2.4rem;
+}
+
+.custom-archive .is-channel .item-icon .gh-channel-icon {
+  margin: 0;
+}
+
+.custom-archive .is-channel .item-content {
+  min-width: 0;
+}
+
+.custom-archive .is-channel .item-title {
+  font-family: var(--gh-font-heading);
+  font-weight: 800;
+  line-height: 1.11;
+  letter-spacing: -0.02em;
+}
+
+.custom-archive .is-channel .item-title a {
+  color: var(--color-base);
+}
+
+.custom-archive .is-channel .item-excerpt {
+  margin-top: 0.8rem;
+}
+
+.custom-archive .item-latest {
+  margin: 1.2rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 1.6rem;
+  line-height: 1.4;
+}
+
+.custom-archive .item-latest li {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.custom-archive .item-latest li + li {
+  margin-top: 0.4rem;
+}
+
+.custom-archive .item-latest a {
+  color: var(--color-secondary-text);
+  text-decoration: none;
+}
+
+.custom-archive .item-latest a:hover {
+  color: var(--color-base);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media screen and (max-width: 480px) {
+  .custom-archive .loop-wrap.is-tags .item.is-channel {
+    gap: 1.4rem;
+    padding: 2.2rem 0;
+  }
+
+  .custom-archive .is-channel .item-icon {
+    width: 4.4rem;
+    height: 4.4rem;
+    font-size: 2rem;
+  }
+}
+
 /* RWD — Authors & Tags page */
 @media (min-width: 1481px) {
   .custom-archive .loop-wrap {
