@@ -590,7 +590,7 @@
                 var fill = function (score) {
                     line.textContent = [
                         '@' + by,
-                        score ? Number(score).toLocaleString(document.documentElement.lang || 'es') + ' karma' : '',
+                        score ? Number(score).toLocaleString(document.documentElement.lang || 'es', { useGrouping: 'always' }) + ' karma' : '',
                         date(data.created_at),
                         data.posts_count > 1 ? t('last reply') + ' ' + date(data.last_posted_at) : ''
                     ].filter(Boolean).join(' - ');
