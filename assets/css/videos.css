@@ -811,4 +811,63 @@ html[data-theme="dark"] .loop-wrap :is(.gh-channel-videos-body:has(.gh-channel-v
         height: 100%;
         aspect-ratio: auto;
     }
+
+    /* The large one's title over the foot of its picture, as the small ones',
+       so no empty space opens beside it under the list. Clicks go through to
+       the picture; the player replaces both. */
+    .gh-channel-videos-body {
+        grid-template-rows: auto;
+    }
+
+    .gh-channel-videos .gh-channel-videos-caption {
+        grid-area: 1 / 1;
+        align-self: end;
+        z-index: 1;
+        margin: 2px;
+        padding: 6.4rem 2rem 1.6rem;
+        border-radius: 0 0 0.8rem 0.8rem;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        color: #fff;
+        pointer-events: none;
+        transition: transform 0.15s ease;
+    }
+
+    .gh-channel-videos-body:has(.gh-channel-videos-main:hover) .gh-channel-videos-caption {
+        transform: translate(-2px, -2px);
+    }
+
+    .gh-channel-videos-body:has(.gh-channel-videos-main iframe) .gh-channel-videos-caption {
+        display: none;
+    }
+
+    /* Duration top right, clear of the title. */
+    .gh-channel-videos-main .gh-video-badge {
+        top: 0.8rem;
+        bottom: auto;
+    }
+}
+
+/* Beside the community column (1200px up) the block is narrow: the four as
+   one row of cards, and the large one only once one is picked, above them. */
+@media screen and (min-width: 1200px) {
+    .gh-with-sidebar:has(> .gh-community:not([hidden])) .gh-channel-videos-body {
+        display: flex;
+        flex-direction: column;
+        gap: 1.6rem;
+    }
+
+    .gh-with-sidebar:has(> .gh-community:not([hidden])) .gh-channel-videos-main:not(:has(iframe)),
+    .gh-with-sidebar:has(> .gh-community:not([hidden])) .gh-channel-videos-caption {
+        display: none;
+    }
+
+    .gh-with-sidebar:has(> .gh-community:not([hidden])) .gh-channel-videos-list {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-rows: auto;
+    }
+
+    .gh-with-sidebar:has(> .gh-community:not([hidden])) .gh-channel-videos-thumb {
+        height: auto;
+        aspect-ratio: 3 / 2;
+    }
 }

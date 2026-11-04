@@ -640,6 +640,11 @@ nav.gh-article-tag {
   font-size: 1.7rem;
 }
 
+/* Tag pages: the header is centred, the breadcrumb with it. */
+.archive-section nav.gh-article-tag {
+  justify-content: center;
+}
+
 .gh-article-tag a {
   display: inline-flex;
   align-items: center;
