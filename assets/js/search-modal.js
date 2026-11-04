@@ -1083,6 +1083,11 @@
                 cacheSearchResultsForSeconds: 120
             },
             additionalSearchParameters: {
+                // Typesense's own cache, shared by every visitor: a repeated
+                // query skips the embedder (about 1 s down to 9 ms). New posts
+                // reach a cached query within cache_ttl seconds.
+                use_cache: true,
+                cache_ttl: 600,
                 highlight_start_tag: MARK_OPEN,
                 highlight_end_tag: MARK_CLOSE
             },
