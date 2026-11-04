@@ -534,21 +534,10 @@
                 row.classList.remove('is-loading');
                 row.removeAttribute('aria-hidden');
                 list.slice(0, MAX_PEOPLE).forEach(function (p) {
-                    var src = String(p.avatar_template).replace('{size}', '48');
-                    src = src.charAt(0) === '/' && src.charAt(1) !== '/' ? FORUM + src : src;
-                    if (!/^https:\/\//.test(src)) {
-                        return;
+                    var img = avatar(p);
+                    if (img) {
+                        row.appendChild(img);
                     }
-                    var img = document.createElement('img');
-                    img.className = 'ns__reader-avatar';
-                    img.src = src;
-                    img.alt = p.username;
-                    img.title = p.username;
-                    img.width = 24;
-                    img.height = 24;
-                    img.loading = 'lazy';
-                    img.referrerPolicy = 'no-referrer';
-                    row.appendChild(img);
                 });
                 if (list.length > MAX_PEOPLE) {
                     var more = document.createElement('span');
@@ -570,6 +559,24 @@
             });
     };
 
+    var avatar = function (user) {
+        var src = String(user.avatar_template || '').replace('{size}', '48');
+        src = src.charAt(0) === '/' && src.charAt(1) !== '/' ? FORUM + src : src;
+        if (!/^https:\/\//.test(src)) {
+            return null;
+        }
+        var img = document.createElement('img');
+        img.className = 'ns__reader-avatar';
+        img.src = src;
+        img.alt = user.username;
+        img.title = user.username;
+        img.width = 24;
+        img.height = 24;
+        img.loading = 'lazy';
+        img.referrerPolicy = 'no-referrer';
+        return img;
+    };
+
     var topicAuthor = function (data) {
         return data && data.details && data.details.created_by && data.details.created_by.username;
     };
@@ -587,8 +594,10 @@
                 if (!alive() || !by) {
                     return;
                 }
+                var face = avatar(data.details.created_by);
+                var words = document.createElement('span');
                 var fill = function (score) {
-                    line.textContent = [
+                    words.textContent = [
                         '@' + by,
                         score ? Number(score).toLocaleString(document.documentElement.lang || 'es', { useGrouping: 'always' }) + ' karma' : '',
                         date(data.created_at),
@@ -596,6 +605,10 @@
                     ].filter(Boolean).join(' - ');
                     line.hidden = false;
                 };
+                if (face) {
+                    line.appendChild(face);
+                }
+                line.appendChild(words);
                 fill();
                 return forumJSON('/u/' + encodeURIComponent(by) + '/card.json').then(function (card) {
                     if (alive() && card && card.user && card.user.gamification_score) {
@@ -665,7 +678,9 @@
             if (topic && hit.reply_count > 0) {
                 people(box, topicData, hit, alive);
             }
-            if (/^\d+$/.test(String(hit.id)) && window.NautasForumHTML) {
+            // A translation's id is the post's plus its language ("359844-en").
+            var postId = String(hit.id).split('-')[0];
+            if (/^\d+$/.test(postId) && window.NautasForumHTML) {
                 text.classList.add('is-loading');
                 text.appendChild(skeleton('ns__skels', 5));
                 window.setTimeout(function () {
@@ -673,7 +688,7 @@
                         plain();
                     }
                 }, RICH_WAIT);
-                forumJSON('/posts/' + hit.id + '.json')
+                forumJSON('/posts/' + postId + '.json', hit.locale)
                     .then(function (post) {
                         if (!alive()) {
                             return;
@@ -1159,9 +1174,11 @@
                 /* Tuned per collection against real queries ("cómo usar Monero" brought
                  * up the FAQ and the contact page at 0.59-0.60; the right posts sat at
                  * 0.31-0.42). On the forum, the right answer sits at 0.22-0.30 and
-                 * unrelated control queries started at 0.46. */
+                 * unrelated control queries started at 0.46; at alpha 0.6, long posts that
+                 * only mention "use" and "monero" crowded "how to use monero", at 0.9
+                 * meaning leads and they sink to the end. */
                 semantic(params[cfg.postsCollection], semanticOn && cfg.semanticPosts, 0.7, 0.58);
-                semantic(params[cfg.topicsCollection], semanticOn && cfg.semanticTopics, 0.6, 0.4);
+                semantic(params[cfg.topicsCollection], semanticOn && cfg.semanticTopics, 0.9, 0.4);
                 // Videos embed title and description: related ones sat at 0.55-0.61, unrelated from 0.67.
                 if (cfg.videosCollection) {
                     semantic(params[cfg.videosCollection], semanticOn && cfg.semanticVideos, 0.5, 0.62);
