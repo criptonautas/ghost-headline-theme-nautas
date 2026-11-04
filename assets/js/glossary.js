@@ -51,23 +51,28 @@
         });
     };
 
-    // shortcut: search answers up to 50 topics; page it if the tag grows past that.
+    // Search answers 50 topics a page: ask for the next while it says there are more.
     var terms = function () {
-        return fetch(ORIGIN + '/search.json?q=' + encodeURIComponent('tags:blog-glosario'), {
-            credentials: 'omit',
-            headers: {Accept: 'application/json', 'Accept-Language': LANG}
-        }).then(function (response) {
-            return response.ok ? response.json() : Promise.reject(new Error(response.status));
-        }).then(function (found) {
-            var list = {};
-            ((found && found.topics) || []).forEach(function (topic) {
-                var id = parseInt(topic.id, 10);
-                if (id > 0 && topic.title) {
-                    list[id] = formsOf(id, String(topic.title));
-                }
+        var list = {};
+        var page = function (n) {
+            return fetch(ORIGIN + '/search.json?q=' + encodeURIComponent('tags:blog-glosario') + '&page=' + n, {
+                credentials: 'omit',
+                headers: {Accept: 'application/json', 'Accept-Language': LANG}
+            }).then(function (response) {
+                return response.ok ? response.json() : Promise.reject(new Error(response.status));
+            }).then(function (found) {
+                ((found && found.topics) || []).forEach(function (topic) {
+                    var id = parseInt(topic.id, 10);
+                    if (id > 0 && topic.title) {
+                        list[id] = formsOf(id, String(topic.title));
+                    }
+                });
+                var more = found && found.grouped_search_result && found.grouped_search_result.more_full_page_results;
+                // Five pages, 250 terms: a bound in case the forum keeps saying "more".
+                return more && n < 5 ? page(n + 1) : list;
             });
-            return list;
-        });
+        };
+        return page(1);
     };
 
     var start = function (TERMS) {
