@@ -526,7 +526,7 @@
                 if (!alive()) {
                     return;
                 }
-                var author = String(opener(data) || hit.username || '').toLowerCase();
+                var author = String(topicAuthor(data) || hit.username || '').toLowerCase();
                 var list = ((data && data.details && data.details.participants) || []).filter(function (p) {
                     return p.username && p.avatar_template && p.username.toLowerCase() !== author;
                 });
@@ -570,7 +570,7 @@
             });
     };
 
-    var opener = function (data) {
+    var topicAuthor = function (data) {
         return data && data.details && data.details.created_by && data.details.created_by.username;
     };
 
@@ -583,7 +583,7 @@
         box.insertBefore(line, box.firstChild);
         topicData
             .then(function (data) {
-                var by = opener(data);
+                var by = topicAuthor(data);
                 if (!alive() || !by) {
                     return;
                 }
