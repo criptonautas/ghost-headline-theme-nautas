@@ -3,7 +3,7 @@
  *
  * The PeerTube category whose name is the tag's slug (bienestar, taboo...),
  * or every category on /blog,
- * gives the newest five of the instance's own videos: the first large, the
+ * gives five of the instance's own videos at random: the first large, the
  * other four in a list beside it. Play loads the player in place of the large
  * one; a video from the list takes its place and plays. As on /videos
  * (peertube-videos.js), nothing from the instance goes in through innerHTML
@@ -184,8 +184,10 @@
         section.hidden = false;
     };
 
-    // No category (/blog): the newest of all.
-    var NEWEST = '&count=5&sort=-publishedAt&isLocal=true&nsfw=false&skipCount=true';
+    // No category (/blog): from all. No random sort in the API: five drawn
+    // from the newest 100 (its maximum page), as /videos does.
+    var NEWEST = '&count=100&sort=-publishedAt&isLocal=true&nsfw=false&skipCount=true';
+    var SHOWN = 5;
     (slug ? get('/api/v1/videos/categories') : Promise.resolve(null)).then(function (categories) {
         if (!slug) {
             return get('/api/v1/videos?' + NEWEST.slice(1));
@@ -201,6 +203,13 @@
         var videos = (body && Array.isArray(body.data) ? body.data : []).filter(function (video) {
             return video && UUID.test(video.uuid || '') && video.name;
         });
+        for (var i = videos.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var swap = videos[i];
+            videos[i] = videos[j];
+            videos[j] = swap;
+        }
+        videos = videos.slice(0, SHOWN);
         if (videos.length) {
             render(videos);
         }
