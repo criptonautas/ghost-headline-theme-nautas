@@ -3620,9 +3620,24 @@ a {
   font-size: 1.9rem;
 }
 
-/* The FAQ's questions end with room before the footer. */
+/* The FAQ's questions end with room before the footer, each framed as the
+   site's cards are: a line, round corners and the hard ink shadow. */
 .page-faq .gh-content {
   padding-bottom: 6.4rem;
+}
+
+.page-faq .gh-content .kg-toggle-card {
+  border: 2px solid var(--color-base);
+  border-radius: 1rem;
+  box-shadow: var(--cn-shadow);
+}
+
+.page-faq .gh-content .kg-toggle-card + .kg-toggle-card {
+  margin-top: 1.6rem;
+}
+
+.page-faq .gh-content .kg-toggle-heading-text {
+  font-weight: 700;
 }
 
 /* Tablets set the text at 2rem: the same two steps from there. */

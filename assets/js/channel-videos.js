@@ -1,7 +1,8 @@
 /* A channel's videos (partials/channel-videos.hbs, tag pages). Ships inside
  * main.min.js; does nothing without the .gh-channel-videos shell.
  *
- * The PeerTube category whose name is the tag's slug (bienestar, taboo...)
+ * The PeerTube category whose name is the tag's slug (bienestar, taboo...),
+ * or every category on /blog,
  * gives the newest five of the instance's own videos: the first large, the
  * other four in a list beside it. Play loads the player in place of the large
  * one; a video from the list takes its place and plays. As on /videos
@@ -28,10 +29,6 @@
     var caption = section.querySelector('.gh-channel-videos-caption');
     var list = section.querySelector('.gh-channel-videos-list');
     var UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-    if (!slug) {
-        return;
-    }
 
     var get = function (path) {
         return fetch(origin + path, {credentials: 'omit', headers: {Accept: 'application/json'}}).then(function (response) {
@@ -187,14 +184,19 @@
         section.hidden = false;
     };
 
-    get('/api/v1/videos/categories').then(function (categories) {
+    // No category (/blog): the newest of all.
+    var NEWEST = '&count=5&sort=-publishedAt&isLocal=true&nsfw=false&skipCount=true';
+    (slug ? get('/api/v1/videos/categories') : Promise.resolve(null)).then(function (categories) {
+        if (!slug) {
+            return get('/api/v1/videos?' + NEWEST.slice(1));
+        }
         var id = Object.keys(categories || {}).filter(function (key) {
             return /^\d+$/.test(key) && String(categories[key]).toLowerCase() === slug;
         })[0];
         if (!id) {
             return Promise.reject(new Error('no category'));
         }
-        return get('/api/v1/videos?categoryOneOf=' + id + '&count=5&sort=-publishedAt&isLocal=true&nsfw=false&skipCount=true');
+        return get('/api/v1/videos?categoryOneOf=' + id + NEWEST);
     }).then(function (body) {
         var videos = (body && Array.isArray(body.data) ? body.data : []).filter(function (video) {
             return video && UUID.test(video.uuid || '') && video.name;
