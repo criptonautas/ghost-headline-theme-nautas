@@ -668,8 +668,9 @@
         };
     };
 
-    /* A video: PeerTube's player in place (its own fullscreen button), what
-     * is said in it when that is what matched, then the description. */
+    /* A video: PeerTube's player in place (its own fullscreen button), its AI
+     * summary - else what is said in it, when that is what matched - then
+     * the description. */
     var VIDEO_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
     // A caption chunk has its own id; the video's is `video_id`.
     var videoIdOf = function (hit) {
@@ -700,7 +701,12 @@
             media.appendChild(frame);
             box.appendChild(media);
 
-            if (inTranscript) {
+            if (hit.summary) {
+                var gist = document.createElement('p');
+                gist.className = 'ns__reader-said';
+                gist.textContent = String(hit.summary);
+                box.appendChild(gist);
+            } else if (inTranscript) {
                 var said = document.createElement('p');
                 said.className = 'ns__reader-said';
                 box.appendChild(marked(said, hit, 'transcript', ''));
@@ -778,7 +784,8 @@
             });
         },
         videos: function (hit) {
-            // What is said in it when that matched, else its AI summary (peertube_sync.py), else its description.
+            // Its AI summary (peertube_sync.py) rather than a loose line of the
+            // captions; what is said in it only for a video without one, else its description.
             var said = hit._highlightResult && hit._highlightResult.transcript;
             var inTranscript = said && said.matchedWords && said.matchedWords.length;
             var minutes = Math.round((hit.duration || 0) / 60);
@@ -787,10 +794,10 @@
                 hit.url,
                 ICON_PLAY,
                 { hit: hit, attribute: 'title', fallback: hit.title },
-                inTranscript
-                    ? { hit: hit, attribute: 'transcript', fallback: '' }
-                    : hit.summary
-                        ? { hit: hit, attribute: 'summary', fallback: hit.summary }
+                hit.summary
+                    ? { hit: hit, attribute: 'summary', fallback: hit.summary }
+                    : inTranscript
+                        ? { hit: hit, attribute: 'transcript', fallback: '' }
                         : { hit: hit, attribute: 'description', fallback: String(hit.description || '').slice(0, 300) },
                 [t('videos')].concat(facts),
                 hit.image,
