@@ -38,4 +38,4 @@
 	</div>
 </main>
 {{!-- The channels page: /canales on the Spanish site, /categories on the English one. --}}
-{{#get "pages" filter="slug:[canales,categories]" limit="1" fields="url"}}{{#foreach pages}}<a class="gh-article-tag" href="{{url}}">{{t "more channels"}}</a>{{/foreach}}{{/get}}
+{{#get "pages" filter="slug:[canales,categories]" limit="1"}}{{#foreach pages}}<a class="gh-article-tag" href="{{url}}">{{t "more channels"}}</a>{{/foreach}}{{/get}}
