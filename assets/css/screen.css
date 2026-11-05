@@ -4907,6 +4907,87 @@ h5 {
   text-underline-offset: 3px;
 }
 
+/* The channel's picture: paper and ink in both modes, as the covers. */
+.custom-archive .item-cover {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .custom-archive .loop-wrap.is-tags .item.is-channel {
+    align-items: center;
+    gap: 3.2rem;
+  }
+
+  .custom-archive .is-channel .item-icon {
+    display: none;
+  }
+
+  .custom-archive .item-cover {
+    display: block;
+    position: relative;
+    flex: none;
+    overflow: hidden;
+    width: 30%;
+    aspect-ratio: 16 / 10;
+    border: 1px solid var(--cn-ui-line);
+    border-radius: 1rem;
+    background-color: var(--cn-paper);
+    color: var(--cn-ink);
+    container-type: inline-size;
+  }
+
+  /* Sized on the picture's width, so it is cut the same at any width:
+     at the foot, and at the right on a long name. */
+  .custom-archive .item-cover-name {
+    position: absolute;
+    bottom: -0.24em;
+    left: -0.04em;
+    font-family: var(--gh-font-heading);
+    font-size: 30cqi;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    white-space: nowrap;
+  }
+
+  .custom-archive .item-cover-name > span {
+    margin-right: 0.12em;
+    color: var(--cn-violeta-papel);
+  }
+
+  /* As the "community" label on the course covers. */
+  .custom-archive .item-cover-label {
+    display: inline-flex;
+    position: absolute;
+    top: 8%;
+    right: 6%;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.9rem 0.3rem 0.7rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .custom-archive .item-cover-label .gh-channel-icon {
+    margin: 0;
+  }
+
+  .custom-archive .item-cover-label svg {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+
+  /* Ink only: the icon's tinted fill is a second shade the label does without. */
+  .custom-archive .item-cover-label [opacity] {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .custom-archive .loop-wrap.is-tags .item.is-channel {
     gap: 1.4rem;

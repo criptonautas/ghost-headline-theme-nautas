@@ -22,6 +22,9 @@
     --cn-mask-light: #E8E6E1;
     /* Violet in shapes: logos, marks, figures (deeper in dark than the text violet). */
     --cn-violeta-tinta-formas: #5814EA;
+    /* Violet on paper (the cover-like channel pictures): the same in dark,
+       whose paper stays paper. */
+    --cn-violeta-papel: #5814EA;
 
     /* The interface: ground, header, raised surface, rules, text and
        secondary text. Light: the theme's own white ground and header, grey

@@ -15,15 +15,22 @@
 	{{#get "tags" limit="100" filter="visibility:public" include="count.posts" order="count.posts desc" as |tags|}}
 	{{#if tags}}
 	{{!-- An index rather than cards, so a channel never passes for a post:
-		a row each, its icon, the name in the post cards' heading, its count,
-		description and newest three titles. --}}
+		a row each, its picture (its icon on phones), the name in the post
+		cards' heading, its count, description and newest three titles. --}}
 	<ol class="loop-wrap is-tags">
 		{{#foreach tags}}
 		{{#if count.posts}}
 		<li class="item is-channel">
+			{{!-- From 768px: a picture in the covers' paper, the name huge and
+				cut by its edges, and the "channel" label of the course covers;
+				it says "tag" so the name beside it goes without the hash. --}}
+			<a class="item-cover" href="{{url}}" tabindex="-1" aria-hidden="true">
+				<span class="item-cover-name"><span>#</span>{{name}}</span>
+				<span class="item-cover-label">{{> "channel-icon" slug=slug}}{{t "Channel"}}</span>
+			</a>
 			<span class="item-icon">{{> "channel-icon" slug=slug}}</span>
 			<div class="item-content">
-				<h2 class="item-title"><a href="{{url}}">#{{name}}</a></h2>
+				<h2 class="item-title"><a href="{{url}}">{{name}}</a></h2>
 				<small>{{plural count.posts empty=(t "no posts") singular=(t "1 post") plural=(t "% posts")}}</small>
 				{{#if description}}
 				<p class="item-excerpt">{{description}}</p>
