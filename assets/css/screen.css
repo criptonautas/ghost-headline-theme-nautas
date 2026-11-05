@@ -4936,6 +4936,17 @@ h5 {
     container-type: inline-size;
   }
 
+  .custom-archive .item-cover.has-image {
+    aspect-ratio: 1200 / 630;
+  }
+
+  .custom-archive .item-cover img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   /* Sized on the picture's width, so it is cut the same at any width:
      at the foot, and at the right on a long name. */
   .custom-archive .item-cover-name {

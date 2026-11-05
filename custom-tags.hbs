@@ -21,13 +21,20 @@
 		{{#foreach tags}}
 		{{#if count.posts}}
 		<li class="item is-channel">
-			{{!-- From 768px: a picture in the covers' paper, the name huge and
-				cut by its edges, and the "channel" label of the course covers;
-				it says "tag" so the name beside it goes without the hash. --}}
+			{{!-- From 768px: the channel's social image (criptonautas-featured-cover,
+				channel style); without one, a picture drawn here in the covers'
+				paper, the name huge and cut by its edges. Either says "tag", so
+				the name beside it goes without the hash. --}}
+			{{#if og_image}}
+			<a class="item-cover has-image" href="{{url}}" tabindex="-1" aria-hidden="true">
+				<img src="{{img_url og_image size="m"}}" alt="" width="1200" height="630" loading="lazy" decoding="async">
+			</a>
+			{{else}}
 			<a class="item-cover" href="{{url}}" tabindex="-1" aria-hidden="true">
 				<span class="item-cover-name"><span>#</span>{{name}}</span>
 				<span class="item-cover-label">{{> "channel-icon" slug=slug}}{{t "Channel"}}</span>
 			</a>
+			{{/if}}
 			<span class="item-icon">{{> "channel-icon" slug=slug}}</span>
 			<div class="item-content">
 				<h2 class="item-title"><a href="{{url}}">{{name}}</a></h2>
