@@ -41,7 +41,7 @@
 				{{/if}}
 				{{#get "posts" filter="tag:{{slug}}" limit="3" fields="id,title,url" as |latest|}}
 				<ul class="item-latest">
-					{{#foreach latest}}<li><a href="{{url}}">{{title}}</a></li>{{/foreach}}
+					{{#foreach latest}}<li><a href="{{this.url}}">{{title}}</a></li>{{/foreach}}
 				</ul>
 				{{/get}}
 			</div>
