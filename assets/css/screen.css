@@ -4830,7 +4830,6 @@ h5 {
   max-width: 86rem;
   margin: 0 auto;
   padding: 0;
-  border-top: 1px solid var(--cn-ui-line);
   list-style: none;
 }
 
@@ -4840,7 +4839,6 @@ h5 {
   gap: 2rem;
   margin: 0;
   padding: 2.8rem 0;
-  border-bottom: 1px solid var(--cn-ui-line);
 }
 
 .custom-archive .is-channel .item-icon {
@@ -4927,7 +4925,7 @@ h5 {
     position: relative;
     flex: none;
     overflow: hidden;
-    width: 30%;
+    width: 44%;
     aspect-ratio: 16 / 10;
     border: 1px solid var(--cn-ui-line);
     border-radius: 1rem;
@@ -4988,12 +4986,11 @@ h5 {
     display: none;
   }
 
-  /* Over the newest post's image: inked down to the name, which shows whole. */
+  /* Over the newest post's image: washed in the page's own ground down to
+     the name, which shows whole; paper in light, ink in dark. */
   .custom-archive .item-cover:has(img) {
     aspect-ratio: 1200 / 630;
     border-color: transparent;
-    background-color: var(--cn-ink);
-    color: var(--cn-paper);
   }
 
   .custom-archive .item-cover img {
@@ -5009,6 +5006,15 @@ h5 {
     content: "";
     position: absolute;
     inset: 0;
+    background: linear-gradient(to top, rgb(232 230 225 / 0.94), rgb(232 230 225 / 0.72) 45%, rgb(232 230 225 / 0.4));
+  }
+
+  html[data-theme="dark"] .custom-archive .item-cover:has(img) {
+    background-color: var(--cn-ink);
+    color: var(--cn-paper);
+  }
+
+  html[data-theme="dark"] .custom-archive .item-cover:has(img)::after {
     background: linear-gradient(to top, rgb(20 17 15 / 0.92), rgb(20 17 15 / 0.7) 45%, rgb(20 17 15 / 0.45));
   }
 
@@ -5024,12 +5030,23 @@ h5 {
     letter-spacing: -0.04em;
   }
 
-  .custom-archive .item-cover:has(img) .item-cover-name > span {
+  html[data-theme="dark"] .custom-archive .item-cover:has(img) .item-cover-name > span {
     color: #C89DFF;
   }
 
   .custom-archive .item-cover:has(img) .item-cover-label {
+    background-color: rgb(232 230 225 / 0.6);
+  }
+
+  html[data-theme="dark"] .custom-archive .item-cover:has(img) .item-cover-label {
     background-color: rgb(20 17 15 / 0.5);
+  }
+}
+
+/* A fifth more than the 30% it started at, from where the text has room. */
+@media screen and (min-width: 1200px) {
+  .custom-archive .item-cover {
+    width: 36%;
   }
 }
 

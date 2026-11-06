@@ -7,11 +7,6 @@
 	{{/if}}
 </div>
 <div class="custom-archive loop-section global-padding">
-	<div class="global-subtitle">
-		<small class="global-subtitle-title">
-		{{{t "Explore our {start-bold}tags{end-bold}" start-bold="<span>" end-bold="</span>"}}}
-		</small>
-	</div>
 	{{#get "tags" limit="100" filter="visibility:public" include="count.posts" order="count.posts desc" as |tags|}}
 	{{#if tags}}
 	{{!-- An index rather than cards, so a channel never passes for a post:
