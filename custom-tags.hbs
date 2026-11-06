@@ -21,20 +21,17 @@
 		{{#foreach tags}}
 		{{#if count.posts}}
 		<li class="item is-channel">
-			{{!-- From 768px: the channel's social image (criptonautas-featured-cover,
-				channel style); without one, a picture drawn here in the covers'
-				paper, the name huge and cut by its edges. Either says "tag", so
-				the name beside it goes without the hash. --}}
-			{{#if og_image}}
-			<a class="item-cover has-image" href="{{url}}" tabindex="-1" aria-hidden="true">
-				<img src="{{img_url og_image size="m"}}" alt="" width="1200" height="630" loading="lazy" decoding="async">
-			</a>
-			{{else}}
+			{{!-- From 768px: a picture in the covers' paper, the name huge and cut by
+				its edges; over the newest post's image when it has one, so it changes
+				with each post. Either says "tag", so the name beside it goes without
+				the hash. --}}
 			<a class="item-cover" href="{{url}}" tabindex="-1" aria-hidden="true">
+				{{#get "posts" filter="tag:{{slug}}" limit="1" fields="feature_image" as |newest|}}{{#foreach newest}}{{#if feature_image}}
+				<img src="{{img_url feature_image size="m"}}" alt="" loading="lazy" decoding="async">
+				{{/if}}{{/foreach}}{{/get}}
 				<span class="item-cover-name"><span>#</span>{{name}}</span>
 				<span class="item-cover-label">{{> "channel-icon" slug=slug}}{{t "Channel"}}</span>
 			</a>
-			{{/if}}
 			<span class="item-icon">{{> "channel-icon" slug=slug}}</span>
 			<div class="item-content">
 				<h2 class="item-title"><a href="{{url}}">{{name}}</a></h2>
@@ -42,7 +39,7 @@
 				{{#if description}}
 				<p class="item-excerpt">{{description}}</p>
 				{{/if}}
-				{{#get "posts" filter="tag:{{slug}}" limit="3" fields="title,url" as |latest|}}
+				{{#get "posts" filter="tag:{{slug}}" limit="3" fields="id,title,url" as |latest|}}
 				<ul class="item-latest">
 					{{#foreach latest}}<li><a href="{{url}}">{{title}}</a></li>{{/foreach}}
 				</ul>
