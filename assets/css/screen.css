@@ -5006,7 +5006,7 @@ h5 {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgb(232 230 225 / 0.94), rgb(232 230 225 / 0.72) 45%, rgb(232 230 225 / 0.4));
+    background: linear-gradient(to top, rgb(232 230 225 / 0.86), rgb(232 230 225 / 0.5) 45%, rgb(232 230 225 / 0.15));
   }
 
   html[data-theme="dark"] .custom-archive .item-cover:has(img) {
