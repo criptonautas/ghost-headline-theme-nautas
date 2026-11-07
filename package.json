@@ -62,7 +62,7 @@
             },
             "github_url": {
                 "type": "text",
-                "default": "https://github.com/somos-criptonautas/",
+                "default": "https://github.com/criptonautas/",
                 "description": "GitHub link in the footer. Empty hides it."
             },
             "footer_note": {
