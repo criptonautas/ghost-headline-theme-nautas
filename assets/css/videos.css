@@ -575,6 +575,8 @@
 
 .gh-feed > .gh-channel-videos {
     grid-column: 1 / -1;
+    /* Set apart from the posts that follow it, past the feed's own gap. */
+    margin-bottom: 4rem;
 }
 
 .gh-channel-videos[hidden] {
