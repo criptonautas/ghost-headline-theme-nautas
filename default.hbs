@@ -224,7 +224,10 @@
     </div>
     </div>
 
-    {{#is "post, page"}}{{> "toc-toggle"}}{{#if @custom.back_to_top}}{{> "to-top"}}{{/if}}{{/is}}
+    {{#is "post, page"}}{{> "toc-toggle"}}{{/is}}
+    {{!-- Back to top where nothing follows the text: pages, and posts on the
+        "post no suggested" template, which asks for it. --}}
+    {{#is "page"}}{{> "to-top"}}{{else}}{{{block "to_top"}}}{{/is}}
     {{!-- Not on the landing: it has its own mascot and ways to reach us. --}}
     {{^is "home"}}{{> "chat"}}{{/is}}
     {{!-- Not on the landing: it has its own ways to reach us. --}}

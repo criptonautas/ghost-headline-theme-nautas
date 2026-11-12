@@ -1,4 +1,4 @@
-/* Back to top (partials/to-top.hbs, posts only). Ships inside main.min.js.
+/* Back to top (partials/to-top.hbs, pages and "post no suggested" posts). Ships inside main.min.js.
  *
  * Shows after a screen of scrolling; the ring fills with the share of the
  * article (.gh-content) that has scrolled past the bottom of the window.
