@@ -6040,6 +6040,69 @@ html.js .gh-loadmore {
   display: none;
 }
 
+/* Two cards' room under the feed, shown only when the next page is slow
+   (assets/js/main.js); without scripts there is the link instead. */
+.gh-feed-skeleton {
+  display: none;
+}
+
+html.js .gh-feed-skeleton {
+  display: grid;
+  gap: 2.4rem;
+  visibility: hidden;
+  text-align: left;
+}
+
+html.js .gh-feed-skeleton.is-waiting {
+  visibility: visible;
+  animation: gh-feed-skeleton 1.4s ease-in-out infinite alternate;
+}
+
+.gh-feed-skeleton-card + .gh-feed-skeleton-card {
+  display: none;
+}
+
+.gh-feed-skeleton-card span {
+  display: block;
+  height: 1.6rem;
+  margin-top: 1.2rem;
+  border-radius: 0.4rem;
+  background-color: var(--cn-ui-sunken);
+}
+
+.gh-feed-skeleton-card span:first-child {
+  height: auto;
+  margin-top: 0;
+  aspect-ratio: 3 / 2;
+  border-radius: 1rem;
+}
+
+.gh-feed-skeleton-card span:last-child {
+  width: 60%;
+}
+
+@media screen and (min-width: 768px) {
+  html.js .gh-feed-skeleton {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gh-feed-skeleton-card + .gh-feed-skeleton-card {
+    display: block;
+  }
+}
+
+@keyframes gh-feed-skeleton {
+  to {
+    opacity: 0.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .gh-feed-skeleton.is-waiting {
+    animation: none;
+  }
+}
+
 /* Tablet/mobile header bar */
 .gh-head-search-field,
 .gh-head-bar-toggle {

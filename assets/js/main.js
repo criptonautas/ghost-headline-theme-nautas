@@ -2,6 +2,38 @@
     pagination(true);
 })();
 
+/* The feed skeleton (partials/feed-skeleton.hbs): pagination() loads the next
+   page as the footer it sits in comes into view, and the new posts push it
+   back out. Only if it is still in view after WAIT does it show: the server
+   answers in ~150 ms, so a normal connection never sees it. */
+(function () {
+    var skeleton = document.querySelector('.gh-feed-skeleton');
+    if (!skeleton || !('IntersectionObserver' in window)) return;
+
+    var WAIT = 600;
+    var timer;
+    var inView = false;
+
+    // Again on each batch of posts: it may still be in view, or the last page came.
+    var check = function () {
+        clearTimeout(timer);
+        skeleton.classList.remove('is-waiting');
+        if (!document.querySelector('link[rel=next]')) {
+            skeleton.remove();
+        } else if (inView) {
+            timer = setTimeout(function () {
+                skeleton.classList.toggle('is-waiting', !!document.querySelector('link[rel=next]'));
+            }, WAIT);
+        }
+    };
+
+    new IntersectionObserver(function (entries) {
+        inView = entries[entries.length - 1].isIntersecting;
+        check();
+    }).observe(skeleton);
+    new MutationObserver(check).observe(document.querySelector('.gh-feed'), {childList: true});
+})();
+
 (function () {
     if (!document.body.classList.contains('post-template')) return;
 

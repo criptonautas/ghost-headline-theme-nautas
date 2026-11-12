@@ -31,6 +31,7 @@
 		</div>
 		{{#if pagination.next}}
 		<footer class="gh-topic-footer">
+		    {{> "feed-skeleton"}}
 			<a class="gh-topic-link gh-loadmore" href="{{page_url pagination.next}}">{{t "Show more"}} {{> "icons/arrow"}}</a>
 		</footer>
 		{{/if}}
