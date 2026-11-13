@@ -28,7 +28,8 @@
     var GENERAL = {id: CHANNEL, url: CHANNEL_URL, title: P.channelSlug(CHANNEL_URL)};
     var chosen = GENERAL;
 
-    if (!CHANNEL || CHANNEL_URL.indexOf(ORIGIN + '/chat/') !== 0 || P.isHidden(root.getAttribute('data-slug'), root.getAttribute('data-hidden'))) {
+    // Not where back to top is (pages, "post no suggested"): the corner is its.
+    if (!CHANNEL || CHANNEL_URL.indexOf(ORIGIN + '/chat/') !== 0 || document.querySelector('.gh-to-top') || P.isHidden(root.getAttribute('data-slug'), root.getAttribute('data-hidden'))) {
         root.remove();
         return;
     }
