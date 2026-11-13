@@ -6,19 +6,20 @@
 }
 
 /* The envelope is drawn on 160 of Phosphor's 256 units, so it needs a larger
-   box to read as large as the theme toggle. The negative margins keep its old
-   30px footprint: neither the bar's height nor the logo's room changes. */
+   box to read as large as the theme toggle; at 40px it read larger. The
+   negative margins keep its old 30px footprint: neither the bar's height nor
+   the logo's room changes. */
 #gh-head .cn-feedback-open.gh-icon-btn {
     flex: none;
-    width: 40px;
-    height: 40px;
-    margin: -5px calc(0.8rem - 5px) -5px -5px;
+    width: 34px;
+    height: 34px;
+    margin: -2px calc(0.8rem - 2px) -2px -2px;
     padding: 0;
 }
 
 .gh-head-more .cn-feedback-open svg {
-    width: 3.4rem;
-    height: 3.4rem;
+    width: 3rem;
+    height: 3rem;
 }
 
 @media (max-width: 767px) {
