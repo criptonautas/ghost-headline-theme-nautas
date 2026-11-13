@@ -15,7 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      # Keeps the token: the last step pushes the vendor/search-update branch.
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: true # zizmor: ignore[artipacked]
 
       # Both are unmodified vendor builds. Majors are pinned: a major bump
       # is a breaking API change in assets/js/search-modal.js, which should be

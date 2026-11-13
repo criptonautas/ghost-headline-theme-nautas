@@ -3,7 +3,7 @@ on:
   # Deploy only what passed Test: this runs when the Test workflow finishes,
   # and the job below goes ahead only for a successful run on a push to main.
   # Test fails when assets/built is stale, so a stale bundle never ships.
-  workflow_run:
+  workflow_run: # zizmor: ignore[dangerous-triggers] only same-repo pushes to main pass the job's if
     workflows: [Test]
     types: [completed]
     branches: [main]
@@ -15,12 +15,16 @@ concurrency:
   group: deploy-theme
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (github.event.workflow_run.conclusion == 'success' &&
-       github.event.workflow_run.event == 'push')
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_repository.full_name == github.repository)
     runs-on: ubuntu-latest
     strategy:
       # A failure on one site never stops the other's deploy.
@@ -28,14 +32,11 @@ jobs:
       matrix:
         include:
           - site: es
-            url_secret: GHOST_ADMIN_API_URL
-            key_secret: GHOST_ADMIN_API_KEY
           - site: en
-            url_secret: GHOST_EN_ADMIN_API_URL
-            key_secret: GHOST_EN_ADMIN_API_KEY
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4.4.0
         with:
+          persist-credentials: false
           # The commit Test actually checked, not whatever main is now.
           ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
@@ -45,9 +46,11 @@ jobs:
       - name: Skip if main has moved on
         id: latest
         if: github.event_name == 'workflow_run'
+        env:
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
         run: |
           head=$(git ls-remote origin refs/heads/main | cut -f1)
-          if [ "$head" != "${{ github.event.workflow_run.head_sha }}" ]; then
+          if [ "$head" != "$HEAD_SHA" ]; then
             echo "main is at $head; a newer run deploys it."
             echo "stale=true" >> "$GITHUB_OUTPUT"
           fi
@@ -58,7 +61,8 @@ jobs:
       - name: Preflight - Ghost Admin API must be reachable
         if: steps.latest.outputs.stale != 'true'
         env:
-          API_URL: ${{ secrets[matrix.url_secret] }}
+          # Named secrets only: secrets[...] would hand the job every repo secret.
+          API_URL: ${{ matrix.site == 'es' && secrets.GHOST_ADMIN_API_URL || secrets.GHOST_EN_ADMIN_API_URL }}
         run: |
           url="${API_URL%/}/ghost/api/admin/themes/"
           code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$url" || echo 000)
@@ -78,10 +82,10 @@ jobs:
 
       - name: Deploy Ghost Theme
         if: steps.latest.outputs.stale != 'true'
-        uses: TryGhost/action-deploy-theme@b1ff2a5eeac1d5438a0aab35eb996fe4010d889e # v2.0.4
+        uses: TryGhost/action-deploy-theme@v2.0.4
         with:
-          api-url: ${{ secrets[matrix.url_secret] }}
-          api-key: ${{ secrets[matrix.key_secret] }}
+          api-url: ${{ matrix.site == 'es' && secrets.GHOST_ADMIN_API_URL || secrets.GHOST_EN_ADMIN_API_URL }}
+          api-key: ${{ matrix.site == 'es' && secrets.GHOST_ADMIN_API_KEY || secrets.GHOST_EN_ADMIN_API_KEY }}
           version: 'v5.0'
           theme-name: 'ghost-headline-theme-nautas'
           exclude: ".github pnpm-lock.yaml pnpm-workspace.yaml gulpfile.js README.md CLAUDE.md AGENTS.md LICENSE node_modules *.map"
