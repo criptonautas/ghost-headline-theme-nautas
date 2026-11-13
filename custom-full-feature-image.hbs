@@ -18,6 +18,9 @@
     </section>
 
     <main class="gh-main">
+        {{!-- Posts in the same 1500px column as post.hbs, or past it the TOC
+            sat at the window's left edge. Pages keep the full width. --}}
+        {{#is "post"}}<div class="gh-inner">{{/is}}
         {{#is "post"}}
         <article class="gh-article {{post_class}}">
             <header class="gh-article-header gh-canvas">
@@ -56,6 +59,6 @@
         </article>
         {{/post}}
         {{> "related-posts"}}
-
+        {{#is "post"}}</div>{{/is}}
     </main>
     {{#contentFor "body_class"}} has-full-image{{/contentFor}}
