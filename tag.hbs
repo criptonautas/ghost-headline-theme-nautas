@@ -16,8 +16,8 @@
 </div>
 {{/tag}}
 {{!-- The same cards as /blog (loop-grid: padding, excerpt, channel and
-    level), then the tag's forum topics after the first page's last post, the
-    block under an article. Later pages load in after it (infinite scroll). --}}
+    level), then the tag's forum topics after the first page's last post, in
+    the strip /blog has. Later pages load in after it (infinite scroll). --}}
 <main class="gh-main gh-outer">
 	<div class="gh-inner">
 	<div class="gh-topic gh-topic-grid gh-topic-grid-item gh-listing">
@@ -26,7 +26,7 @@
 			{{> "loop-grid" has_large_post=false}}
 			{{!-- The channel's videos after the sixth post, or after the last with fewer. --}}
 			{{^is "paged"}}{{#has number="6"}}{{> "channel-videos" category=../tag.slug}}{{else}}{{#if @last}}{{#has number="1,2,3,4,5"}}{{> "channel-videos" category=../tag.slug}}{{/has}}{{/if}}{{/has}}{{/is}}
-			{{^is "paged"}}{{#if @last}}{{> "community-related" category=../tag.slug}}{{/if}}{{/is}}
+			{{^is "paged"}}{{#if @last}}{{> "community-related" category=../tag.slug strip=true}}{{/if}}{{/is}}
 			{{/foreach}}
 		</div>
 		{{#if pagination.next}}

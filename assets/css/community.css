@@ -742,21 +742,6 @@ html[data-theme="dark"] .gh-mascot:not(.is-mask) svg {
     margin: 8rem auto 0;
 }
 
-/* Tag pages: in the list after the first page's posts, across it, set off
-   from them about as far as under an article (8rem, with the list's gap). */
-.gh-feed > .gh-community-related:not(.gh-community-strip) {
-    grid-column: 1 / -1;
-    width: 100%;
-    max-width: none;
-    margin: 4rem 0 0;
-}
-
-@media screen and (min-width: 768px) {
-    .gh-feed > .gh-community-related:not(.gh-community-strip) {
-        margin-top: 3rem;
-    }
-}
-
 .gh-community-related-title {
     display: flex;
     align-items: center;
@@ -969,12 +954,18 @@ html[data-theme="dark"] .gh-mascot:not(.is-mask) svg {
     cursor: pointer;
 }
 
-/* Community strip (home.hbs, index.hbs; community-related.hbs strip=true): on phones, in
-   place of the aside, which is the column from 768px up. */
+/* Community strip (index.hbs, tag.hbs; community-related.hbs strip=true): on
+   /blog in place of the aside below 1200px, where the aside is the column; on
+   tag pages, which have no aside, at every width. */
 
 @media screen and (min-width: 1200px) {
-    .gh-community-strip {
+    .gh-with-sidebar .gh-community-strip {
         display: none;
+    }
+
+    /* Tag pages: four across, the other two a scroll away. */
+    .gh-feed > .gh-community-strip .gh-community-cards.gh-carousel {
+        grid-auto-columns: calc((100% - 3 * 1.6rem) / 4);
     }
 }
 
