@@ -5689,6 +5689,16 @@ html.no-infinite-scroll .pagination {
   padding: 6px 12px;
 }
 
+/* Tables pasted as HTML bring light colours inline (/dinero: #f7f7f8 headers,
+   #d9d9de rules), unreadable in dark: only the important flag outranks them. */
+.gh-content table:not(.gist table) :is(td, th)[style] {
+  border-color: var(--cn-ui-line) !important;
+}
+
+.gh-content table:not(.gist table) th[style] {
+  background: var(--cn-ui-soft) !important;
+}
+
 .gh-content .kg-nested-list-item {
   list-style-type: none;
 }
