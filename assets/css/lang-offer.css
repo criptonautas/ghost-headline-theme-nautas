@@ -1,0 +1,75 @@
+/* The other language (assets/js/lang-offer.js): a small note at the bottom
+   left, clear of the chat at the right; above it on phones. Fixed, so the
+   page does not move when it appears. */
+.cn-lang-offer {
+    position: fixed;
+    z-index: 90;
+    bottom: 2.4rem;
+    left: 2.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    max-width: calc(100vw - 4.8rem);
+    padding: 0.4rem 0.4rem 0.4rem 1.6rem;
+    border: 1px solid var(--cn-ui-line);
+    border-radius: 999px;
+    background-color: var(--color-bg);
+    box-shadow: var(--cn-shadow-sm);
+    font-size: 1.4rem;
+    animation: cn-lang-offer 0.3s ease-out both;
+}
+
+.cn-lang-offer a {
+    color: var(--color-base);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.cn-lang-offer a:hover,
+.cn-lang-offer a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.cn-lang-offer button {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: var(--color-secondary-text);
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.cn-lang-offer button:hover,
+.cn-lang-offer button:focus-visible {
+    background-color: var(--cn-ui-soft);
+    color: var(--color-base);
+}
+
+@media (max-width: 767px) {
+    .cn-lang-offer {
+        bottom: 7.2rem;
+        left: 1.6rem;
+        max-width: calc(100vw - 3.2rem);
+    }
+}
+
+@keyframes cn-lang-offer {
+    from {
+        opacity: 0;
+        transform: translateY(0.8rem);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cn-lang-offer {
+        animation: none;
+    }
+}
