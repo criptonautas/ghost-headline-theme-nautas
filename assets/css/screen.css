@@ -5652,9 +5652,11 @@ html.no-infinite-scroll .pagination {
 
 /* No scroll shadows: drawn at the box's edge (800px wide, past a narrow
    table's rows) and in white, they showed as a stray shadow in light and
-   white bars in dark. The table still scrolls sideways. */
+   white bars in dark. The table still scrolls sideways. Ghost's shared
+   content.css sets them; these rules undo it. */
 .gh-content table:not(.gist table) {
   -webkit-overflow-scrolling: touch;
+  background: none;
   border-collapse: collapse;
   border-spacing: 0;
   display: inline-block;
@@ -5665,6 +5667,10 @@ html.no-infinite-scroll .pagination {
   vertical-align: top;
   white-space: nowrap;
   width: auto;
+}
+
+.gh-content table:not(.gist table) td:is(:first-child, :last-child) {
+  background-image: none;
 }
 
 .gh-content table:not(.gist table) th {
