@@ -7,6 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="fediverse:creator" content="@criptonautas@mastodon.social">
     <title>{{#block "title"}}{{meta_title}}{{/block}}</title>
 
     <!-- prettier-ignore-start -->
@@ -14,9 +15,7 @@
     <!-- prettier-ignore-end -->
     {{#if @custom.discourse_url}}
     <link rel="preconnect" href="{{@custom.discourse_url}}">
-    {{#is "post"}}
-    <meta name="fediverse:creator" content="@criptonautas@mastodon.social">
-    {{#if @custom.discourse_comments}}
+    {{#is "post"}}{{#if @custom.discourse_comments}}
     {{! Comments: embed.js is injected at 70% scroll (assets/js/discourse-embed.js);
     fetch it early at idle priority so that moment costs nothing. A preload
     would warn as unused. Same URL, so the injected
