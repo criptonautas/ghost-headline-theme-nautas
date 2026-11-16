@@ -11,7 +11,7 @@
     <title>{{#block "title"}}{{meta_title}}{{/block}}</title>
 
     <!-- prettier-ignore-start -->
-    <link rel="stylesheet" href="{{asset " built/screen.css"}}">
+    <link rel="stylesheet" href="{{asset "built/screen.css"}}">
     <!-- prettier-ignore-end -->
     {{#if @custom.discourse_url}}
     <link rel="preconnect" href="{{@custom.discourse_url}}">
@@ -28,11 +28,11 @@
             <!-- Blocking on purpose: sets the theme before first paint. External
             rather than inline because the CSP allowlists script hashes, which
          disables 'unsafe-inline' and would block any edited inline script. -->
-            <script src="{{asset " js /theme.js"}}"></script>
+            <script src="{{asset "js /theme.js"}}"></script>
     {{#if @member}}
     {{else}}
     {{#is "home"}}
-    <link rel="stylesheet" href="{{asset " built/home.css"}}">
+    <link rel="stylesheet" href="{{asset "built/home.css"}}">
     {{/is}}
     {{/if}}
     {{!-- Pages with nothing for someone arriving from a search engine. --}}
@@ -60,10 +60,10 @@
     prefer PNG
     - apple-touch-icon is 180px, the size iOS asks for
     - the manifest carries the 192 and 512px Android icons --}}
-    <link rel="icon" href="{{asset " favicon/favicon.ico"}}" sizes="16x16 32x32">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{asset " favicon/favicon-32x32.png"}}">
-    <link rel="apple-touch-icon" href="{{asset " favicon/apple-touch-icon.png"}}">
-    <link rel="manifest" href="{{asset " favicon/site.webmanifest"}}">
+    <link rel="icon" href="{{asset "favicon/favicon.ico"}}" sizes="16x16 32x32">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset "favicon/favicon-32x32.png"}}">
+    <link rel="apple-touch-icon" href="{{asset "favicon/apple-touch-icon.png"}}">
+    <link rel="manifest" href="{{asset "favicon/site.webmanifest"}}">
     <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#181719" media="(prefers-color-scheme: dark)">
 </head>
