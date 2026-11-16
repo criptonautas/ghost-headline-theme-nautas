@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="{{@site.locale}}"{{#if @custom.discourse_url}} data-discourse="{{@custom.discourse_url}}"{{/if}}{{#if @custom.community_hidden_categories}} data-community-hidden="{{@custom.community_hidden_categories}}"{{/if}}{{#if @custom.newsletter_form}} data-newsletter-form="{{@custom.newsletter_form}}" data-newsletter-error="{{t "Could not sign up. Try again in a moment."}}" data-newsletter-placeholder="{{t "yourbest@email.com"}}"{{/if}}>
+<html lang="{{@site.locale}}" {{#if @custom.discourse_url}} data-discourse="{{@custom.discourse_url}}" {{/if}}{{#if
+    @custom.community_hidden_categories}} data-community-hidden="{{@custom.community_hidden_categories}}" {{/if}}{{#if
+    @custom.newsletter_form}} data-newsletter-form="{{@custom.newsletter_form}}" data-newsletter-error="{{t " Could not
+    sign up. Try again in a moment."}}" data-newsletter-placeholder="{{t " yourbest@email.com"}}"{{/if}}>
 
 <head>
     <meta charset="utf-8">
@@ -7,61 +10,66 @@
     <title>{{#block "title"}}{{meta_title}}{{/block}}</title>
 
     <!-- prettier-ignore-start -->
-    <link rel="stylesheet" href="{{asset "built/screen.css"}}">
+    <link rel="stylesheet" href="{{asset " built/screen.css"}}">
     <!-- prettier-ignore-end -->
     {{#if @custom.discourse_url}}
     <link rel="preconnect" href="{{@custom.discourse_url}}">
-    {{#is "post"}}{{#if @custom.discourse_comments}}
+    {{#is "post"}}
+    <meta name="fediverse:creator" content="@criptonautas@mastodon.social">
+    {{#if @custom.discourse_comments}}
     {{! Comments: embed.js is injected at 70% scroll (assets/js/discourse-embed.js);
-        fetch it early at idle priority so that moment costs nothing. A preload
-        would warn as unused. Same URL, so the injected <script> reuses it. }}
-    <link rel="prefetch" href="{{@custom.discourse_url}}/javascripts/embed.js" as="script">
-    {{/if}}{{/is}}
-    {{/if}}
-    {{!-- This site's own integrations, all in one file: see the partial. --}}
-    {{> "site-integrations" place="head"}}
-    <!-- Blocking on purpose: sets the theme before first paint. External
-         rather than inline because the CSP allowlists script hashes, which
+    fetch it early at idle priority so that moment costs nothing. A preload
+    would warn as unused. Same URL, so the injected
+    <script> reuses it. }}
+        <link rel="prefetch" href="{{@custom.discourse_url}}/javascripts/embed.js" as="script">
+            {{/if}}{{/ is}}
+            {{/if}}
+            {{!-- This site's own integrations, all in one file: see the partial. --}}
+            {{> "site-integrations" place="head"}}
+            <!-- Blocking on purpose: sets the theme before first paint. External
+            rather than inline because the CSP allowlists script hashes, which
          disables 'unsafe-inline' and would block any edited inline script. -->
-    <script src="{{asset "js/theme.js"}}"></script>
+            <script src="{{asset " js /theme.js"}}"></script>
     {{#if @member}}
     {{else}}
     {{#is "home"}}
-    <link rel="stylesheet" href="{{asset "built/home.css"}}">
+    <link rel="stylesheet" href="{{asset " built/home.css"}}">
     {{/is}}
     {{/if}}
     {{!-- Pages with nothing for someone arriving from a search engine. --}}
-    {{#is "page"}}{{#post}}{{#match slug "stats"}}<meta name="robots" content="noindex">{{else match slug "lounge"}}<meta name="robots" content="noindex">{{/match}}{{/post}}{{/is}}
+    {{#is "page"}}{{#post}}{{#match slug "stats"}}
+    <meta name="robots" content="noindex">{{else match slug "lounge"}}
+    <meta name="robots" content="noindex">{{/match}}{{/post}}{{/is}}
     {{!-- A channel with no posts yet stays out of search until it has one. --}}
-    {{#is "tag"}}{{#match pagination.total 0}}<meta name="robots" content="noindex">{{/match}}{{/is}}
+    {{#is "tag"}}{{#match pagination.total 0}}
+    <meta name="robots" content="noindex">{{/match}}{{/is}}
     {{{block "description"}}}
     {{> "schema"}}
     {{! Portal is not used on this site, and search is assets/js/search-modal.js,
-        which owns [data-ghost-search] itself - Ghost's sodo-search tag was
-        loading a file that 404s since the MagicPages build was dropped. The
-        exclude list is Ghost's supported switch; it splits on "," with no
-        trimming, so do not put a space after the comma. }}
+    which owns [data-ghost-search] itself - Ghost's sodo-search tag was
+    loading a file that 404s since the MagicPages build was dropped. The
+    exclude list is Ghost's supported switch; it splits on "," with no
+    trimming, so do not put a space after the comma. }}
     {{#if @custom.search_host}}{{ghost_head exclude="portal,search"}}{{else}}{{ghost_head exclude="portal"}}{{/if}}
     {{!-- Site icons. After {{ghost_head}} on purpose: it emits its own
-        <link rel="icon"> from the publication icon, and browsers use the last
-        one declared. Ghost only serves theme files under assets/, hence
-        assets/favicon/. The root /favicon.ico that browsers request unprompted
-        is still Ghost's publication icon - set the same image there.
+    <link rel="icon"> from the publication icon, and browsers use the last
+    one declared. Ghost only serves theme files under assets/, hence
+    assets/favicon/. The root /favicon.ico that browsers request unprompted
+    is still Ghost's publication icon - set the same image there.
 
-        - favicon.ico holds 16 and 32px; the 32px PNG is for browsers that
-          prefer PNG
-        - apple-touch-icon is 180px, the size iOS asks for
-        - the manifest carries the 192 and 512px Android icons --}}
-    <link rel="icon" href="{{asset "favicon/favicon.ico"}}" sizes="16x16 32x32">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{asset "favicon/favicon-32x32.png"}}">
-    <link rel="apple-touch-icon" href="{{asset "favicon/apple-touch-icon.png"}}">
-    <link rel="manifest" href="{{asset "favicon/site.webmanifest"}}">
+    - favicon.ico holds 16 and 32px; the 32px PNG is for browsers that
+    prefer PNG
+    - apple-touch-icon is 180px, the size iOS asks for
+    - the manifest carries the 192 and 512px Android icons --}}
+    <link rel="icon" href="{{asset " favicon/favicon.ico"}}" sizes="16x16 32x32">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{asset " favicon/favicon-32x32.png"}}">
+    <link rel="apple-touch-icon" href="{{asset " favicon/apple-touch-icon.png"}}">
+    <link rel="manifest" href="{{asset " favicon/site.webmanifest"}}">
     <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#181719" media="(prefers-color-scheme: dark)">
-
 </head>
 
-<body class="{{body_class}}{{{block "body_class"}}} {{#if
+<body class="{{body_class}}{{{block " body_class"}}} {{#if
     @site.description}}is-head-b--a_n{{else}}is-head-b--n--a{{/if}}{{#is "tag" }}{{/is}}">
     <div class="gh-site">
         <header id="gh-head" class="gh-head gh-outer">
@@ -69,66 +77,73 @@
                 <div class="gh-head-brand">
                     <div class="gh-head-brand-wrapper">
                         {{!-- Not on the landing, which opens with the logo itself.
-                            Elsewhere it leads to the blog, like the site icon. --}}
+                        Elsewhere it leads to the blog, like the site icon. --}}
                         {{^is "home"}}<a class="gh-head-logo" href="{{@site.url}}/blog/">
-                                {{!-- The logos uploaded in Ghost win: the publication logo, and
-                                    the dark one from Design -> Site-wide -> Dark logo (a theme
-                                    setting, so it empties whenever the active theme id changes).
-                                    Without a dark one, the publication logo; without either, the
-                                    site title. --}}
-                                {{#if @site.logo}}
-                                <img class="logo-nav logo-light" src="{{@site.logo}}" alt="{{@site.title}}">
-                                <img class="logo-nav logo-dark" src="{{#if @custom.dark_logo}}{{@custom.dark_logo}}{{else}}{{@site.logo}}{{/if}}" alt="{{@site.title}}">
-                                {{else}}
-                                {{@site.title}}
-                                {{/if}}
-                                </a>{{/is}}
+                            {{!-- The logos uploaded in Ghost win: the publication logo, and
+                            the dark one from Design -> Site-wide -> Dark logo (a theme
+                            setting, so it empties whenever the active theme id changes).
+                            Without a dark one, the publication logo; without either, the
+                            site title. --}}
+                            {{#if @site.logo}}
+                            <img class="logo-nav logo-light" src="{{@site.logo}}" alt="{{@site.title}}">
+                            <img class="logo-nav logo-dark"
+                                src="{{#if @custom.dark_logo}}{{@custom.dark_logo}}{{else}}{{@site.logo}}{{/if}}"
+                                alt="{{@site.title}}">
+                            {{else}}
+                            {{@site.title}}
+                            {{/if}}
+                        </a>{{/is}}
                     </div>
                     {{!-- Phone and tablet bar: the site icon as the way back to the
-                        blog, the full logo instead where it fits (screen.css).
-                        Not on the landing, where the logo is right below. --}}
+                    blog, the full logo instead where it fits (screen.css).
+                    Not on the landing, where the logo is right below. --}}
                     {{^is "home"}}{{#if @site.icon}}
-                    <a class="gh-head-icon" href="{{@site.url}}/blog/" aria-label="{{t "Blog"}}">
+                    <a class="gh-head-icon" href="{{@site.url}}/blog/" aria-label="{{t " Blog"}}">
                         <img class="gh-head-icon-mark" src="{{@site.icon}}" alt="" width="32" height="32">
                         {{#if @site.logo}}
                         <img class="logo-nav logo-light" src="{{@site.logo}}" alt="">
-                        <img class="logo-nav logo-dark" src="{{#if @custom.dark_logo}}{{@custom.dark_logo}}{{else}}{{@site.logo}}{{/if}}" alt="">
+                        <img class="logo-nav logo-dark"
+                            src="{{#if @custom.dark_logo}}{{@custom.dark_logo}}{{else}}{{@site.logo}}{{/if}}" alt="">
                         {{/if}}
                     </a>
                     {{/if}}{{/is}}
                     {{!-- Phone bar: logo | search | burger, sticky; the theme toggle
-                        shows only with the menu open, under the ✕. Tablet bar
-                        (768-991px): logo | search | menu links | theme, no burger.
-                        Desktop keeps search and theme in .gh-head-actions below;
-                        CSS shows exactly one set at any width, and display:none
-                        keeps the hidden one out of the accessibility tree.
+                    shows only with the menu open, under the ✕. Tablet bar
+                    (768-991px): logo | search | menu links | theme, no burger.
+                    Desktop keeps search and theme in .gh-head-actions below;
+                    CSS shows exactly one set at any width, and display:none
+                    keeps the hidden one out of the accessibility tree.
 
-                        A real input: assets/js/head.js hands what is typed to
-                        the search modal, so there is still one search UI. --}}
+                    A real input: assets/js/head.js hands what is typed to
+                    the search modal, so there is still one search UI. --}}
                     {{!-- The landing (home.hbs) has no search: a way to the blog instead. --}}
                     {{#is "home"}}
                     <a class="gh-head-bar-blog" href="{{@site.url}}/blog/">{{t "Go to the blog"}}</a>
                     {{else}}
                     <form class="gh-head-search-field" role="search">
                         {{> "icons/search"}}
-                        <input type="search" name="s" placeholder="{{t "Search"}}" aria-label="{{t "Search this site"}}" autocomplete="off">
+                        <input type="search" name="s" placeholder="{{t " Search"}}" aria-label="{{t " Search this
+                            site"}}" autocomplete="off">
                     </form>
                     {{/is}}
                     {{^is "home"}}{{#if @custom.feedback_webhook}}
-                    <button type="button" class="cn-feedback-open gh-icon-btn gh-head-bar-feedback" aria-label="{{t "feedback"}}" title="{{t "feedback"}}">{{> "icons/phosphor/envelope-simple"}}</button>
+                    <button type="button" class="cn-feedback-open gh-icon-btn gh-head-bar-feedback" aria-label="{{t "
+                        feedback"}}" title="{{t " feedback"}}">{{> "icons/phosphor/envelope-simple"}}</button>
                     {{/if}}{{/is}}
-                    <button type="button" class="it-dark-light gh-icon-btn gh-head-bar-toggle" aria-label="{{t "Toggle theme"}}">
+                    <button type="button" class="it-dark-light gh-icon-btn gh-head-bar-toggle" aria-label="{{t " Toggle
+                        theme"}}">
                         <div class="icon-dark">{{> icons/light}}</div>
                         <div class="icon-light">{{> icons/dark}}</div>
                     </button>
-                    <button id="gh-burger" class="gh-burger" aria-label="{{t "Toggle menu"}}"></button>
+                    <button id="gh-burger" class="gh-burger" aria-label="{{t " Toggle menu"}}"></button>
                 </div>
                 {{!-- Desktop: a bar, like Discourse Horizon's, that opens the search
-                    modal; centred from 1440px, where the logo shows (search.css). The
-                    shortcut hint is set by assets/js/head.js. --}}
+                modal; centred from 1440px, where the logo shows (search.css). The
+                shortcut hint is set by assets/js/head.js. --}}
                 {{^is "home"}}
                 <div class="gh-head-search">
-                    <button type="button" class="gh-search gh-search-bar" data-ghost-search aria-label="{{t "Search this site"}}">
+                    <button type="button" class="gh-search gh-search-bar" data-ghost-search aria-label="{{t " Search
+                        this site"}}">
                         {{> "icons/search"}}
                         <span class="gh-search-bar-label">{{t "Search"}}</span>
                         <kbd class="gh-search-bar-key" hidden></kbd>
@@ -136,11 +151,13 @@
                 </div>
                 {{/is}}
                 {{!-- Menu and theme toggle share the right-hand column on desktop; below
-                    992px this wrapper steps aside (display: contents) for the mobile sheet. --}}
+                992px this wrapper steps aside (display: contents) for the mobile sheet. --}}
                 <div class="gh-head-end">
                     <nav class="gh-head-menu">
                         {{#is "home"}}
-                        <ul class="nav"><li><a href="{{@site.url}}/blog/">{{t "Go to the blog"}}</a></li></ul>
+                        <ul class="nav">
+                            <li><a href="{{@site.url}}/blog/">{{t "Go to the blog"}}</a></li>
+                        </ul>
                         {{else}}
                         {{navigation}}
                         {{/is}}
@@ -149,9 +166,12 @@
                         <div class="actions-container">
                             <div class="nav-icons">
                                 {{^is "home"}}{{#if @custom.feedback_webhook}}
-                                <button type="button" class="cn-feedback-open gh-icon-btn" aria-label="{{t "feedback"}}" title="{{t "feedback"}}">{{> "icons/phosphor/envelope-simple"}}</button>
+                                <button type="button" class="cn-feedback-open gh-icon-btn" aria-label="{{t "
+                                    feedback"}}" title="{{t " feedback"}}">{{>
+                                    "icons/phosphor/envelope-simple"}}</button>
                                 {{/if}}{{/is}}
-                                <button type="button" class="it-dark-light gh-icon-btn" aria-label="{{t "Toggle theme"}}">
+                                <button type="button" class="it-dark-light gh-icon-btn" aria-label="{{t " Toggle
+                                    theme"}}">
                                     <div class="icon-dark">
                                         {{> icons/light}}
                                     </div>
@@ -163,20 +183,26 @@
                         </div>
                     </div>
                     {{!-- The footer's links, in the open menu below 768px, so they
-                        are reachable without scrolling to the end. Hidden above. --}}
+                    are reachable without scrolling to the end. Hidden above. --}}
                     <div class="gh-head-more">
                         {{navigation type="secondary"}}
                         <div class="it-foot-social">
                             {{#if @custom.discourse_url}}
-                            <a href="{{@custom.discourse_url}}" class="discourse" target="_blank" rel="noopener" aria-label="{{t "Community"}}">{{> "icons/discourse-duotone"}}</a>
+                            <a href="{{@custom.discourse_url}}" class="discourse" target="_blank" rel="noopener"
+                                aria-label="{{t " Community"}}">{{> "icons/discourse-duotone"}}</a>
                             {{/if}}
-                            <a href="{{@site.url}}/rss/" class="rss" target="_blank" rel="noopener" aria-label="{{t "RSS"}}">{{> "icons/phosphor/rss"}}</a>
-                            <a href="https://fedi.pub/@blog@criptonautas.co" class="fediverse" target="_blank" rel="me noopener" aria-label="{{t "Fediverse"}}: @blog@criptonautas.co">{{> "icons/phosphor/mastodon"}}</a>
+                            <a href="{{@site.url}}/rss/" class="rss" target="_blank" rel="noopener" aria-label="{{t "
+                                RSS"}}">{{> "icons/phosphor/rss"}}</a>
+                            <a href="https://fedi.pub/@blog@criptonautas.co" class="fediverse" target="_blank"
+                                rel="me noopener" aria-label="{{t " Fediverse"}}: @blog@criptonautas.co">{{>
+                                "icons/phosphor/mastodon"}}</a>
                             {{#if @custom.github_url}}
-                            <a href="{{@custom.github_url}}" class="github" target="_blank" rel="noopener" aria-label="{{t "Github"}}">{{> "icons/phosphor/github-logo"}}</a>
+                            <a href="{{@custom.github_url}}" class="github" target="_blank" rel="noopener"
+                                aria-label="{{t " Github"}}">{{> "icons/phosphor/github-logo"}}</a>
                             {{/if}}
                             {{^is "home"}}{{#if @custom.feedback_webhook}}
-                            <button type="button" class="cn-feedback-open" aria-label="{{t "feedback"}}">{{> "icons/phosphor/envelope-simple"}}</button>
+                            <button type="button" class="cn-feedback-open" aria-label="{{t " feedback"}}">{{>
+                                "icons/phosphor/envelope-simple"}}</button>
                             {{/if}}{{/is}}
                         </div>
                     </div>
@@ -202,18 +228,19 @@
         </nav>
         <div class="it-foot-social">
             {{#if @custom.discourse_url}}
-            <a href="{{@custom.discourse_url}}" class="discourse" title="{{t "Community"}}" target="_blank"
-                rel="noopener" aria-label="{{t "Community"}}">{{> "icons/discourse-duotone"}}</a>
+            <a href="{{@custom.discourse_url}}" class="discourse" title="{{t " Community"}}" target="_blank"
+                rel="noopener" aria-label="{{t " Community"}}">{{> "icons/discourse-duotone"}}</a>
             {{/if}}
-            <a href="{{@site.url}}/rss/" class="rss" title="{{t "RSS"}}" target="_blank" rel="noopener"
-                aria-label="{{t "RSS"}}">{{> "icons/phosphor/rss"}}</a>
+            <a href="{{@site.url}}/rss/" class="rss" title="{{t " RSS"}}" target="_blank" rel="noopener"
+                aria-label="{{t " RSS"}}">{{> "icons/phosphor/rss"}}</a>
             {{!-- The blog's own account (Ghost's ActivityPub), through a profile
-                card on fedi.pub: Ghost has no profile page of its own yet. --}}
-            <a href="https://fedi.pub/@blog@criptonautas.co" class="fediverse" title="@blog@criptonautas.co" target="_blank"
-                rel="me noopener" aria-label="{{t "Fediverse"}}: @blog@criptonautas.co">{{> "icons/phosphor/mastodon"}}</a>
+            card on fedi.pub: Ghost has no profile page of its own yet. --}}
+            <a href="https://fedi.pub/@blog@criptonautas.co" class="fediverse" title="@blog@criptonautas.co"
+                target="_blank" rel="me noopener" aria-label="{{t " Fediverse"}}: @blog@criptonautas.co">{{>
+                "icons/phosphor/mastodon"}}</a>
             {{#if @custom.github_url}}
-            <a href="{{@custom.github_url}}" class="github" title="{{t "Github"}}" target="_blank"
-                rel="noopener" aria-label="{{t "Github"}}">{{> "icons/phosphor/github-logo"}}</a>
+            <a href="{{@custom.github_url}}" class="github" title="{{t " Github"}}" target="_blank" rel="noopener"
+                aria-label="{{t " Github"}}">{{> "icons/phosphor/github-logo"}}</a>
             {{/if}}
         </div>
         {{#if @custom.footer_note}}<span class="no-estamos">{{@custom.footer_note}}</span>{{/if}}
@@ -226,7 +253,7 @@
 
     {{#is "post, page"}}{{> "toc-toggle"}}{{/is}}
     {{!-- Back to top where nothing follows the text: pages, and posts on the
-        "post no suggested" template, which asks for it. --}}
+    "post no suggested" template, which asks for it. --}}
     {{#is "page"}}{{> "to-top"}}{{else}}{{{block "to_top"}}}{{/is}}
     {{!-- Not on the landing: it has its own mascot and ways to reach us. --}}
     {{^is "home"}}{{> "chat"}}{{/is}}
