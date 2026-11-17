@@ -34,6 +34,7 @@ más aire.
   un subrayado punteado y una tarjeta con la definición (`assets/js/glossary.js`).
 - Lightbox con PhotoSwipe 5, solo en imágenes que tienen más para ver.
 - Prefetch nativo de enlaces y cabecera que se oculta al bajar, sin librerías extra.
+- Reproductor minimalista para tarjetas de audio de Ghost: junto al índice en desktop y con botón estático y panel compacto de lectura en mobile. Textos ES/EN, controles por teclado y sin dependencias externas.
 - El corte de la navegación móvil pasa de `767px` a `991px`, con un pequeño plugin de PostCSS
   en `gulpfile.js` limitado al CSS de navegación compartido.
 

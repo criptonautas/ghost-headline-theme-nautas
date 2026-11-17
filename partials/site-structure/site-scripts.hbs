@@ -1,4 +1,5 @@
 <script src="{{asset "built/main.min.js"}}"></script>
+{{#is "post, page"}}{{> "audio-player"}}{{/is}}
 {{#is "post"}}
 {{! tocbot.min.js and its setup (assets/js/toc.js) ship inside main.min.js }}
 {{! webmentions.js ships inside main.min.js - see partials/webmentions.hbs }}

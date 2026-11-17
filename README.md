@@ -34,6 +34,7 @@ fewer boxes, more whitespace.
   underline and a definition card (`assets/js/glossary.js`).
 - Lightbox on PhotoSwipe 5, only for images with more to see.
 - Native link prefetch and a hide-on-scroll header, no extra libraries.
+- Minimal audio player for Ghost audio cards: beside the desktop TOC and as a static launcher with a compact reading panel on mobile. ES/EN labels, keyboard controls and no external dependencies.
 - The mobile navigation breakpoint moves from `767px` to `991px`, via a small PostCSS plugin
   in `gulpfile.js` scoped to the shared nav CSS only.
 

@@ -183,5 +183,16 @@
 	"Blog": "blog",
 	"Criptonautas blog: crypto, trading and privacy": "Blog de Criptonautas: cripto, trading y privacidad",
 	"Articles and curated publications on crypto, trading and privacy, with no paid promotions.": "Artículos y publicaciones curadas sobre cripto, trading y privacidad, sin promociones pagas.",
-	"Please enter a valid email address (!)": "Ups, no pudimos avanzar. ¿Revisás tu dirección o nos ubicás en nuestra comunidad?"
+	"Please enter a valid email address (!)": "Ups, no pudimos avanzar. ¿Revisás tu dirección o nos ubicás en nuestra comunidad?",
+	"Article audio player": "Reproductor de audio del artículo",
+	"Open audio player": "Abrir reproductor",
+	"Listen": "Escuchar",
+	"Play the content, you can keep reading": "Reproduce el contenido, puedes seguir leyendo",
+	"Play audio": "Reproducir audio",
+	"Pause audio": "Pausar audio",
+	"Rewind 15 seconds": "Retroceder 15 segundos",
+	"Forward 15 seconds": "Avanzar 15 segundos",
+	"Audio progress": "Progreso del audio",
+	"Playback speed": "Velocidad de reproducción",
+	"Close audio player": "Cerrar reproductor"
 }
