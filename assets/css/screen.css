@@ -3500,6 +3500,144 @@ html[data-theme="dark"] hr {
   margin-right: auto;
 }
 
+/* Redlib's Reddit-shaped oEmbed fallback, rebuilt by redlib-embed.js. Keep
+   ordinary Reddit embeds untouched; this card needs no third-party widget. */
+.cn-redlib-card {
+  margin: 0;
+}
+
+.gh-content .cn-redlib-card-link {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+  padding: 2.2rem 2.4rem;
+  border: 2px solid var(--color-base);
+  border-radius: 1rem;
+  background: var(--cn-ui-soft);
+  box-shadow: var(--cn-shadow);
+  color: var(--color-base);
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cn-redlib-card-link:hover,
+.cn-redlib-card-link:focus-visible {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--color-base);
+}
+
+.cn-redlib-card-link:focus-visible {
+  outline: 2px solid var(--ghost-accent-color);
+  outline-offset: 4px;
+}
+
+.cn-redlib-card-meta,
+.cn-redlib-card-community,
+.cn-redlib-card-footer {
+  display: flex;
+  align-items: center;
+}
+
+.cn-redlib-card-meta {
+  justify-content: space-between;
+  gap: 1.2rem;
+}
+
+.cn-redlib-card-community {
+  min-width: 0;
+  gap: 0.9rem;
+}
+
+.cn-redlib-card-mark {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 0.7rem;
+  background: var(--color-primary);
+  color: var(--cn-on-violeta);
+  font-family: var(--font-sans);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.cn-redlib-card-subreddit {
+  overflow-wrap: anywhere;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.cn-redlib-card-source {
+  flex: none;
+  color: var(--color-secondary-text);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cn-redlib-card-title {
+  font-family: var(--gh-font-heading);
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  overflow-wrap: anywhere;
+}
+
+.cn-redlib-card-footer {
+  justify-content: space-between;
+  gap: 1.2rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-secondary-text);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.cn-redlib-card-arrow {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--cn-on-violeta);
+}
+
+.cn-redlib-card-arrow svg {
+  width: 2rem;
+  height: 2rem;
+}
+
+@media screen and (max-width: 480px) {
+  .cn-redlib-card-link {
+    gap: 1.6rem;
+    padding: 1.8rem;
+  }
+
+  .cn-redlib-card-meta {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .cn-redlib-card-source {
+    padding-left: 4.1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cn-redlib-card-link {
+    transition: none;
+  }
+}
+
 /* padding on lists */
 .gh-content li+li {
   padding-top: 1.83rem;
