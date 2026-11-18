@@ -6480,6 +6480,18 @@ a.is-external .gh-ext::after {
   }
 }
 
+/* From 1200px the logo keeps the share of the window it has at 1920px
+   (488px, 25.4%), so a narrower window shows it as a 1080p screen does
+   instead of at its full size. Below 1200px that share would squeeze the
+   search, so the bar-height logo above stays. */
+@media screen and (min-width: 1200px) {
+  #gh-head .gh-head-logo img {
+    width: 25.4vw;
+    height: auto;
+    max-height: none;
+  }
+}
+
 /* From 1440px the logo, centred search and right-hand group all fit. The right
    column never goes narrower than its links (max-content): when space runs short
    the search gives way - down to 20rem - instead of sliding under the first link. */
@@ -6496,12 +6508,9 @@ a.is-external .gh-ext::after {
     height: auto;
   }
 
-  /* In rem, as the type and the search beside it, so the logo keeps its
-     share of the bar in every browser and at any font-size setting; a
-     share of the column alone shrank it where rem sizes were larger (the
-     column is what the search and links leave). 92% caps it there. */
+  /* The 1920px share of the window (above), capped by its column. */
   #gh-head .gh-head-logo img {
-    width: min(92%, 43rem);
+    width: min(92%, 25.4vw);
     max-width: none;
     height: auto;
     max-height: none;
