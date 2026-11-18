@@ -253,8 +253,8 @@
 .cn-audio {
     --cn-audio-surface: color-mix(in srgb, var(--color-base) 3%, var(--color-bg));
     --cn-audio-panel-height: 14rem;
-    width: calc(100% - 2.4rem);
-    margin: 3rem 1.2rem;
+    width: 100%;
+    margin: 3rem 0;
     color: var(--color-base);
 }
 
@@ -276,7 +276,7 @@ html[data-theme="dark"] .cn-audio {
     width: 100%;
     min-height: 6.4rem;
     padding: 1.4rem;
-    border: 0;
+    border: 1px solid var(--color-border);
     border-radius: 1.2rem;
     background: var(--cn-audio-surface);
     color: inherit;
@@ -288,6 +288,11 @@ html[data-theme="dark"] .cn-audio {
     flex: none;
     font-weight: 700;
     white-space: nowrap;
+}
+
+.cn-audio-listen-label,
+.cn-audio-separator {
+    display: none;
 }
 
 .cn-audio-launcher-title [data-duration],
@@ -327,9 +332,19 @@ html[data-theme="dark"] .cn-audio {
     color: var(--color-bg);
 }
 
+.cn-audio-play > span {
+    display: grid;
+    place-items: center;
+    line-height: 0;
+}
+
 .cn-audio-play svg {
     width: 1.8rem;
     height: 1.8rem;
+}
+
+.cn-audio-play .cn-icon-play svg {
+    transform: translateX(0.12rem);
 }
 
 .cn-audio-icon-button svg {
@@ -353,7 +368,7 @@ html[data-theme="dark"] .cn-audio {
     left: 0;
     z-index: 85;
     height: var(--cn-audio-panel-height);
-    padding: 1rem 1.4rem max(0.4rem, env(safe-area-inset-bottom));
+    padding: 1.6rem 1.4rem max(0.4rem, env(safe-area-inset-bottom));
     border-top: 1px solid var(--color-border);
     background: var(--color-bg);
 }
@@ -379,11 +394,12 @@ html[data-theme="dark"] .cn-audio {
 }
 
 .cn-audio-open {
-    padding-bottom: 14rem;
+    --cn-audio-panel-height: 14rem;
+    padding-bottom: var(--cn-audio-panel-height);
 }
 
 .cn-audio-source {
-    margin: 0 4.4rem 0.4rem 0;
+    margin: 0 4.4rem 0.8rem 0;
     color: var(--color-secondary-text);
     font-size: 1.15rem;
     font-weight: 600;
@@ -393,8 +409,13 @@ html[data-theme="dark"] .cn-audio {
 
 .cn-audio-close {
     position: absolute;
-    top: 0.4rem;
-    right: 1rem;
+    top: 0;
+    right: 0.4rem;
+}
+
+.cn-audio-close svg {
+    width: 1.8rem;
+    height: 1.8rem;
 }
 
 .cn-audio-seek {
@@ -457,10 +478,11 @@ html[data-theme="dark"] .cn-audio {
 
     .cn-audio-panel {
         position: static;
-        display: block;
+        display: flex;
+        flex-direction: column;
         height: auto;
         padding: 1.6rem;
-        border: 0;
+        border: 1px solid var(--color-border);
         border-radius: 1.2rem;
         background: var(--cn-audio-surface);
     }
@@ -469,18 +491,39 @@ html[data-theme="dark"] .cn-audio {
         margin: 0 0 1.8rem;
     }
 
-    .cn-audio-progress {
-        display: none;
-        margin-top: 0.6rem;
+    .cn-audio-transport {
+        order: 1;
     }
 
-    .cn-audio.is-playing .cn-audio-progress {
+    .cn-audio-progress {
         display: block;
+        order: 2;
+        max-height: 0;
+        margin-top: 0;
+        overflow: hidden;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-0.4rem);
+        transition: max-height 0.2s ease, margin-top 0.2s ease, opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    }
+
+    .cn-audio:is(.is-playing, .has-played) .cn-audio-progress {
+        max-height: 6rem;
+        margin-top: 0.6rem;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
     }
 
     .cn-audio-rate {
         position: static;
         margin: -1.4rem -1rem -1.4rem 0.2rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cn-audio-progress {
+        transition: none;
     }
 }
 

@@ -18,6 +18,8 @@
         var sidebar = document.getElementById('sidebar-toc');
         var desktop = window.matchMedia('(min-width: 992px)');
         var rates = [1, 1.25, 1.5, 2];
+        var playedFor = 0;
+        var playbackStarted = 0;
 
         player.querySelector('.cn-audio-source').textContent = source ? source.textContent.trim().replace(/^(por|by)\s+/i, '').replace(/voz desde IA/ig, 'voz IA') : '';
         card.parentNode.insertBefore(marker, card);
@@ -37,12 +39,7 @@
         var place = function () {
             open(false);
             if (desktop.matches && sidebar && sidebar.isConnected && !sidebar.classList.contains('is-toc-empty')) {
-                var title = sidebar.querySelector('h3');
-                if (title) {
-                    title.after(player);
-                } else {
-                    sidebar.prepend(player);
-                }
+                sidebar.prepend(player);
             } else if (marker.parentNode) {
                 marker.parentNode.insertBefore(player, marker.nextSibling);
             }
@@ -66,6 +63,16 @@
         };
 
         var sync = function () {
+            if (playbackStarted) {
+                playedFor += Date.now() - playbackStarted;
+                playbackStarted = 0;
+            }
+            if (!audio.paused && !audio.ended && audio.readyState >= 3) {
+                playbackStarted = Date.now();
+            }
+            if (playedFor >= 5000) {
+                player.classList.add('has-played');
+            }
             player.classList.toggle('is-playing', !audio.paused && !audio.ended);
             play.setAttribute('aria-label', play.getAttribute(audio.paused ? 'data-label-play' : 'data-label-pause'));
             update();
@@ -105,7 +112,7 @@
                 open(false, true);
             }
         });
-        ['loadedmetadata', 'durationchange', 'timeupdate', 'play', 'pause', 'ended'].forEach(function (event) {
+        ['loadedmetadata', 'durationchange', 'timeupdate', 'play', 'playing', 'waiting', 'pause', 'ended'].forEach(function (event) {
             audio.addEventListener(event, sync);
         });
 

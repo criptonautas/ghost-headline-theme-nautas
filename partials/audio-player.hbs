@@ -5,13 +5,13 @@
                 <span class="cn-icon-play">{{> "icons/phosphor/play"}}</span>
                 <span class="cn-icon-pause">{{> "icons/phosphor/pause"}}</span>
             </span>
-            <span class="cn-audio-launcher-title">{{t "Listen"}} <span data-duration></span></span>
+            <span class="cn-audio-launcher-title"><span class="cn-audio-listen-label">{{t "Listen"}}</span> <span data-duration></span></span>
             <span class="cn-audio-separator" aria-hidden="true">|</span>
             <span class="cn-audio-description">{{t "Play the content, you can keep reading"}}</span>
         </button>
         <div class="cn-audio-panel" id="cn-audio-panel">
             <p class="cn-audio-source"></p>
-            <button class="cn-audio-close cn-audio-icon-button" type="button" aria-label="{{t "Close audio player"}}">{{> "icons/phosphor/close"}}</button>
+            <button class="cn-audio-close cn-audio-icon-button" type="button" aria-label="{{t "Minimize audio player"}}">{{> "icons/phosphor/minus"}}</button>
             <div class="cn-audio-progress">
                 <input class="cn-audio-seek" type="range" min="0" value="0" step="1" aria-label="{{t "Audio progress"}}">
                 <div class="cn-audio-times">

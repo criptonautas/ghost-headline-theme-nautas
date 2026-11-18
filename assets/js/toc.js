@@ -52,6 +52,11 @@
             headingsOffset: Math.round(height / 3),
             scrollSmoothOffset: -Math.round(height / 4)
         });
+        window.requestAnimationFrame(function () {
+            if (window.scrollY < height / 3) {
+                toc.scrollTop = 0;
+            }
+        });
         toggle();
     });
 

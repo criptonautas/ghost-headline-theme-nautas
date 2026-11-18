@@ -12,6 +12,10 @@
     z-index: 85;
 }
 
+body.cn-audio-open .cn-chat {
+    display: none;
+}
+
 /* Above the fixed header (z-index 90) so the phone sheet's close button is reachable. */
 .cn-chat.is-open {
     z-index: 95;
