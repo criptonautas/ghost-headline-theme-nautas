@@ -145,21 +145,27 @@ text-align: left;
    same 10%, hence 1.25 / 0.9 = 1.39em for a net +25% gutter. The vw gutter is
    independent of the root size, so it takes the plain 1.25.
 
-   The type change ramps instead of stepping twice. 0.639em is the 10% cut at
-   768px and 0.71em meets the desktop size exactly at 992px, so that boundary
-   is now continuous; the CSS-Tricks formula gives the middle term
-   (slope = (0.71 - 0.639) / (62 - 48) = 0.00507em per px = 0.507vw,
-   intercept = 0.639 - 48 * 0.00507 = 0.396em). em rather than px keeps the
-   browser's own font-size setting in play, and the em term is what keeps text
-   resizable - a vw-only size would not be. 768px still steps down from the
-   phone size, which is deliberate: the phone size is the larger of the two. */
+   768px still steps down from the phone size, which is deliberate: the
+   phone size is the larger of the two. em rather than px keeps the
+   browser's own font-size setting in play. */
 @media screen and (min-width: 768px) and (max-width: 991px) {
     html {
-        font-size: clamp(0.639em, 0.396em + 0.507vw, 0.71em) !important;
+        font-size: 0.64em !important;
     }
 
     :root {
         --gap: 1.39em;
         --margin-wrap-left-right: 6.25vw;
+    }
+}
+
+/* Narrow desktops: from the tablet size at 992px up to the full 0.71em at
+   1440px, linear in between, so text, the TOC and every rem size shrink
+   with the window instead of holding their widest-screen size. Slope =
+   (0.71 - 0.64) / (90 - 62) = 0.0025em per px = 0.25vw; intercept = 0.64 -
+   62 * 0.0025 = 0.485em. The em term keeps text resizable. */
+@media screen and (min-width: 992px) and (max-width: 1439px) {
+    html {
+        font-size: clamp(0.64em, 0.485em + 0.25vw, 0.71em) !important;
     }
 }

@@ -75,7 +75,6 @@
     var orderBox = section.querySelector('.gh-videos-order');
     var order = orderBox.querySelector('.gh-videos-select');
     var orderValue = orderBox.querySelector('.gh-videos-category-value');
-    var names = section.querySelector('.gh-videos-names');
     var loading = section.querySelector('.gh-videos-loading');
     var loadButton = section.querySelector('.gh-videos-load');
     var labelPlay = section.getAttribute('data-label-play') || 'Play';
@@ -704,19 +703,12 @@
         }
     });
 
-    /* Category picker: with two or more categories on offer. Built-in ones
-     * (ids 1-18) take the site's translation from the template; others the
-     * name the setting gives, else the instance's. Without a list in the
+    /* Category picker: with two or more categories on offer.
+     * Named as the setting gives them, else as the instance does (its
+     * categories are its own, past the built-in 1-18). Without a list in the
      * setting, the offer is the categories of the newest videos - the same
      * request as the "todos" random pool, so it costs nothing extra.
      * ------------------------------------------------------------------ */
-
-    var translated = {};
-    if (names && names.content) {
-        Array.prototype.forEach.call(names.content.querySelectorAll('option'), function (option) {
-            translated[option.value] = option.textContent.trim();
-        });
-    }
 
     var syncValue = function () {
         var option = picker.options[picker.selectedIndex];
@@ -750,7 +742,7 @@
     };
 
     var name = function (id, given, instance) {
-        return given || translated[id] || instance || '';
+        return given || instance || '';
     };
 
     if (source.categories.length) {

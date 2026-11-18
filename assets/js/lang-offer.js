@@ -1,6 +1,6 @@
 /* The other language (assets/css/lang-offer.css): when the reader's browser
  * prefers Spanish on the English site or the reverse, and the page has a
- * translation, a small dismissable note links to it. No redirect, no request:
+ * translation, a thin bar above the header links to it. No redirect, no request:
  * the translation's address is the page's own hreflang link. Closed once, it
  * stays closed in that browser.
  */
@@ -44,5 +44,7 @@
         note.remove();
     });
     note.append(go, close);
-    document.body.append(note);
+    // First in .gh-site: above the header on desktop, under the fixed bar
+    // (its padding) below 992px.
+    (document.querySelector('.gh-site') || document.body).prepend(note);
 })();
