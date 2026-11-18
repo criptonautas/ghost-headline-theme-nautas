@@ -1196,7 +1196,10 @@
                 if (cfg.mushinCollection) {
                     params[cfg.mushinCollection] = {
                         query_by: 'title,text',
-                        highlight_fields: 'title,text'
+                        highlight_fields: 'title,text',
+                        // Hister's local corpus (file:// chat exports and notes):
+                        // links a visitor cannot open, and not meant for the site.
+                        filter_by: 'domain:!=local'
                     };
                 }
                 /* Tuned per collection against real queries ("cómo usar Monero" brought
