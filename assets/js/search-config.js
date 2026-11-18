@@ -27,10 +27,11 @@ window.__NAUTAS_SEARCH_CONFIG__ = {
     // the ALIAS name from its typesense_collection setting.
     topicsCollection: 'discourse_posts',
     /* Mushin: Hister's global documents (user 0), mirrored hourly by
-     * .github/workflows/sync-mushin.yml. Empty hides the mushin toggle -
-     * keep it so until the collection exists and the key above covers it, or
-     * Typesense rejects the request and every source comes back empty. */
-    mushinCollection: '',
+     * .github/workflows/sync-mushin.yml. Off until switched on, and asked on
+     * its own when every source switched on finds nothing. Empty hides it -
+     * the key above must cover it, or Typesense rejects the request and every
+     * source comes back empty. */
+    mushinCollection: 'mushin',
     // PeerTube's public videos, mirrored by .github/workflows/sync-peertube.yml.
     videosCollection: 'videos',
 

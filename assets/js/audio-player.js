@@ -1,10 +1,12 @@
 (function () {
     var init = function () {
         var template = document.getElementById('cn-audio-player');
-        var card = document.querySelector('.gh-content .kg-audio-card');
-        var audio = card && card.querySelector('audio');
+        // Only the reading the TTS workflow adds (its Bunny folder): any other
+        // audio card in the post stays Ghost's own.
+        var audio = document.querySelector('.gh-content .kg-audio-card audio[src*="/blog-tts/"]');
+        var card = audio && audio.closest('.kg-audio-card');
 
-        if (!template || !audio) {
+        if (!template || !card) {
             return;
         }
 
@@ -109,7 +111,7 @@
         rate.addEventListener('click', function () {
             var next = (rates.indexOf(audio.playbackRate) + 1) % rates.length;
             audio.playbackRate = rates[next];
-            rate.textContent = String(audio.playbackRate).replace('.', ',') + '×';
+            rate.textContent = audio.playbackRate.toLocaleString(document.documentElement.lang) + '×';
             rate.setAttribute('aria-label', rate.dataset.label + ': ' + rate.textContent);
         });
         document.addEventListener('keydown', function (event) {
@@ -120,6 +122,32 @@
         ['loadedmetadata', 'durationchange', 'timeupdate', 'play', 'playing', 'waiting', 'pause', 'ended'].forEach(function (event) {
             audio.addEventListener(event, sync);
         });
+
+        // Lock screen, headphones and the OS media controls.
+        if ('mediaSession' in navigator && window.MediaMetadata) {
+            var image = document.querySelector('meta[property="og:image"]');
+            var heading = document.querySelector('h1');
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: heading ? heading.textContent.trim() : document.title,
+                artist: player.querySelector('.cn-audio-description').textContent,
+                artwork: image ? [{src: image.content}] : []
+            });
+            [['play', function () {
+                audio.play().catch(sync);
+            }], ['pause', function () {
+                audio.pause();
+            }], ['seekbackward', function () {
+                audio.currentTime = Math.max(0, audio.currentTime - 15);
+            }], ['seekforward', function () {
+                audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 15);
+            }], ['seekto', function (details) {
+                audio.currentTime = details.seekTime;
+            }]].forEach(function (pair) {
+                try {
+                    navigator.mediaSession.setActionHandler(pair[0], pair[1]);
+                } catch (e) {}
+            });
+        }
 
         desktop.addEventListener('change', place);
         place();

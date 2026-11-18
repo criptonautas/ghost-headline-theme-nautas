@@ -250,16 +250,14 @@
 }
 
 /* Article audio */
-.cn-audio {
-    --cn-audio-surface: color-mix(in srgb, var(--color-base) 3%, var(--color-bg));
+body {
     --cn-audio-panel-height: 14rem;
+}
+
+.cn-audio {
     width: 100%;
     margin: 3rem 0;
     color: var(--color-base);
-}
-
-html[data-theme="dark"] .cn-audio {
-    --cn-audio-surface: var(--color-bg-alt);
 }
 
 .cn-audio [hidden],
@@ -275,9 +273,9 @@ html[data-theme="dark"] .cn-audio {
     width: 100%;
     min-height: 6.4rem;
     padding: 1.4rem;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--cn-ui-line);
     border-radius: 1.2rem;
-    background: var(--cn-audio-surface);
+    background: var(--cn-ui-soft);
     color: inherit;
     text-align: left;
     cursor: pointer;
@@ -290,11 +288,6 @@ html[data-theme="dark"] .cn-audio {
     white-space: nowrap;
 }
 
-.cn-audio-listen-label,
-.cn-audio-separator {
-    display: none;
-}
-
 .cn-audio-launcher-title [data-duration],
 .cn-audio-description {
     color: var(--color-secondary-text);
@@ -305,10 +298,6 @@ html[data-theme="dark"] .cn-audio {
 .cn-audio-description {
     flex: 1;
     line-height: 1.35;
-}
-
-.cn-audio-separator {
-    color: var(--color-border);
 }
 
 .cn-audio-play,
@@ -369,7 +358,7 @@ html[data-theme="dark"] .cn-audio {
     z-index: 85;
     height: var(--cn-audio-panel-height);
     padding: 1.6rem 1.4rem max(0.4rem, env(safe-area-inset-bottom));
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--cn-ui-line);
     background: var(--color-bg);
     opacity: 0;
     visibility: hidden;
@@ -402,7 +391,6 @@ html[data-theme="dark"] .cn-audio {
 }
 
 .cn-audio-open {
-    --cn-audio-panel-height: 14rem;
     padding-bottom: var(--cn-audio-panel-height);
 }
 
@@ -490,9 +478,9 @@ html[data-theme="dark"] .cn-audio {
         flex-direction: column;
         height: auto;
         padding: 1.4rem;
-        border: 1px solid var(--color-border);
+        border: 1px solid var(--cn-ui-line);
         border-radius: 1.2rem;
-        background: var(--cn-audio-surface);
+        background: var(--cn-ui-soft);
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
@@ -532,6 +520,11 @@ html[data-theme="dark"] .cn-audio {
         top: 0.2rem;
         margin: -1.4rem -1rem -1.4rem 0.2rem;
     }
+}
+
+/* The phone panel would cover the back-to-top button. */
+body.cn-audio-open .gh-to-top {
+    bottom: calc(var(--cn-audio-panel-height) + 2rem);
 }
 
 @media (prefers-reduced-motion: reduce) {

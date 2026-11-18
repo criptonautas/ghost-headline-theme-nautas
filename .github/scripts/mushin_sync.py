@@ -14,6 +14,8 @@ import json
 import os
 import re
 import sys
+import time
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -40,9 +42,21 @@ def request(method, url, body=None, typesense=False):
     headers = {"User-Agent": UA}
     if typesense:
         headers["X-TYPESENSE-API-KEY"] = KEY
-    req = urllib.request.Request(url, data=body, method=method, headers=headers)
-    with urllib.request.urlopen(req, timeout=120) as res:
-        return res.read().decode()
+    # A dropped connection or a 5xx gets two more tries: one of them used to
+    # fail the whole run. Every call here is safe to repeat (reads, upserts,
+    # deletes by id).
+    for attempt in range(3):
+        req = urllib.request.Request(url, data=body, method=method, headers=headers)
+        try:
+            with urllib.request.urlopen(req, timeout=120) as res:
+                return res.read().decode()
+        except urllib.error.HTTPError as e:
+            if e.code < 500 or attempt == 2:
+                raise
+        except (urllib.error.URLError, ConnectionError, TimeoutError):
+            if attempt == 2:
+                raise
+        time.sleep(10 * (attempt + 1))
 
 
 def hister_docs():

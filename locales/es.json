@@ -167,10 +167,7 @@
 	"Articles and curated publications on crypto, trading and privacy, with no paid promotions.": "Artículos y publicaciones curadas sobre cripto, trading y privacidad, sin promociones pagas.",
 	"Please enter a valid email address (!)": "Ups, no pudimos avanzar. ¿Revisás tu dirección o nos ubicás en nuestra comunidad?",
 	"Article audio player": "Reproductor de audio del artículo",
-	"Open audio player": "Abrir reproductor",
-	"Listen": "Escuchar",
-	"Read with La Operadora (AI)": "Leer con La Operadora (IA)",
-	"Play the content, you can keep reading": "Reproduce el contenido, puedes seguir leyendo",
+	"Read with La Operadora (AI)": "leer con La Operadora (IA)",
 	"Play audio": "Reproducir audio",
 	"Pause audio": "Pausar audio",
 	"Rewind 15 seconds": "Retroceder 15 segundos",
@@ -186,5 +183,6 @@
 	"Monero address": "Dirección de Monero",
 	"copy address": "copiar dirección",
 	"copied": "copiada",
-	"open in wallet": "abrir en wallet"
+	"open in wallet": "abrir en wallet",
+	"on mushin · curated links, off the site": "en mushin · enlaces curados, fuera del sitio"
 }

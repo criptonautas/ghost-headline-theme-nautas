@@ -93,9 +93,17 @@
         closeReader();
         input.value = q;
         lastQuery = q;
+        if (fallback) {
+            fallback.on = false;
+            fallback = null;
+        }
         paint();
         refine(q);
     };
+    /* Mushin, switched on for one query because everything else found
+     * nothing (paint). Not the visitor's choice: never saved, and off again
+     * with the next query. */
+    var fallback = null;
     // The query whose semantic ranking is still on its way, if any.
     var meaningPending = null;
 
@@ -918,6 +926,12 @@
         });
 
         panes.list.textContent = '';
+        if (fallback && results.mushin && results.mushin.query === lastQuery && results.mushin.nbHits) {
+            var from = document.createElement('div');
+            from.className = 'ns__section-label';
+            from.textContent = t('on mushin · curated links, off the site');
+            panes.list.appendChild(from);
+        }
         for (var i = 0; ; i++) {
             var added = false;
             lists.forEach(function (source) {
@@ -1061,6 +1075,15 @@
             var r = results[source.key];
             return r && r.query === lastQuery && r.nbHits === 0;
         });
+        var mushin = SOURCES.filter(function (source) {
+            return source.key === 'mushin';
+        })[0];
+        if (answered && mushin && !mushin.on) {
+            fallback = mushin;
+            mushin.on = true;
+            search.refresh();
+            return;
+        }
         if (answered) {
             var none = document.createElement('p');
             none.className = 'ns__none';
