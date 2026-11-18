@@ -1,13 +1,13 @@
 <template id="cn-audio-player">
     <section class="cn-audio" aria-label="{{t "Article audio player"}}">
-        <button class="cn-audio-launcher" type="button" aria-expanded="false" aria-controls="cn-audio-panel" aria-label="{{t "Open audio player"}}">
+        <button class="cn-audio-launcher" type="button" aria-expanded="false" aria-controls="cn-audio-panel" aria-label="{{t "Play audio"}}" data-label-play="{{t "Play audio"}}" data-label-pause="{{t "Pause audio"}}">
             <span class="cn-audio-play cn-audio-play-launcher">
                 <span class="cn-icon-play">{{> "icons/phosphor/play"}}</span>
                 <span class="cn-icon-pause">{{> "icons/phosphor/pause"}}</span>
             </span>
-            <span class="cn-audio-launcher-title"><span class="cn-audio-listen-label">{{t "Listen"}}</span> <span data-duration></span></span>
+            <span class="cn-audio-launcher-title"><span class="cn-audio-listen-label">{{t "Read with La Operadora (AI)"}}</span> <span data-duration></span></span>
             <span class="cn-audio-separator" aria-hidden="true">|</span>
-            <span class="cn-audio-description">{{t "Play the content, you can keep reading"}}</span>
+            <span class="cn-audio-description">{{t "Read with La Operadora (AI)"}}</span>
         </button>
         <div class="cn-audio-panel" id="cn-audio-panel">
             <p class="cn-audio-source"></p>

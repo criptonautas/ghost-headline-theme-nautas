@@ -50,13 +50,24 @@
             scrollSmooth: true,
             scrollSmoothDuration: 420,
             headingsOffset: Math.round(height / 3),
-            scrollSmoothOffset: -Math.round(height / 4)
+            scrollSmoothOffset: -Math.round(height / 4),
+            // Keep the first entries visible on arrival. Tocbot otherwise
+            // centres whichever heading its top-third rule marks active.
+            disableTocScrollSync: true
         });
-        window.requestAnimationFrame(function () {
+        var syncPosition = function () {
             if (window.scrollY < height / 3) {
                 toc.scrollTop = 0;
+                return;
             }
-        });
+            var active = toc.querySelector('.is-active-li');
+            if (active && toc.scrollHeight > toc.clientHeight) {
+                toc.scrollTop = Math.max(0, active.offsetTop);
+            }
+        };
+        window.addEventListener('scroll', syncPosition, {passive: true});
+        window.addEventListener('load', syncPosition, {once: true});
+        syncPosition();
         toggle();
     });
 

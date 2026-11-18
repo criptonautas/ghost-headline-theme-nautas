@@ -13,7 +13,6 @@
         var play = player.querySelector('.cn-audio-play-main');
         var seek = player.querySelector('.cn-audio-seek');
         var rate = player.querySelector('.cn-audio-rate');
-        var source = card.querySelector('.kg-audio-title');
         var marker = document.createComment('audio-player');
         var sidebar = document.getElementById('sidebar-toc');
         var desktop = window.matchMedia('(min-width: 992px)');
@@ -21,7 +20,7 @@
         var playedFor = 0;
         var playbackStarted = 0;
 
-        player.querySelector('.cn-audio-source').textContent = source ? source.textContent.trim().replace(/^(por|by)\s+/i, '').replace(/voz desde IA/ig, 'voz IA') : '';
+        player.querySelector('.cn-audio-source').textContent = player.querySelector('.cn-audio-description').textContent;
         card.parentNode.insertBefore(marker, card);
         card.replaceWith(player);
         player.appendChild(audio);
@@ -75,11 +74,17 @@
             }
             player.classList.toggle('is-playing', !audio.paused && !audio.ended);
             play.setAttribute('aria-label', play.getAttribute(audio.paused ? 'data-label-play' : 'data-label-pause'));
+            launcher.setAttribute('aria-label', launcher.getAttribute(audio.paused ? 'data-label-play' : 'data-label-pause'));
             update();
         };
 
         launcher.addEventListener('click', function () {
-            open(true, true);
+            if (audio.paused) {
+                open(true, true);
+                audio.play().catch(sync);
+            } else {
+                audio.pause();
+            }
         });
         player.querySelector('.cn-audio-close').addEventListener('click', function () {
             open(false, true);

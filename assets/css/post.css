@@ -264,8 +264,7 @@ html[data-theme="dark"] .cn-audio {
 
 .cn-audio [hidden],
 .cn-audio:not(.is-playing) .cn-icon-pause,
-.cn-audio.is-playing .cn-icon-play,
-.cn-audio-panel {
+.cn-audio.is-playing .cn-icon-play {
     display: none;
 }
 
@@ -282,6 +281,7 @@ html[data-theme="dark"] .cn-audio {
     color: inherit;
     text-align: left;
     cursor: pointer;
+    transition: opacity 0.33s ease, visibility 0.33s;
 }
 
 .cn-audio-launcher-title {
@@ -371,14 +371,22 @@ html[data-theme="dark"] .cn-audio {
     padding: 1.6rem 1.4rem max(0.4rem, env(safe-area-inset-bottom));
     border-top: 1px solid var(--color-border);
     background: var(--color-bg);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.33s ease, visibility 0.33s;
 }
 
 .cn-audio.is-open .cn-audio-panel {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
 }
 
 .cn-audio.is-open .cn-audio-launcher {
-    display: none;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .cn-audio.is-open::before {
@@ -481,14 +489,18 @@ html[data-theme="dark"] .cn-audio {
         display: flex;
         flex-direction: column;
         height: auto;
-        padding: 1.6rem;
+        padding: 1.4rem;
         border: 1px solid var(--color-border);
         border-radius: 1.2rem;
         background: var(--cn-audio-surface);
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transition: none;
     }
 
     .cn-audio-source {
-        margin: 0 0 1.8rem;
+        margin: 0 0 1.4rem;
     }
 
     .cn-audio-transport {
@@ -509,19 +521,22 @@ html[data-theme="dark"] .cn-audio {
 
     .cn-audio:is(.is-playing, .has-played) .cn-audio-progress {
         max-height: 6rem;
-        margin-top: 0.6rem;
+        margin-top: 1rem;
         opacity: 1;
         visibility: visible;
         transform: none;
     }
 
     .cn-audio-rate {
-        position: static;
+        position: relative;
+        top: 0.2rem;
         margin: -1.4rem -1rem -1.4rem 0.2rem;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .cn-audio-launcher,
+    .cn-audio-panel,
     .cn-audio-progress {
         transition: none;
     }
