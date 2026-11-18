@@ -36,6 +36,7 @@
 @import "landing.css";
 @import "feedback.css";
 @import "lang-offer.css";
+@import "kuno-bar.css";
 
 :root {
   --head-nav-gap: 32px;

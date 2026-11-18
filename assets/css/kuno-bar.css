@@ -1,0 +1,121 @@
+/* The Kuno of the day (assets/js/kuno-bar.js): the lang bar's thin strip -
+   the fundraiser, its figures and bar, donate and close. On phones the
+   figures go and the bar becomes the strip's bottom edge. */
+.cn-kuno {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.6rem;
+    min-height: 3.6rem;
+    padding: 0.2rem 4.4rem;
+    position: relative;
+    background-color: var(--cn-ui-soft);
+    color: var(--color-secondary-text);
+    font-size: 1.4rem;
+}
+
+.cn-kuno-link {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--color-base);
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cn-kuno-label {
+    color: var(--ghost-accent-color);
+}
+
+.cn-kuno-link:hover .cn-kuno-title,
+.cn-kuno-link:focus-visible .cn-kuno-title {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.cn-kuno-figures {
+    flex: none;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.cn-kuno-track {
+    flex: none;
+    width: 8rem;
+    height: 4px;
+    overflow: hidden;
+    border-radius: 999px;
+    background-color: var(--cn-ui-line);
+}
+
+.cn-kuno-fill {
+    display: block;
+    width: var(--cn-kuno-progress, 0%);
+    height: 100%;
+    background-color: var(--ghost-accent-color);
+}
+
+.cn-kuno-donate {
+    flex: none;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-base);
+    font: inherit;
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--cn-ui-line);
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+.cn-kuno-donate:hover,
+.cn-kuno-donate:focus-visible {
+    text-decoration-color: currentColor;
+}
+
+.cn-kuno-close {
+    display: grid;
+    position: absolute;
+    top: 50%;
+    right: 0.8rem;
+    place-items: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: var(--color-secondary-text);
+    font-size: 2rem;
+    line-height: 1;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.cn-kuno-close:hover,
+.cn-kuno-close:focus-visible {
+    color: var(--color-base);
+}
+
+@media (max-width: 767px) {
+    .cn-kuno {
+        justify-content: flex-start;
+        gap: 1.2rem;
+        padding-left: 1.6rem;
+    }
+
+    .cn-kuno-figures {
+        display: none;
+    }
+
+    .cn-kuno-track {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: auto;
+        height: 2px;
+        border-radius: 0;
+    }
+}

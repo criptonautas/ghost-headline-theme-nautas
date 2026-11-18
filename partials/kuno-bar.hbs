@@ -1,0 +1,23 @@
+{{!-- The community's Kuno of the day (assets/js/kuno-bar.js): the forum's
+    fundraisers tagged with the "Kuno tag" setting, one per UTC day, in the
+    lang bar's place. Donating opens the Monero tips dialog with the
+    campaign's address. --}}
+<template id="cn-kuno-bar" data-tag="{{@custom.kuno_tag}}">
+    <div class="cn-kuno">
+        <a class="cn-kuno-link"><span class="cn-kuno-label">kuno</span> <span class="cn-kuno-title"></span></a>
+        <span class="cn-kuno-figures" data-of="{{t "of"}}"></span>
+        <span class="cn-kuno-track" role="progressbar" aria-valuemin="0" aria-valuemax="100"><span class="cn-kuno-fill"></span></span>
+        <button class="cn-kuno-donate" type="button">{{t "donate"}}</button>
+        <button class="cn-kuno-close" type="button" aria-label="{{t "Hide until tomorrow"}}">×</button>
+        <dialog class="gh-reactions-dialog gh-monero-tip-dialog">
+            <p>{{t "The donation goes straight to the fundraiser."}}</p>
+            <img class="gh-monero-tip-qr" alt="{{t "Scan from wallet"}}" width="240" height="240">
+            <input class="gh-monero-tip-address" type="text" readonly aria-label="{{t "Monero address"}}">
+            <div class="gh-monero-tip-actions">
+                <button class="gh-reactions-close gh-monero-tip-copy" type="button" data-copied="{{t "copied"}}">{{t "copy address"}}</button>
+                <a class="gh-reactions-close gh-monero-tip-wallet">{{t "open in wallet"}}</a>
+            </div>
+            <form method="dialog"><button class="gh-monero-tip-dismiss">{{t "Close"}}</button></form>
+        </dialog>
+    </div>
+</template>

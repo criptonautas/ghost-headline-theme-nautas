@@ -87,6 +87,11 @@
                 "group": "post",
                 "description": "Forum account that receives Monero tips (discourse-monero-tips plugin). Empty hides them."
             },
+            "kuno_tag": {
+                "type": "text",
+                "default": "kuno",
+                "description": "Forum tag of the Kuno fundraisers shown in a daily bar. Empty hides it."
+            },
             "community_sidebar": {
                 "type": "select",
                 "options": ["Off", "Top topics", "Latest topics", "Latest posts"],

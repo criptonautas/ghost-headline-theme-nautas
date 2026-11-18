@@ -174,5 +174,14 @@
 	"Forward 15 seconds": "Forward 15 seconds",
 	"Audio progress": "Audio progress",
 	"Playback speed": "Playback speed",
-	"Minimize audio player": "Minimize audio player"
+	"Minimize audio player": "Minimize audio player",
+	"of": "of",
+	"donate": "donate",
+	"Hide until tomorrow": "hide until tomorrow",
+	"The donation goes straight to the fundraiser.": "The donation goes straight to the fundraiser.",
+	"Scan from wallet": "Scan from wallet",
+	"Monero address": "Monero address",
+	"copy address": "copy address",
+	"copied": "copied",
+	"open in wallet": "open in wallet"
 }
