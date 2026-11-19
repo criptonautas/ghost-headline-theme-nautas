@@ -3507,6 +3507,10 @@ html[data-theme="dark"] hr {
   margin: 0;
 }
 
+.gh-content .kg-embed-card.cn-redlib-embed {
+  margin-top: 3.2rem;
+}
+
 .gh-content .cn-redlib-card-link {
   display: flex;
   flex-direction: column;

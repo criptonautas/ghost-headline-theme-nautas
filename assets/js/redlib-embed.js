@@ -56,7 +56,7 @@
         var community = element('span', 'cn-redlib-card-community');
         community.appendChild(element('span', 'cn-redlib-card-mark', 'r/'));
         if (subreddit) {
-            community.appendChild(element('span', 'cn-redlib-card-subreddit', 'r/' + subreddit));
+            community.appendChild(element('span', 'cn-redlib-card-subreddit', subreddit));
         }
         meta.appendChild(community);
         meta.appendChild(element('span', 'cn-redlib-card-source', postLink.hostname));
