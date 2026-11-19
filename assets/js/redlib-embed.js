@@ -11,6 +11,14 @@
     var supported = function (link) {
         return isReddit(link) || isRedlib(link);
     };
+    var isBareUrl = function (link) {
+        try {
+            var text = new URL(link.textContent.trim());
+            return text.href.replace(/\/$/, '') === link.href.replace(/\/$/, '');
+        } catch (error) {
+            return false;
+        }
+    };
 
     var element = function (tag, className, text) {
         var node = document.createElement(tag);
@@ -100,9 +108,9 @@
         (bookmark.closest('.kg-card') || bookmark).replaceWith(aside);
     });
 
-    // Direct links keep their place in the article but receive the same card UI.
+    // Only bare URLs become cards; descriptive inline links remain ordinary links.
     document.querySelectorAll('.gh-content a[href]').forEach(function (postLink) {
-        if (!supported(postLink) || postLink.closest('.cn-redlib-card, .kg-embed-card, .kg-bookmark-card')) {
+        if (!supported(postLink) || !isBareUrl(postLink) || postLink.closest('.cn-redlib-card, .kg-embed-card, .kg-bookmark-card')) {
             return;
         }
         var title = postLink.textContent.trim();
