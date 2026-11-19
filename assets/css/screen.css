@@ -3501,8 +3501,8 @@ html[data-theme="dark"] hr {
   margin-right: auto;
 }
 
-/* Redlib's Reddit-shaped oEmbed fallback, rebuilt by redlib-embed.js. Keep
-   ordinary Reddit embeds untouched; this card needs no third-party widget. */
+/* Reddit/Redlib oEmbeds, bookmark oneboxes and direct links share this local
+   card, rebuilt by redlib-embed.js without a third-party widget. */
 .cn-redlib-card {
   margin: 0;
 }
@@ -3510,21 +3510,22 @@ html[data-theme="dark"] hr {
 .gh-content .cn-redlib-card-link {
   display: flex;
   flex-direction: column;
-  gap: 1.8rem;
-  padding: 2.2rem 2.4rem;
-  border: 2px solid var(--color-base);
-  border-radius: 1rem;
+  gap: 1.2rem;
+  padding: 1.6rem 1.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.8rem;
   background: var(--cn-ui-soft);
   box-shadow: var(--cn-shadow);
   color: var(--color-base);
   text-decoration: none;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  opacity: 0.78;
+  transition: opacity 0.2s var(--animation-base), box-shadow 0.2s var(--animation-base);
 }
 
 .cn-redlib-card-link:hover,
 .cn-redlib-card-link:focus-visible {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 var(--color-base);
+  opacity: 1;
+  box-shadow: var(--cn-shadow-raised);
 }
 
 .cn-redlib-card-link:focus-visible {
@@ -3553,8 +3554,8 @@ html[data-theme="dark"] hr {
   display: inline-grid;
   flex: none;
   place-items: center;
-  width: 3.2rem;
-  height: 3.2rem;
+  width: 2.8rem;
+  height: 2.8rem;
   border-radius: 0.7rem;
   background: var(--color-primary);
   color: var(--cn-on-violeta);
@@ -3581,9 +3582,9 @@ html[data-theme="dark"] hr {
 
 .cn-redlib-card-title {
   font-family: var(--gh-font-heading);
-  font-size: 2.2rem;
+  font-size: 1.8rem;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.3;
   letter-spacing: -0.015em;
   overflow-wrap: anywhere;
 }
@@ -3591,7 +3592,7 @@ html[data-theme="dark"] hr {
 .cn-redlib-card-footer {
   justify-content: space-between;
   gap: 1.2rem;
-  padding-top: 1.4rem;
+  padding-top: 1rem;
   border-top: 1px solid var(--color-border);
   color: var(--color-secondary-text);
   font-size: 1.3rem;
@@ -3604,8 +3605,8 @@ html[data-theme="dark"] hr {
   display: inline-grid;
   flex: none;
   place-items: center;
-  width: 3.6rem;
-  height: 3.6rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   background: var(--color-primary);
   color: var(--cn-on-violeta);
@@ -3618,8 +3619,8 @@ html[data-theme="dark"] hr {
 
 @media screen and (max-width: 480px) {
   .cn-redlib-card-link {
-    gap: 1.6rem;
-    padding: 1.8rem;
+    gap: 1rem;
+    padding: 1.4rem;
   }
 
   .cn-redlib-card-meta {
@@ -3629,7 +3630,7 @@ html[data-theme="dark"] hr {
   }
 
   .cn-redlib-card-source {
-    padding-left: 4.1rem;
+    padding-left: 3.7rem;
   }
 }
 

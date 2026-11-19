@@ -1,10 +1,15 @@
-/* Redlib returns Reddit's oEmbed markup, but Reddit's widget cannot enhance a
- * Redlib URL. Rebuild that fallback as a local link card: no remote content,
- * no empty author line and no dependency on embed.reddit.com. */
+/* Reddit and Redlib links use one local card: oEmbed fallbacks, Ghost bookmark
+ * oneboxes and ordinary article links. No third-party widget is required. */
 (function () {
     var spanish = /^es\b/i.test(document.documentElement.lang || '');
-    var labels = {
-        action: spanish ? 'Ver en Redlib' : 'View on Redlib'
+    var isReddit = function (link) {
+        return /(^|\.)reddit\.com$/i.test(link.hostname);
+    };
+    var isRedlib = function (link) {
+        return /(^|\.)(redlib|rd)\./i.test(link.hostname);
+    };
+    var supported = function (link) {
+        return isReddit(link) || isRedlib(link);
     };
 
     var element = function (tag, className, text) {
@@ -16,43 +21,8 @@
         return node;
     };
 
-    document.querySelectorAll('.kg-embed-card blockquote.reddit-embed-bq').forEach(function (quote) {
-        var postLink = quote.querySelector('a[href]');
-        if (!postLink || !/(^|\.)(redlib|rd)\./i.test(postLink.hostname)) {
-            return;
-        }
-
-        var card = quote.closest('.kg-embed-card');
-        var subredditLink = Array.prototype.find.call(quote.querySelectorAll('a[href]'), function (link) {
-            return /\/r\/[^/]+\/?$/.test(link.pathname);
-        });
-        var subreddit = subredditLink ? subredditLink.textContent.trim().replace(/^r\//, '') : '';
-        if (!subreddit) {
-            var match = postLink.pathname.match(/^\/r\/([^/]+)/);
-            subreddit = match ? match[1] : '';
-        }
-
-        var aside = element('aside', 'cn-redlib-card');
-        var link = element('a', 'cn-redlib-card-link');
-        link.href = postLink.href;
-        link.target = '_blank';
-        link.rel = 'noopener noreferrer';
-
-        var meta = element('div', 'cn-redlib-card-meta');
-        var community = element('div', 'cn-redlib-card-community');
-        community.appendChild(element('span', 'cn-redlib-card-mark', 'r/'));
-        if (subreddit) {
-            community.appendChild(element('span', 'cn-redlib-card-subreddit', 'r/' + subreddit));
-        }
-        meta.appendChild(community);
-        meta.appendChild(element('span', 'cn-redlib-card-source', postLink.hostname));
-
-        link.appendChild(meta);
-        link.appendChild(element('span', 'cn-redlib-card-title', postLink.textContent.trim()));
-
-        var footer = element('span', 'cn-redlib-card-footer');
-        footer.appendChild(element('span', 'cn-redlib-card-action', labels.action));
-        var arrow = element('span', 'cn-redlib-card-arrow');
+    var arrow = function () {
+        var container = element('span', 'cn-redlib-card-arrow');
         var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         svg.setAttribute('viewBox', '0 0 256 256');
         svg.setAttribute('fill', 'currentColor');
@@ -69,11 +39,46 @@
             }
             svg.appendChild(path);
         });
-        arrow.appendChild(svg);
-        footer.appendChild(arrow);
-        link.appendChild(footer);
-        aside.appendChild(link);
+        container.appendChild(svg);
+        return container;
+    };
 
+    var render = function (postLink, title) {
+        var service = isReddit(postLink) ? 'Reddit' : 'Redlib';
+        var match = postLink.pathname.match(/^\/r\/([^/]+)/);
+        var subreddit = match ? match[1] : '';
+        var link = element('a', 'cn-redlib-card-link');
+        link.href = postLink.href;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+
+        var meta = element('span', 'cn-redlib-card-meta');
+        var community = element('span', 'cn-redlib-card-community');
+        community.appendChild(element('span', 'cn-redlib-card-mark', 'r/'));
+        if (subreddit) {
+            community.appendChild(element('span', 'cn-redlib-card-subreddit', 'r/' + subreddit));
+        }
+        meta.appendChild(community);
+        meta.appendChild(element('span', 'cn-redlib-card-source', postLink.hostname));
+        link.appendChild(meta);
+        link.appendChild(element('span', 'cn-redlib-card-title', title || postLink.href));
+
+        var footer = element('span', 'cn-redlib-card-footer');
+        footer.appendChild(element('span', 'cn-redlib-card-action', (spanish ? 'Ver en ' : 'View on ') + service));
+        footer.appendChild(arrow());
+        link.appendChild(footer);
+        return link;
+    };
+
+    // Reddit's oEmbed fallback is also what Ghost returns for Redlib /embed URLs.
+    document.querySelectorAll('.kg-embed-card blockquote.reddit-embed-bq').forEach(function (quote) {
+        var postLink = Array.prototype.find.call(quote.querySelectorAll('a[href]'), supported);
+        if (!postLink) {
+            return;
+        }
+        var card = quote.closest('.kg-embed-card');
+        var aside = element('aside', 'cn-redlib-card');
+        aside.appendChild(render(postLink, postLink.textContent.trim()));
         quote.replaceWith(aside);
         if (card) {
             card.classList.add('cn-redlib-embed');
@@ -81,5 +86,27 @@
                 script.remove();
             });
         }
+    });
+
+    // Classic Ghost onebox: replace the whole bookmark, not only its anchor.
+    document.querySelectorAll('.gh-content .kg-bookmark-card').forEach(function (bookmark) {
+        var postLink = bookmark.querySelector('a.kg-bookmark-container[href]');
+        if (!postLink || !supported(postLink)) {
+            return;
+        }
+        var title = bookmark.querySelector('.kg-bookmark-title');
+        var aside = element('aside', 'cn-redlib-card');
+        aside.appendChild(render(postLink, title ? title.textContent.trim() : postLink.href));
+        (bookmark.closest('.kg-card') || bookmark).replaceWith(aside);
+    });
+
+    // Direct links keep their place in the article but receive the same card UI.
+    document.querySelectorAll('.gh-content a[href]').forEach(function (postLink) {
+        if (!supported(postLink) || postLink.closest('.cn-redlib-card, .kg-embed-card, .kg-bookmark-card')) {
+            return;
+        }
+        var title = postLink.textContent.trim();
+        var card = render(postLink, title && title !== '/' ? title : postLink.href);
+        postLink.replaceWith(card);
     });
 })();
