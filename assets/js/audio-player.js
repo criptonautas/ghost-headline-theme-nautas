@@ -19,8 +19,6 @@
         var sidebar = document.getElementById('sidebar-toc');
         var desktop = window.matchMedia('(min-width: 992px)');
         var rates = [1, 1.25, 1.5, 2];
-        var playedFor = 0;
-        var playbackStarted = 0;
 
         // Ghost's card already knows the length in seconds: shown before the file's metadata loads.
         var known = Number((card.querySelector('.kg-audio-duration') || {}).textContent) || 0;
@@ -63,21 +61,10 @@
             seek.max = String(duration);
             seek.value = String(audio.currentTime);
             player.querySelector('[data-current]').textContent = time(audio.currentTime);
-            // Blank until the file's length is known, never a misleading 0:00.
-            player.querySelector('[data-duration]').textContent = duration ? time(duration) : '';
+            player.querySelector('[data-duration]').textContent = time(duration);
         };
 
         var sync = function () {
-            if (playbackStarted) {
-                playedFor += Date.now() - playbackStarted;
-                playbackStarted = 0;
-            }
-            if (!audio.paused && !audio.ended && audio.readyState >= 3) {
-                playbackStarted = Date.now();
-            }
-            if (playedFor >= 5000) {
-                player.classList.add('has-played');
-            }
             player.classList.toggle('is-playing', !audio.paused && !audio.ended);
             play.setAttribute('aria-label', play.getAttribute(audio.paused ? 'data-label-play' : 'data-label-pause'));
             update();
@@ -127,7 +114,7 @@
             var heading = document.querySelector('h1');
             navigator.mediaSession.metadata = new MediaMetadata({
                 title: heading ? heading.textContent.trim() : document.title,
-                artist: player.querySelector('.cn-audio-description').textContent,
+                artist: player.querySelector('.cn-audio-source').textContent,
                 artwork: image ? [{src: image.content}] : []
             });
             [['play', function () {

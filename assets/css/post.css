@@ -249,10 +249,10 @@
     }
 }
 
-/* Article audio (assets/js/audio-player.js): one card on every screen -
-   play, title and voice, length, and the progress bar from the start. The
-   skips join once it has played. Beside the TOC on desktop; on phones it
-   docks to the bottom of the screen while open. */
+/* Article audio (assets/js/audio-player.js): one compact card on every
+   screen - who reads and the time on top; rewind, play, forward, the
+   progress and the speed below. Beside the TOC on desktop, short enough to
+   leave it readable; on phones it docks to the bottom while open. */
 
 body {
     --cn-audio-panel-height: 14rem;
@@ -266,43 +266,56 @@ body {
 
 .cn-audio [hidden],
 .cn-audio:not(.is-playing) .cn-icon-pause,
-.cn-audio.is-playing .cn-icon-play {
+.cn-audio.is-playing .cn-icon-play,
+.cn-audio:not(.is-open) .cn-audio-close {
     display: none;
 }
 
 .cn-audio-card {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 1.2rem 1.4rem;
-    padding: 1.6rem;
+    padding: 1.2rem 1.4rem;
     border: 1px solid var(--cn-ui-line);
     border-radius: 1.2rem;
     background: var(--cn-ui-soft);
 }
 
-.cn-audio-head p {
+.cn-audio-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 2.4rem;
+}
+
+.cn-audio-source {
+    flex: 1;
+    min-width: 0;
     margin: 0;
+    overflow: hidden;
+    color: var(--color-secondary-text);
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
 }
 
-.cn-audio-title {
-    font-size: 1.6rem;
-    font-weight: 700;
-    line-height: 1.3;
-}
-
-.cn-audio-description,
-.cn-audio-duration,
-.cn-audio-time,
+.cn-audio-times,
 .cn-audio-rate {
     color: var(--color-secondary-text);
-    font-size: 1.3rem;
+    font-size: 1.25rem;
 }
 
-.cn-audio-duration,
-.cn-audio-time {
+.cn-audio-times {
+    flex: none;
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
+}
+
+.cn-audio-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.6rem;
 }
 
 .cn-audio-play,
@@ -319,8 +332,8 @@ body {
 }
 
 .cn-audio-play {
-    width: 4.8rem;
-    height: 4.8rem;
+    width: 4rem;
+    height: 4rem;
     border-radius: 50%;
     background: var(--ghost-accent-color);
     color: var(--color-bg);
@@ -333,42 +346,45 @@ body {
 }
 
 .cn-audio-play svg {
-    width: 2.2rem;
-    height: 2.2rem;
+    width: 1.8rem;
+    height: 1.8rem;
 }
 
 .cn-audio-play .cn-icon-play svg {
-    transform: translateX(0.15rem);
+    transform: translateX(0.12rem);
 }
 
 .cn-audio-icon-button {
-    width: 3.9rem;
-    height: 3.9rem;
+    width: 3.4rem;
+    height: 3.4rem;
     border-radius: 50%;
     opacity: 0.6;
 }
 
 .cn-audio-icon-button svg {
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 2.2rem;
+    height: 2.2rem;
 }
 
 .cn-audio-icon-button:hover {
     opacity: 1;
 }
 
-.cn-audio-progress {
-    display: flex;
-    grid-column: 1 / -1;
-    align-items: center;
-    gap: 1rem;
+.cn-audio-close {
+    width: 2.4rem;
+    height: 2.4rem;
+}
+
+.cn-audio-close svg {
+    width: 1.8rem;
+    height: 1.8rem;
 }
 
 .cn-audio-seek {
     flex: 1;
     min-width: 0;
     height: 2.1rem;
-    margin: 0;
+    margin: 0 0 0 0.8rem;
     padding: 0;
     accent-color: var(--ghost-accent-color);
     cursor: pointer;
@@ -380,21 +396,7 @@ body {
     font-weight: 600;
 }
 
-.cn-audio-skips {
-    display: flex;
-    grid-column: 1 / -1;
-    justify-content: center;
-    gap: 3.2rem;
-    margin-top: -0.4rem;
-}
-
-.cn-audio:not(.is-playing, .has-played, .is-open) .cn-audio-skips,
-.cn-audio:not(.is-open) .cn-audio-close {
-    display: none;
-}
-
-/* Docked: the card at the bottom of the screen, the minimize button in the
-   duration's place. */
+/* Docked: the card at the bottom of the screen. */
 .cn-audio.is-open .cn-audio-card {
     position: fixed;
     right: 0;
@@ -405,10 +407,6 @@ body {
     border-width: 1px 0 0;
     border-radius: 1.2rem 1.2rem 0 0;
     background: var(--color-bg);
-}
-
-.cn-audio.is-open .cn-audio-duration {
-    display: none;
 }
 
 .cn-audio-open {

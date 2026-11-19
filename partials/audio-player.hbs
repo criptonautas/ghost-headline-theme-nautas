@@ -1,28 +1,25 @@
-{{!-- The article's reading (assets/js/audio-player.js): one card, the same on
-    every screen - play, what it is, its length and the progress bar from the
-    start. Beside the TOC on desktop; in the text on phones, where playing
-    docks it to the bottom of the screen. --}}
+{{!-- The article's reading (assets/js/audio-player.js): one compact card,
+    the same on every screen - who reads and the time on top, the controls
+    and the progress below. Beside the TOC on desktop, small enough to keep
+    it readable; in the text on phones, where playing docks it to the bottom
+    of the screen. --}}
 <template id="cn-audio-player">
     <section class="cn-audio" aria-label="{{t "Article audio player"}}">
         <div class="cn-audio-card">
-            <button class="cn-audio-play" type="button" aria-label="{{t "Play audio"}}" data-label-play="{{t "Play audio"}}" data-label-pause="{{t "Pause audio"}}">
-                <span class="cn-icon-play">{{> "icons/phosphor/play"}}</span>
-                <span class="cn-icon-pause">{{> "icons/phosphor/pause"}}</span>
-            </button>
-            <div class="cn-audio-head">
-                <p class="cn-audio-title">{{t "listen to the article"}}</p>
-                <p class="cn-audio-description">{{t "Read with La Operadora (AI)"}}</p>
+            <div class="cn-audio-top">
+                <p class="cn-audio-source">{{t "Read with La Operadora (AI)"}}</p>
+                <span class="cn-audio-times"><span data-current>0:00</span> / <span data-duration>0:00</span></span>
+                <button class="cn-audio-close cn-audio-icon-button" type="button" aria-label="{{t "Minimize audio player"}}">{{> "icons/phosphor/minus"}}</button>
             </div>
-            <span class="cn-audio-duration" data-duration></span>
-            <button class="cn-audio-close cn-audio-icon-button" type="button" aria-label="{{t "Minimize audio player"}}">{{> "icons/phosphor/minus"}}</button>
-            <div class="cn-audio-progress">
-                <span class="cn-audio-time" data-current>0:00</span>
+            <div class="cn-audio-controls">
+                <button class="cn-audio-icon-button" type="button" data-skip="-15" aria-label="{{t "Rewind 15 seconds"}}">{{> "icons/phosphor/rewind"}}</button>
+                <button class="cn-audio-play" type="button" aria-label="{{t "Play audio"}}" data-label-play="{{t "Play audio"}}" data-label-pause="{{t "Pause audio"}}">
+                    <span class="cn-icon-play">{{> "icons/phosphor/play"}}</span>
+                    <span class="cn-icon-pause">{{> "icons/phosphor/pause"}}</span>
+                </button>
+                <button class="cn-audio-icon-button" type="button" data-skip="15" aria-label="{{t "Forward 15 seconds"}}">{{> "icons/phosphor/fast-forward"}}</button>
                 <input class="cn-audio-seek" type="range" min="0" value="0" step="1" aria-label="{{t "Audio progress"}}">
                 <button class="cn-audio-rate" type="button" aria-label="{{t "Playback speed"}}" data-label="{{t "Playback speed"}}">1×</button>
-            </div>
-            <div class="cn-audio-skips">
-                <button class="cn-audio-icon-button" type="button" data-skip="-15" aria-label="{{t "Rewind 15 seconds"}}">{{> "icons/phosphor/rewind"}}</button>
-                <button class="cn-audio-icon-button" type="button" data-skip="15" aria-label="{{t "Forward 15 seconds"}}">{{> "icons/phosphor/fast-forward"}}</button>
             </div>
         </div>
     </section>
