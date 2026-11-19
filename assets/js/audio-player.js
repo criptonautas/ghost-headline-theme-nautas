@@ -11,8 +11,8 @@
         }
 
         var player = template.content.firstElementChild.cloneNode(true);
-        var launcher = player.querySelector('.cn-audio-launcher');
-        var play = player.querySelector('.cn-audio-play-main');
+        var box = player.querySelector('.cn-audio-card');
+        var play = player.querySelector('.cn-audio-play');
         var seek = player.querySelector('.cn-audio-seek');
         var rate = player.querySelector('.cn-audio-rate');
         var marker = document.createComment('audio-player');
@@ -22,18 +22,20 @@
         var playedFor = 0;
         var playbackStarted = 0;
 
-        player.querySelector('.cn-audio-source').textContent = player.querySelector('.cn-audio-description').textContent;
         card.parentNode.insertBefore(marker, card);
         card.replaceWith(player);
         player.appendChild(audio);
 
+        // Phones: playing docks the card to the bottom of the screen; its place
+        // in the text keeps its height, so nothing below moves.
         var open = function (on, focus) {
             on = !desktop.matches && on;
+            player.style.minHeight = on ? player.offsetHeight + 'px' : '';
             player.classList.toggle('is-open', on);
             document.body.classList.toggle('cn-audio-open', on);
-            launcher.setAttribute('aria-expanded', String(on));
+            document.body.style.setProperty('--cn-audio-panel-height', on ? box.offsetHeight + 'px' : '');
             if (focus) {
-                (on ? player.querySelector('.cn-audio-close') : launcher).focus({preventScroll: true});
+                (on ? player.querySelector('.cn-audio-close') : play).focus({preventScroll: true});
             }
         };
 
@@ -58,9 +60,8 @@
             seek.max = String(duration);
             seek.value = String(audio.currentTime);
             player.querySelector('[data-current]').textContent = time(audio.currentTime);
-            player.querySelectorAll('[data-duration]').forEach(function (node) {
-                node.textContent = node.closest('.cn-audio-launcher-title') ? '· ' + time(duration) : time(duration);
-            });
+            // Blank until the file's length is known, never a misleading 0:00.
+            player.querySelector('[data-duration]').textContent = duration ? time(duration) : '';
         };
 
         var sync = function () {
@@ -76,23 +77,17 @@
             }
             player.classList.toggle('is-playing', !audio.paused && !audio.ended);
             play.setAttribute('aria-label', play.getAttribute(audio.paused ? 'data-label-play' : 'data-label-pause'));
-            launcher.setAttribute('aria-label', launcher.getAttribute(audio.paused ? 'data-label-play' : 'data-label-pause'));
             update();
         };
 
-        launcher.addEventListener('click', function () {
-            if (audio.paused) {
-                open(true, true);
-                audio.play().catch(sync);
-            } else {
-                audio.pause();
-            }
-        });
         player.querySelector('.cn-audio-close').addEventListener('click', function () {
             open(false, true);
         });
         play.addEventListener('click', function () {
             if (audio.paused) {
+                if (!player.classList.contains('is-open')) {
+                    open(true, true);
+                }
                 audio.play().catch(sync);
             } else {
                 audio.pause();
