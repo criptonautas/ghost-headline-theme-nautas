@@ -22,6 +22,9 @@
         var playedFor = 0;
         var playbackStarted = 0;
 
+        // Ghost's card already knows the length in seconds: shown before the file's metadata loads.
+        var known = Number((card.querySelector('.kg-audio-duration') || {}).textContent) || 0;
+
         card.parentNode.insertBefore(marker, card);
         card.replaceWith(player);
         player.appendChild(audio);
@@ -56,7 +59,7 @@
         };
 
         var update = function () {
-            var duration = Number.isFinite(audio.duration) ? audio.duration : 0;
+            var duration = Number.isFinite(audio.duration) ? audio.duration : known;
             seek.max = String(duration);
             seek.value = String(audio.currentTime);
             player.querySelector('[data-current]').textContent = time(audio.currentTime);
