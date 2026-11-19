@@ -18,7 +18,7 @@
 
     document.querySelectorAll('.kg-embed-card blockquote.reddit-embed-bq').forEach(function (quote) {
         var postLink = quote.querySelector('a[href]');
-        if (!postLink || !/(^|\.)redlib\./i.test(postLink.hostname)) {
+        if (!postLink || !/(^|\.)(redlib|rd)\./i.test(postLink.hostname)) {
             return;
         }
 
