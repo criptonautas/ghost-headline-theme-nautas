@@ -68,7 +68,9 @@ def hister_docs():
         for d in docs:
             # Anonymous search only sees user 0 already; checked again so the
             # site can never publish another user's scope.
-            if d.get("user_id") == 0 and d.get("url"):
+            # Only web pages: Hister's local corpus (file:// chat exports and
+            # notes) is not for the site, and a run drops what is already there.
+            if d.get("user_id") == 0 and str(d.get("url") or "").startswith(("https://", "http://")):
                 yield d
         page_key = res.get("page_key") or ""
         if not page_key or not docs:
