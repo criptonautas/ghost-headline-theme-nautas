@@ -1,6 +1,8 @@
 {{!-- Share links: WhatsApp, LinkedIn, Reddit, Twitter, the Fediverse
     (Share₂Fedi asks for the reader's instance: Mastodon, Misskey...). Plain links to each site's own share
-    URL - no third-party script, nothing loads until a reader clicks. Shown
+    URL - no third-party script, nothing loads until a reader clicks. Reddit
+    has no https: and Twitter is x.com so nginx's sub_filter (reddit to Redlib,
+    twitter to Nitter) leaves them alone. Shown
     under the TOC from 992px (in the sticky column) and, below that, at the
     end of the article (end=true), where the column is not a sidebar.
     comments_link=true adds a jump to the forum thread for templates that
@@ -12,8 +14,8 @@
         {{#if end}}<span class="gh-share-label" aria-hidden="true">{{t "Share"}}</span>{{/if}}
         <a class="gh-share-link" href="https://wa.me/?text={{encode title}}%20{{encode (url absolute="true")}}" target="_blank" rel="noopener" aria-label="{{t "Share on WhatsApp"}}">{{> "icons/phosphor/whatsapp"}}</a>
         <a class="gh-share-link" href="https://www.linkedin.com/sharing/share-offsite/?url={{encode (url absolute="true")}}" target="_blank" rel="noopener" aria-label="{{t "Share on LinkedIn"}}">{{> "icons/phosphor/linkedin"}}</a>
-        <a class="gh-share-link" href="https://www.reddit.com/submit?url={{encode (url absolute="true")}}&amp;title={{encode title}}" target="_blank" rel="noopener" aria-label="{{t "Share on Reddit"}}">{{> "icons/phosphor/reddit"}}</a>
-        <a class="gh-share-link" href="https://twitter.com/intent/tweet?text={{encode title}}&amp;url={{encode (url absolute="true")}}" target="_blank" rel="noopener" aria-label="{{t "Share on Twitter"}}">{{> "icons/phosphor/twitter"}}</a>
+        <a class="gh-share-link" href="//www.reddit.com/submit?url={{encode (url absolute="true")}}&amp;title={{encode title}}" target="_blank" rel="noopener" aria-label="{{t "Share on Reddit"}}">{{> "icons/phosphor/reddit"}}</a>
+        <a class="gh-share-link" href="https://x.com/intent/post?text={{encode title}}&amp;url={{encode (url absolute="true")}}" target="_blank" rel="noopener" aria-label="{{t "Share on Twitter"}}">{{> "icons/phosphor/twitter"}}</a>
         <a class="gh-share-link" href="https://s2f.kytta.dev/?text={{encode title}}%20{{encode (url absolute="true")}}" target="_blank" rel="noopener" aria-label="{{t "Share on the Fediverse"}}">{{> "icons/phosphor/mastodon"}}</a>
     </div>
     {{#if comments_link}}{{#if @custom.discourse_url}}
