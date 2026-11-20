@@ -3502,14 +3502,10 @@ html[data-theme="dark"] hr {
   margin-right: auto;
 }
 
-/* Reddit/Redlib oEmbeds, bookmark oneboxes and direct links share this local
-   card, rebuilt by redlib-embed.js without a third-party widget. */
+/* A bare Redlib link alone in its paragraph, as a local card
+   (redlib-embed.js, partials/redlib-card.hbs). */
 .cn-redlib-card {
   margin: 0;
-}
-
-.gh-content .kg-embed-card.cn-redlib-embed {
-  padding-top: 3.2rem;
 }
 
 .gh-content > .cn-redlib-card {

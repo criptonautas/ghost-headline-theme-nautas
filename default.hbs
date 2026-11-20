@@ -259,6 +259,7 @@
     {{!-- Not on the landing: it has its own ways to reach us. --}}
     {{^is "home"}}{{> "feedback"}}{{/is}}
     {{^is "home"}}{{#if @custom.kuno_tag}}{{> "kuno-bar"}}{{/if}}{{/is}}
+    {{> "redlib-card"}}
     {{> "site-structure/site-scripts"}}
     {{{block "scripts"}}}
     {{ghost_foot}}
