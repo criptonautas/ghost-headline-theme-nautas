@@ -3502,8 +3502,8 @@ html[data-theme="dark"] hr {
   margin-right: auto;
 }
 
-/* A bare Redlib link alone in its paragraph, as a local card
-   (redlib-embed.js, partials/redlib-card.hbs). */
+/* Reddit/Redlib oEmbeds, bookmark oneboxes and bare links share this local
+   card (redlib-embed.js, partials/redlib-card.hbs). */
 .cn-redlib-card {
   margin: 0;
 }
