@@ -98,29 +98,120 @@
             bar.remove();
         });
 
-        // The address is asked for on the click, not on every page.
-        bar.querySelector('.cn-kuno-donate').addEventListener('click', function () {
-            fetch(ORIGIN + '/kuno-nautas/campaigns/' + item.id + '/donate.json', {
+        var body = dialog.querySelector('.cn-kuno-modal-body');
+        var tip = dialog.querySelector('.cn-kuno-modal-tip');
+        var foot = dialog.querySelector('.cn-kuno-modal-foot');
+        var json = function (path) {
+            return fetch(ORIGIN + path, {
                 credentials: 'omit',
-                headers: {Accept: 'application/json'}
+                headers: {Accept: 'application/json', 'Accept-Language': lang}
             }).then(function (response) {
                 if (!response.ok) {
                     throw new Error(response.status);
                 }
                 return response.json();
-            }).then(function (tip) {
-                dialog.querySelector('.gh-monero-tip-address').value = tip.address;
-                dialog.querySelector('.gh-monero-tip-qr').src = tip.qr;
-                dialog.querySelector('.gh-monero-tip-wallet').href = tip.uri;
-                dialog.showModal();
+            });
+        };
+        var post = null;
+        var address = null;
+
+        dialog.querySelector('.cn-kuno-modal-title').textContent = item.title;
+        dialog.querySelector('.cn-kuno-modal-forum').href = link.href;
+        if (goal) {
+            dialog.querySelector('.cn-kuno-modal-progress').append(figures.cloneNode(true), track.cloneNode(true));
+        }
+
+        // The topic's first post, as the forum cooked (and sanitized) it.
+        var fill = function (topic) {
+            var holder = document.createElement('template');
+            holder.innerHTML = topic.post_stream.posts[0].cooked;
+            holder.content.querySelectorAll('[src^="/"], [href^="/"]').forEach(function (el) {
+                ['src', 'href'].forEach(function (name) {
+                    var value = el.getAttribute(name);
+                    if (value && value.charAt(0) === '/' && value.charAt(1) !== '/') {
+                        el.setAttribute(name, ORIGIN + value);
+                    }
+                });
+            });
+            holder.content.querySelectorAll('a[href]').forEach(function (a) {
+                a.target = '_blank';
+                a.rel = 'noopener';
+            });
+            body.replaceChildren(holder.content);
+        };
+
+        var showTip = function (on) {
+            tip.hidden = !on;
+            body.hidden = on;
+            foot.hidden = on;
+            (on ? tip.querySelector('.gh-monero-tip-copy') : dialog.querySelector('.cn-kuno-modal-close')).focus();
+        };
+
+        // The address is asked for on the click, not on every page.
+        var donate = function () {
+            (address || json('/kuno-nautas/campaigns/' + item.id + '/donate.json')).then(function (data) {
+                address = Promise.resolve(data);
+                tip.querySelector('.gh-monero-tip-address').value = data.address;
+                tip.querySelector('.gh-monero-tip-qr').src = data.qr;
+                tip.querySelector('.gh-monero-tip-wallet').href = data.uri;
+                showTip(true);
             }).catch(function () {
                 // No address to show: the fundraiser's topic has the forum's own button.
                 location.href = link.href;
             });
+        };
+
+        // Back closes it on phones: an entry of its own while it is open.
+        var open = function (withTip) {
+            (post || (post = json('/t/' + item.id + '.json'))).then(function (topic) {
+                if (!dialog.open) {
+                    fill(topic);
+                    showTip(false);
+                    dialog.showModal();
+                    history.pushState({cnKuno: true}, '');
+                }
+                if (withTip) {
+                    donate();
+                }
+            }).catch(function () {
+                post = null;
+                location.href = link.href;
+            });
+        };
+
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            open(false);
+        });
+        bar.querySelector('.cn-kuno-donate').addEventListener('click', function () {
+            open(true);
+        });
+        dialog.querySelector('.cn-kuno-modal-donate').addEventListener('click', donate);
+        dialog.querySelector('.cn-kuno-modal-back').addEventListener('click', function () {
+            showTip(false);
+        });
+        dialog.querySelector('.cn-kuno-modal-close').addEventListener('click', function () {
+            dialog.close();
+        });
+        // The box fills the dialog, so a click on the dialog itself is the backdrop.
+        dialog.addEventListener('click', function (event) {
+            if (event.target === dialog) {
+                dialog.close();
+            }
+        });
+        dialog.addEventListener('close', function () {
+            if (history.state && history.state.cnKuno) {
+                history.back();
+            }
+        });
+        window.addEventListener('popstate', function () {
+            if (dialog.open) {
+                dialog.close();
+            }
         });
 
         copy.addEventListener('click', function () {
-            var input = dialog.querySelector('.gh-monero-tip-address');
+            var input = tip.querySelector('.gh-monero-tip-address');
             input.select();
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(input.value).then(function () {
