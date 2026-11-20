@@ -119,6 +119,8 @@
         dialog.querySelector('.cn-kuno-modal-forum').href = link.href;
         if (goal) {
             dialog.querySelector('.cn-kuno-modal-progress').append(figures.cloneNode(true), track.cloneNode(true));
+        } else {
+            dialog.querySelector('.cn-kuno-modal-progress').remove();
         }
 
         // The topic's first post, as the forum cooked (and sanitized) it.
@@ -133,6 +135,15 @@
                     }
                 });
             });
+            // The forum's callouts, as the community dialog shows them.
+            if (window.NautasForumHTML) {
+                holder.content.querySelectorAll('blockquote').forEach(function (quote) {
+                    var box = NautasForumHTML.callout(quote);
+                    if (box !== quote) {
+                        quote.replaceWith(box);
+                    }
+                });
+            }
             holder.content.querySelectorAll('a[href]').forEach(function (a) {
                 a.target = '_blank';
                 a.rel = 'noopener';

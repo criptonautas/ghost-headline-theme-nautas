@@ -6,7 +6,8 @@
  * NautasForumHTML.render(html, origin, emojiClass) returns a <div>; origin
  * resolves the forum's relative links and emoji, emojiClass styles emoji.
  * A quote that opens with [!type] (the forum's callouts, as on GitHub)
- * becomes an <aside class="forum-callout" data-callout="type">. */
+ * becomes an <aside class="forum-callout" data-callout="type">; callout(quote)
+ * does that alone, for HTML kept as the forum cooked it (kuno-bar.js). */
 window.NautasForumHTML = (function () {
     /* A forum post is user input: only these tags are rebuilt, with no
      * attributes but a link's href and an emoji's src/alt. Anything else is
@@ -28,9 +29,18 @@ window.NautasForumHTML = (function () {
         box.className = 'forum-callout';
         box.setAttribute('data-callout', type);
         text.nodeValue = text.nodeValue.slice(m[0].length);
+        var name = type.charAt(0).toUpperCase() + type.slice(1);
+        // "[!info]" alone on its line: the type is the title, the rest is the body.
+        if (!text.nodeValue.trim() && text.nextSibling && text.nextSibling.nodeName === 'BR') {
+            text.nextSibling.remove();
+            var title = document.createElement('p');
+            title.textContent = name;
+            quote.insertBefore(title, first);
+            first = title;
+        }
         first.className = 'forum-callout-title';
         if (!first.textContent.trim()) {
-            first.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+            first.textContent = name;
         }
         while (quote.firstChild) {
             box.appendChild(quote.firstChild);
@@ -105,6 +115,7 @@ window.NautasForumHTML = (function () {
     };
 
     return {
+        callout: callout,
         render: function (html, origin, emojiClass) {
             var doc = new DOMParser().parseFromString(String(html || ''), 'text/html');
             return clean(doc.body, document.createElement('div'), origin, emojiClass);

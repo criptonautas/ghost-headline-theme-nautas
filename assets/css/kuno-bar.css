@@ -139,7 +139,8 @@
 
 .cn-kuno-modal-head {
     display: flex;
-    align-items: center;
+    /* Badge and close stay on the title's first line when it wraps. */
+    align-items: flex-start;
     gap: 1rem;
     padding: 1.2rem 1.4rem;
     border-bottom: 1px solid var(--color-border);
@@ -154,32 +155,35 @@
     flex: 1;
     min-width: 0;
     margin: 0;
-    font-size: 1.7rem;
-    line-height: 1.3;
+    font-size: 1.6rem;
+    line-height: 2.3rem;
 }
 
 .cn-kuno-modal-close {
     display: grid;
     flex: none;
     place-items: center;
-    width: 3.6rem;
-    height: 3.6rem;
+    width: 3.2rem;
+    height: 3.2rem;
+    margin: -0.45rem 0;
     padding: 0;
-    border: 0;
-    border-radius: 50%;
-    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: 0.8rem;
+    background: var(--color-bg-alt);
     color: var(--color-secondary-text);
     cursor: pointer;
 }
 
 .cn-kuno-modal-close svg {
-    width: 2rem;
-    height: 2rem;
+    width: 1.6rem;
+    height: 1.6rem;
 }
 
 .cn-kuno-modal-close:hover,
 .cn-kuno-modal-close:focus-visible {
+    border-color: color-mix(in srgb, var(--color-base) 40%, transparent);
     color: var(--color-base);
+    outline: none;
 }
 
 .cn-kuno-modal-scroll {
@@ -191,11 +195,15 @@
 
 .cn-kuno-modal-progress {
     display: flex;
+    flex-basis: 100%;
     align-items: center;
     gap: 1.2rem;
-    margin-bottom: 1.6rem;
     color: var(--color-secondary-text);
     font-size: 1.4rem;
+}
+
+.cn-kuno-modal-progress .cn-kuno-figures {
+    display: inline;
 }
 
 .cn-kuno-modal-progress .cn-kuno-track {
@@ -214,8 +222,27 @@
     margin-top: 0;
 }
 
-.cn-kuno-modal-body :is(p, ul, ol, blockquote, aside, pre) {
+.cn-kuno-modal-body :is(p, ul, ol, blockquote, aside, pre, .md-table) {
     margin: 0 0 1.4rem;
+}
+
+.cn-kuno-modal-body .md-table {
+    overflow-x: auto;
+}
+
+.cn-kuno-modal-body table {
+    border-collapse: collapse;
+    font-size: 1.4rem;
+}
+
+.cn-kuno-modal-body :is(th, td) {
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--color-border);
+    text-align: left;
+}
+
+.cn-kuno-modal-body th {
+    background: var(--cn-ui-soft);
 }
 
 .cn-kuno-modal-body a {
@@ -228,6 +255,7 @@
 }
 
 .cn-kuno-modal-body img.emoji {
+    display: inline;
     width: 1.2em;
     height: 1.2em;
     vertical-align: -0.2em;
@@ -274,6 +302,7 @@
 
 .cn-kuno-modal-foot {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 1.2rem;
@@ -290,8 +319,16 @@
 }
 
 .cn-kuno-modal-forum {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     color: var(--color-secondary-text);
     font-size: 1.4rem;
+}
+
+.cn-kuno-modal-forum svg {
+    width: 1.6rem;
+    height: 1.6rem;
 }
 
 .cn-kuno-modal-forum:hover,
@@ -328,7 +365,13 @@
     .cn-kuno {
         justify-content: flex-start;
         gap: 1.2rem;
+        min-height: 4.4rem;
         padding-left: 1.6rem;
+        font-size: 1.5rem;
+    }
+
+    .cn-kuno-label {
+        font-size: 1.3rem;
     }
 
     .cn-kuno-figures {

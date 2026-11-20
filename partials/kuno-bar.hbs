@@ -17,7 +17,6 @@
                     <button class="cn-kuno-modal-close" type="button" aria-label="{{t "Close"}}">{{> "icons/phosphor/x"}}</button>
                 </header>
                 <div class="cn-kuno-modal-scroll">
-                    <div class="cn-kuno-modal-progress"></div>
                     <div class="cn-kuno-modal-body"></div>
                     <div class="cn-kuno-modal-tip" hidden>
                         <p>{{t "The donation goes straight to the fundraiser."}}</p>
@@ -31,8 +30,9 @@
                     </div>
                 </div>
                 <footer class="cn-kuno-modal-foot">
+                    <div class="cn-kuno-modal-progress"></div>
                     <button class="gh-reactions-close cn-kuno-modal-donate" type="button">{{t "donate"}}</button>
-                    <a class="cn-kuno-modal-forum" target="_blank" rel="noopener">{{t "view on the forum"}}</a>
+                    <a class="cn-kuno-modal-forum" target="_blank" rel="noopener">{{t "view in the community"}} {{> "icons/phosphor/arrow-square-out"}}</a>
                 </footer>
             </div>
         </dialog>
